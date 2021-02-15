@@ -40,9 +40,10 @@ login_manager.login_view='customerLogin'
 login_manager.needs_refresh_message_category='danger'
 login_manager.login_message = u"Please login first"
 
+from app.cinema import views
 from app.admin import views
 from app.customers import views
 from app.basket import views
-from app.cinema import views
+
 
 

@@ -26,18 +26,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2af89ba7-ee6b-4df8-834a-0304e577081a" name="Default Changelist" comment="Added cinema folder">
-      <change afterPath="$PROJECT_DIR$/app/templates/cinema/addcategory.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/customer/order.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin/category.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/admin/category.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/admin/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/addticket.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/addticket.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/basket.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/basket.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/single_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/single_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/customer/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/admin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/basket/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/basket/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/cinema/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/cinema/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/customers/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/customers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,19 +74,19 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.run">
     <configuration name="run" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="sep_group" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\tobiy\AppData\Local\Programs\Python\Python37\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\tobiy\PycharmProjects\sep_group\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
       <option name="PARAMETERS" value="" />
@@ -101,6 +97,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="sep_group" type="PythonConfigurationType" factoryName="Python">
+      <module name="sep_group" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.run" />
+      <item itemvalue="Python.sep_group" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
@@ -115,7 +137,8 @@
       <updated>1612968665410</updated>
       <workItem from="1612968666632" duration="7370000" />
       <workItem from="1612991005085" duration="3206000" />
-      <workItem from="1613398254400" duration="14201000" />
+      <workItem from="1613398254400" duration="14845000" />
+      <workItem from="1613415451925" duration="1608000" />
     </task>
     <task id="LOCAL-00001" summary="Made templates, login for admin and customer">
       <created>1612981353322</created>
@@ -185,35 +208,39 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="845" y="383" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1613401087794" />
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613414438524">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613416913822">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613414438524" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1613405164160">
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613416913822" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1613415295572">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405164160" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613415295572" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1613402872824" />
-    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1613414414427">
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1613416915706">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613414414427" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613416915706" />
     <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171895" />
-    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1613414414427">
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1613416915705">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613414414427" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613416915705" />
     <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171895" />
-    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1613414414427">
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1613416915705">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613414414427" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613416915705" />
     <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171894" />
-    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1613414414427">
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1613416915706">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613414414427" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613416915706" />
     <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171895" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1613415546966">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613415546966" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1613400351489">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -245,6 +272,7 @@
     <state x="761" y="421" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1613400242408" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/sep_group$run.coverage" NAME="run Coverage Results" MODIFIED="1613414406354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sep_group$run.coverage" NAME="run Coverage Results" MODIFIED="1613416915689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sep_group$sep_group.coverage" NAME="sep_group Coverage Results" MODIFIED="1613416889133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

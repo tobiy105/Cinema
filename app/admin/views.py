@@ -1,6 +1,6 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
-from app.cinema import Addticket, Category
+from app.cinema.models import Addticket, Category
 from .forms import RegistrationForm, LoginForm
 from .models import User
 

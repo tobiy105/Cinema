@@ -1,11 +1,11 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app,make_response
 from flask_login import login_required, current_user, logout_user, login_user
-from shop import app,db,photos, search,bcrypt,login_manager
+from app import app,db,photos, search,bcrypt,login_manager
 from .forms import CustomerRegisterForm, CustomerLoginFrom
 from .model import Register,CustomerOrder
 import secrets
 
-import pdfkit
+
 import stripe
 
 buplishable_key ='pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'

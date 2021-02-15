@@ -1,5 +1,5 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app
-from shop import app,db,photos, search
+from app import app,db,photos, search
 from .models import Category,Addticket
 from .forms import Addtickets
 import secrets
@@ -8,8 +8,10 @@ import os
 #route for home
 @app.route('/')
 def home():
+    page = request.args.get('page', 1, type=int)
+    tickets = Addticket.query.filter(Addticket.stock > 0).order_by(Addticket.id.desc()).paginate()
 
-    return render_template('customer/index.html')
+    return render_template('cinema/index.html', tickets=tickets)
 
 #query search for categories
 def categories():

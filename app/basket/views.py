@@ -1,7 +1,7 @@
 from flask import render_template, session, request, redirect, url_for, flash, current_app
-from shop import db, app
-from shop.cinema.models import Addticket
-from shop.cinema.views import brands, categories
+from app import db, app
+from app.cinema.models import Addticket
+from app.cinema.views import  categories
 import json
 
 
