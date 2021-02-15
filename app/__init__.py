@@ -3,10 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 from flask_migrate import Migrate
+from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_class
 
 import  os
 
-
+from flask_msearch import Search
 from flask_login import LoginManager
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -15,6 +16,14 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 #Handles the passwords encyption
 bcrypt = Bcrypt(app)
+
+#Handles search
+search = Search()
+search.init_app(app)
+#Handles all saved images
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+patch_request_class(app)
 
 # Handles all migrations.
 migrate = Migrate(app, db)
@@ -33,5 +42,7 @@ login_manager.login_message = u"Please login first"
 
 from app.admin import views
 from app.customers import views
+from app.basket import views
+from app.cinema import views
 
 

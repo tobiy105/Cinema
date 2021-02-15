@@ -12,6 +12,7 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('admin')}}">Ticket <span class="sr-only">(current)</span></a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('categories')}}">Catgory</a>
             </li>
@@ -34,41 +35,29 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-1"></div>
-            <div class="col-md-10">
-                <div class="text-center bg-info p-2 h4">Add a ticket</div>
-                {% from "_formhelpers.html" import render_field %}
-                <form method="post" enctype="multipart/form-data">
+        <div class="col-md-3"></div>
+            <div class="col-md-6">
+                {% include '_messages.html' %}
+
+
+                <div class="text-center  p-2 h3 mb-3">{% if updatecat %}Update {% else %}Add a {% endif %}category</div>
+                <form method=post>
                 <div>
-                    {{ render_field(form.name, class="form-control") }}
-                    {{ render_field(form.price, class="form-control") }}
-                    {{ render_field(form.discount, class="form-control") }}
-                    {{ render_field(form.stock, class="form-control") }}
-
-
-                    <label for="category">Add a category</label>
-                    <select name="category" id="category" class="form-control" required>
-                    {% if getticket %}
-                      <option value="{{getticket.category_id}}" style="display: none;">{{getticket.category.name}}</option>
-                      {% for category in categories %}
-                      <option value="{{category.id}}">{{category.name}}</option>
-                      {% endfor %}
+                 <form action="" method="post">
+                     {% if updatecat %}
+                     <input type="text" name="category" class="form-control" value="{{updatecat.name}}">
+                     <input type="submit" value="Update Category" class="btn btn-info mt-3">
                      {% else %}
-                     <option value=""> Select A category</option>
-                     {% for category in categories %}
-                     <option value="{{category.id}}">{{category.name}}</option>
-                     {% endfor %}
+                     <input type="text" name="category" class="form-control">
+                     <input type="submit" value="Add a category" class="btn btn-info mt-3">
                      {% endif %}
-                    </select>
 
-                    {{ render_field(form.allergen, class="form-control") }}
-                    {{ render_field(form.description, class="form-control", rows="10") }}
+                 </form>
                 </div>
-
-                <p><input type="submit" value="{% if getticket %}Update {% else %}Add{% endif %} ticket" class="btn-outline-info">
                 </form>
+
             </div>
-      <div class="col-md-1"></div>
+      <div class="col-md-3"></div>
     </div>
 </div>
 {% endblock content %}
