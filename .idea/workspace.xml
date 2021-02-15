@@ -27,13 +27,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2af89ba7-ee6b-4df8-834a-0304e577081a" name="Default Changelist" comment="Added cinema folder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/admin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/basket/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/basket/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/cinema/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/cinema/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/customers/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/customers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/admin/category.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/admin/category.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/cinema/addticket.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/addticket.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/navbar.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +136,7 @@
       <workItem from="1612968666632" duration="7370000" />
       <workItem from="1612991005085" duration="3206000" />
       <workItem from="1613398254400" duration="14845000" />
-      <workItem from="1613415451925" duration="1608000" />
+      <workItem from="1613415451925" duration="3102000" />
     </task>
     <task id="LOCAL-00001" summary="Made templates, login for admin and customer">
       <created>1612981353322</created>

@@ -53,7 +53,7 @@ def addcat():
         flash(f'The category {getcat} was added to your database','success')
         db.session.commit()
         return redirect(url_for('addcat'))
-    return render_template('cinema/category.html', title='Add category')
+    return render_template('cinema/addcategory.html', title='Add category')
 
 #route for updating category
 @app.route('/updatecat/<int:id>',methods=['GET','POST'])
