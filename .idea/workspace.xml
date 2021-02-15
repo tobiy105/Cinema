@@ -103,7 +103,7 @@
       <updated>1612968665410</updated>
       <workItem from="1612968666632" duration="7370000" />
       <workItem from="1612991005085" duration="3206000" />
-      <workItem from="1613398254400" duration="2297000" />
+      <workItem from="1613398254400" duration="2774000" />
     </task>
     <task id="LOCAL-00001" summary="Made templates, login for admin and customer">
       <created>1612981353322</created>
@@ -169,6 +169,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added cinema folder" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="845" y="383" key="#Notifications" timestamp="1613401087794">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="845" y="383" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1613401087794" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1613401102392">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1613401102392" />
     <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1613400171895">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
