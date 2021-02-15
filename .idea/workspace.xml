@@ -26,7 +26,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2af89ba7-ee6b-4df8-834a-0304e577081a" name="Default Changelist" comment="Added cinema folder">
-      <change beforePath="$PROJECT_DIR$/sep_fromweb1.zip" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/cinema/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/cinema/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/cinema/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/cinema/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/admin/category.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/cinema/addticket.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/cinema/basket.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/cinema/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/cinema/result.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/cinema/single_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/admin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/customers/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/customers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +68,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1oIKSb9Kv3epoENmvflAs50jIer" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -92,7 +106,7 @@
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>C:\Users\tobiy\AppData\Roaming\Subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -103,7 +117,7 @@
       <updated>1612968665410</updated>
       <workItem from="1612968666632" duration="7370000" />
       <workItem from="1612991005085" duration="3206000" />
-      <workItem from="1613398254400" duration="2774000" />
+      <workItem from="1613398254400" duration="9643000" />
     </task>
     <task id="LOCAL-00001" summary="Made templates, login for admin and customer">
       <created>1612981353322</created>
@@ -173,42 +187,56 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="845" y="383" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1613401087794" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1613401102392">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1613405164160">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1613401102392" />
-    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1613400171895">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405164160" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1613402872824" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1613405077723">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405077723" />
     <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171895" />
-    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1613400171895">
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1613405077722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405077722" />
     <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171895" />
-    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1613400171894">
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1613405077721">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405077721" />
     <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171894" />
-    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1613400171895">
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1613405077722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405077722" />
     <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1613400171895" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1613400351489">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613400351489" />
-    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613400259947">
+    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613405206764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405206764" />
     <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1613400259947" />
     <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1613400514235">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1613400514235" />
+    <state x="92" y="92" width="1736" height="856" key="git4idea.log.GitShowExternalLogAction" timestamp="1613405206777">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="git4idea.log.GitShowExternalLogAction/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405206777" />
     <state x="746" y="308" key="git4idea.merge.GitMergeDialog" timestamp="1612993253793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="746" y="308" key="git4idea.merge.GitMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1612993253793" />
+    <state x="684" y="308" key="git4idea.merge.GitPullDialog" timestamp="1613405187637">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="684" y="308" key="git4idea.merge.GitPullDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1613405187637" />
     <state x="761" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1613400242408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
