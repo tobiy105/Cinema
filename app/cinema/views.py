@@ -29,7 +29,7 @@ def result():
 @app.route('/ticket/<int:id>')
 def single_page(id):
     ticket = Addticket.query.get_or_404(id)
-    return render_template('cinema/single_page.html',tickets=ticket,categories=categories())
+    return render_template('cinema/single_page.html',ticket=ticket,categories=categories())
 
 #route for displaying a tickets with a category
 @app.route('/categories/<int:id>')
@@ -98,19 +98,20 @@ def addticket():
     form = Addtickets(request.form)
  
     categories = Category.query.all()
-    if request.method=="POST"  and 'image_1' in request.files:
+    if request.method=="POST":
         name = form.name.data
         price = form.price.data
         discount = form.discount.data
         stock = form.stock.data
-        allergy = form.allergen.data
+
         desc = form.description.data
        
         category = request.form.get('category')
        
-        addticket = Addticket(name=name,price=price,discount=discount,stock=stock,allergy=allergy,desc=desc,category_id=category)
-        db.session.add(addticket)
+        newticket = Addticket(name=name,price=price,discount=discount,stock=stock,desc=desc,category_id=category)
+        db.session.add(newticket)
         flash(f'The ticket {name} was added in database','success')
+        print(newticket.name)
         db.session.commit()
         return redirect(url_for('admin'))
     return render_template('cinema/addticket.html', form=form, title='Add a Ticket', categories=categories)
@@ -133,7 +134,7 @@ def updateticket(id):
         ticket.price = form.price.data
         ticket.discount = form.discount.data
         ticket.stock = form.stock.data
-        ticket.allergy = form.allergen.data
+
         ticket.desc = form.description.data
         ticket.category_id = category
 
@@ -144,7 +145,7 @@ def updateticket(id):
     form.price.data = ticket.price
     form.discount.data = ticket.discount
     form.stock.data = ticket.stock
-    form.allergen.data = ticket.allergy
+    form.category.data = ticket.category
     form.description.data = ticket.desc
    
     category = ticket.category.name

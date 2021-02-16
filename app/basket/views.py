@@ -23,7 +23,7 @@ def AddBasket():
 
         if request.method == "POST":
             DictItems = {ticket_id: {'name': ticket.name, 'price': float(ticket.price), 'discount': ticket.discount,
-                                      'category': category, 'quantity': quantity, 'category': ticket.category}}
+                                      'quantity': quantity, 'category': ticket.category}}
             if 'ShoppingBasket' in session:
                 print(session['ShoppingBasket'])
                 if ticket_id in session['ShoppingBasket']:
