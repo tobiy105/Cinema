@@ -94,20 +94,15 @@ def addticket():
     if 'email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
-
     form = Addtickets(request.form)
- 
     categories = Category.query.all()
     if request.method=="POST":
         name = form.name.data
         price = form.price.data
         discount = form.discount.data
         stock = form.stock.data
-
         desc = form.description.data
-       
         category = request.form.get('category')
-       
         newticket = Addticket(name=name,price=price,discount=discount,stock=stock,desc=desc,category_id=category)
         db.session.add(newticket)
         flash(f'The ticket {name} was added in database','success')

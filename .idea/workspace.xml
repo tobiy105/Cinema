@@ -26,9 +26,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2af89ba7-ee6b-4df8-834a-0304e577081a" name="Default Changelist" comment="Added cinema folder">
+      <change afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_customer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_ticket.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/admin/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/cinema/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/cinema/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +139,7 @@
       <workItem from="1613415451925" duration="8228000" />
       <workItem from="1613430042335" duration="1136000" />
       <workItem from="1613433334608" duration="324000" />
-      <workItem from="1613433712537" duration="4431000" />
+      <workItem from="1613433712537" duration="10396000" />
     </task>
     <task id="LOCAL-00001" summary="Made templates, login for admin and customer">
       <created>1612981353322</created>
