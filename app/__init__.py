@@ -44,6 +44,7 @@ from app.cinema import views
 from app.admin import views
 from app.customers import views
 from app.basket import views
+from app.employee import views
 
 
 

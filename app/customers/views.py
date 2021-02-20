@@ -2,7 +2,8 @@ from flask import render_template,session, request,redirect,url_for,flash,curren
 from flask_login import login_required, current_user, logout_user, login_user
 from app import app,db,photos, search,bcrypt,login_manager
 from .forms import CustomerRegisterForm, CustomerLoginFrom
-from .model import Register,CustomerOrder
+from .models import Register,CustomerOrder
+
 import secrets
 
 

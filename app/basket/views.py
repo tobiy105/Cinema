@@ -46,7 +46,7 @@ def AddBasket():
 
 # Basket page
 @app.route('/basket')
-def getCart():
+def getBasket():
     if 'ShoppingBasket' not in session or len(session['ShoppingBasket']) <= 0:
         return redirect(url_for('home'))
     subtotal = 0

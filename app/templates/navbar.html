@@ -44,7 +44,7 @@
             </li>
             {% endif %}
               <li class="nav-item">
-                <a href="{{url_for('getCart')}}" class="nav-link"> Cart ({{ session['Shoppingcart']|length }}) </a>
+                <a href="{{url_for('getBasket')}}" class="nav-link"> Cart ({{ session['Shoppingbasket']|length }}) </a>
               </li>
           </ul>
           <form class="form-inline my-2 my-lg-0" action="{{url_for('result')}}">
