@@ -26,21 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2af89ba7-ee6b-4df8-834a-0304e577081a" name="Default Changelist" comment="Added cinema folder">
-      <change afterPath="$PROJECT_DIR$/app/employee/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/employee/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/employee/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/employee/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/employee/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/employee/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/employee/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/basket/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/basket/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/customers/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/customers/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/customers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/navbar.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_employee.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +135,7 @@
       <workItem from="1613430042335" duration="1136000" />
       <workItem from="1613433334608" duration="324000" />
       <workItem from="1613433712537" duration="11138000" />
-      <workItem from="1613682778523" duration="11977000" />
+      <workItem from="1613682778523" duration="12750000" />
     </task>
     <task id="LOCAL-00001" summary="Made templates, login for admin and customer">
       <created>1612981353322</created>
