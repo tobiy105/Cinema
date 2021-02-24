@@ -25,10 +25,9 @@ class CustomerLoginFrom(FlaskForm):
     email = StringField('Email: ', [validators.Email(), validators.DataRequired()])
     password = PasswordField('Password: ', [validators.DataRequired()])
 
-   
-
-
-
+#creating a form for movie search
+class CustomerMovieForm(Form):
+    title = StringField('Title: ', [validators.DataRequired()])
 
    
 

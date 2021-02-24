@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+    {% block content %}
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {%for message in messages %}
+                <li>{{ message }} </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+<body>
+<form method="post" name="ViewDetails">
+    <p>
+        {{ form.title }}<br>
+    </p>
+    <p><input type="submit" value ="View Details"></p>
+</form>
+
+</body>
+
+{% endblock %}
