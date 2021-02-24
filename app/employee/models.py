@@ -14,7 +14,7 @@ class Employee(db.Model, UserMixin):
     username = db.Column(db.String(50), unique= True)
     email = db.Column(db.String(50), unique= True)
     password = db.Column(db.String(200), unique= False)
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 
     def __repr__(self):
         return '<Employee %r>' % self.name

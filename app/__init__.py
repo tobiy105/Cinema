@@ -5,11 +5,10 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_class
 
-import  os
-
 from flask_msearch import Search
 from flask_login import LoginManager
 
+import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.config.from_object('config')

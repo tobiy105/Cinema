@@ -4,29 +4,30 @@ from flask_wtf import FlaskForm
 from .models import Employee
 
 
-# creating the Customer Registration form class
-class EmployeeRegisterForm(FlaskForm):
-    name = StringField('Name: ')
-    username = StringField('Username: ', [validators.DataRequired()])
-    email = StringField('Email: ', [validators.Email(), validators.DataRequired()])
-    password = PasswordField('Password: ', [validators.DataRequired(),
-                                            validators.EqualTo('confirm', message=' Both password must match! ')])
-    confirm = PasswordField('Repeat Password: ', [validators.DataRequired()])
-    submit = SubmitField('Register')
+#creating the Admin Registration form class
+class EmployeeRegisterForm(Form):
+    name = StringField('Name', [validators.Length(min=4, max=25)])
+    username = StringField('Username', [validators.Length(min=4, max=25)])
+    email = StringField('Email Address', [validators.Length(min=6, max=35), validators.Email()])
+    password = PasswordField('New Password', [
+        validators.DataRequired(),
+        validators.EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Repeat Password')
 
-    def validate_username(self, username):
-        if Employee.query.filter_by(username=username.data).first():
-            raise ValidationError("This username is already in use!")
+    def validate_username(self, field):
+        if Employee.query.filter_by(username=field.data).first():
+            raise ValidationError('Username already in use.')
 
-    def validate_email(self, email):
-        if Employee.query.filter_by(email=email.data).first():
-            raise ValidationError("This email address is already in use!")
+    def validate_email(self, field):
+        if Employee.query.filter_by(email=field.data).first():
+            raise ValidationError('Email already registered.')
 
+#creating the Admin Login form class
+class EmployeeLoginFrom(Form):
+    email = StringField('Email Address', [validators.Length(min=6, max=35), validators.Email()])
+    password = PasswordField('Password', [validators.DataRequired()])
 
-# creating the Customer Login form class
-class EmployeeLoginFrom(FlaskForm):
-    email = StringField('Email: ', [validators.Email(), validators.DataRequired()])
-    password = PasswordField('Password: ', [validators.DataRequired()])
 
 
 

@@ -22,9 +22,7 @@
                 </div>
               </li>
              {% if current_user.is_authenticated %}
-             <li class="nav-item">
-              <a href="{{url_for('customer_logout')}}" class="nav-link">{{current_user.name}}</a>
-            </li>
+
              <li class="nav-item">
                <a href="{{url_for('customer_logout')}}" class="nav-link"> Logout</a>
              </li>
