@@ -17,3 +17,36 @@ Oluwatobi -
 Matt - 
 Andrew - 
 James -
+
+Meeting minutes:
+1: 
+Present: Tobi, Ben, James, Alec, Matthew, Andrew
+
+Done:
+Set up a google drive.
+Set up a git lab project.
+We decided to program in python.
+Flask DB for database.
+Deployment with Python Anywhere.
+Decided to use an IMDB API such as: https://rapidapi.com/apidojo/api/imdb8
+Bcrypt for secure password storage.
+Decided to meet on Monday, Wednesday, and Friday.
+
+To Do:
+Look at existing cinema systems and decide what we like and what we don't.
+Set up IDE.
+
+2:
+Present: Tobi, Ben, James, Alec, Matthew
+Absent: Andrew
+
+Done:
+Scrum Master : Tobi 
+Decided Who is doing what for this week
+Decided to meet again on wednesday at 2pm
+
+To do:
+Features (look at spreadsheet for more info)
+Contact andrew and ask what he is doing this week
+Design the Database in more detail
+
