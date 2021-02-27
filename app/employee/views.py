@@ -3,7 +3,7 @@ from flask_login import login_required, current_user, logout_user, login_user
 from app import app,db,photos, search,bcrypt,login_manager
 from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm
 from .models import Employee
-from app.cinema.models import Addticket, Category
+from app.cinema.models import Addticket
 
 #Employee page
 @app.route('/employee')

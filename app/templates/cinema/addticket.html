@@ -12,9 +12,7 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('admin')}}">Ticket <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('categories')}}">Catgory</a>
-            </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Add tickets
@@ -22,7 +20,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{{url_for('addticket')}}">Add ticket</a>
 
-                <a class="dropdown-item" href="{{url_for('addcat')}}">Add category</a>
+
               </div>
             </li>
           </ul>
@@ -38,31 +36,30 @@
             <div class="col-md-10">
                 <div class="text-center bg-info p-2 h4">Add a ticket</div>
                 {% from "_formhelpers.html" import render_field %}
+
+                <form method="post" name="ViewDetails">
+                    <p>
+                        {{ form1.title }}<br>
+                    </p>
+                    <p><input type="submit" value ="View Details"></p>
+                </form>
+
+                {% include '_messages.html' %}
+
                 <form method="post" enctype="multipart/form-data">
                 <div>
-                    {{ render_field(form.name, class="form-control") }}
+
+                    {{ render_field(form.title, class="form-control") }}
                     {{ render_field(form.price, class="form-control") }}
                     {{ render_field(form.discount, class="form-control") }}
                     {{ render_field(form.stock, class="form-control") }}
+                    {{ render_field(form.time, class="form-control") }}
+                    {{ render_field(form.date, class="form-control") }}
+                    {{ render_field(form.plot, class="form-control") }}
+                    {{ render_field(form.genres, class="form-control") }}
+                    {{ render_field(form.certificate, class="form-control") }}
+                    {{ render_field(form.ratingReason, class="form-control") }}
 
-
-                    <label for="category">Add a category</label>
-                    <select name="category" id="category" class="form-control" required>
-                    {% if getticket %}
-                      <option value="{{getticket.category_id}}" style="display: none;">{{getticket.category.name}}</option>
-                      {% for category in categories %}
-                      <option value="{{category.id}}">{{category.name}}</option>
-                      {% endfor %}
-                     {% else %}
-                     <option value=""> Select A category</option>
-                     {% for category in categories %}
-                     <option value="{{category.id}}">{{category.name}}</option>
-                     {% endfor %}
-                     {% endif %}
-                    </select>
-
-
-                    {{ render_field(form.description, class="form-control", rows="10") }}
                 </div>
 
                 <p><input type="submit" value="{% if getticket %}Update {% else %}Add{% endif %} ticket" class="btn-outline-info">

@@ -1,7 +1,7 @@
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 from app import db, app
 from app.cinema.models import Addticket
-from app.cinema.views import  categories
+
 import json
 
 
@@ -57,8 +57,7 @@ def getBasket():
         subtotal -= discount
         tax = ("%.2f" % (.06 * float(subtotal)))
         grandtotal = float("%.2f" % (1.06 * subtotal))
-    return render_template('cinema/basket.html', tax=tax, grandtotal=grandtotal, brands=brands(),
-                           categories=categories())
+    return render_template('cinema/basket.html', tax=tax, grandtotal=grandtotal)
 
 
 # route for updating the Basket

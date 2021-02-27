@@ -11,9 +11,7 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('admin')}}">Ticket <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('categories')}}">Catgory</a>
-            </li>
+
             {% if user_id %}
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('updateuser', id=user_id)}}">Edit Profile</a>
@@ -25,7 +23,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{{url_for('addticket')}}">Add ticket</a>
-                <a class="dropdown-item" href="{{url_for('addcat')}}">Add category</a>
+
               </div>
             </li>
           </ul>
@@ -52,7 +50,7 @@
           <tr>
             <td>{{loop.index}}</td>
 
-            <td>{{ ticket.name }}</td>
+            <td>{{ ticket.title }}</td>
             <td>{{ ticket.price }}</td>
             <td>{{ ticket.discount }}</td>
 
@@ -67,19 +65,17 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ticket.name }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ticket.title }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <p class="text-danger">Are you Sure that you want to delete this Category ({{ ticket.name }})</p>
+                <p class="text-danger">Are you Sure that you want to delete this movie ({{ ticket.title }})</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="{{url_for('deletecat',id=ticket.id)}}" method="post">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+
 
               </div>
             </div>

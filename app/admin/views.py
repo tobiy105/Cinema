@@ -1,6 +1,6 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
-from app.cinema.models import Addticket, Category
+from app.cinema.models import Addticket
 from .forms import RegistrationForm, LoginForm
 from .models import User
 
@@ -20,15 +20,6 @@ def admin():
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
 
 
-#route for Catorgies
-@app.route('/categories')
-def categories():
-    if 'email' not in session:
-        flash(f'Please login first', 'danger')
-        return redirect(url_for('login'))
-
-    categories = Category.query.order_by(Category.id.desc()).all()
-    return render_template('admin/category.html', title='Brand Page', categories=categories)
 
 #route for creating admin account
 @app.route('/register', methods=['GET', 'POST'])
