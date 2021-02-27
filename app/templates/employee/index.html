@@ -20,55 +20,7 @@
 </head>
 {% extends 'layout.html' %}
 {% block content %}
-
-
-<!---============== START OF NAV BAR ==================-->
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Cinema</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Tickets <span class="sr-only">(current)</span></a>
-            </li>
-
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 Categories
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for category in categories %}
-                  <a class="dropdown-item" href="{{url_for('get_category',id=category.id)}}">{{category.name}}</a>
-                  {% endfor %}
-                </div>
-              </li>
-             {% if current_user.is_authenticated %}
-
-
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('updatecustomer', id=current_user.id)}}">Edit Profile</a>
-            </li>
-
-
-            {% endif %}
-              <li class="nav-item">
-                <a href="{{url_for('getBasket')}}" class="nav-link"> Cart ({{ session['Shoppingbasket']|length }}) </a>
-              </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0" action="{{url_for('result')}}">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
-      </nav>
-
-</div>
-<!---============== END OF NAV BAR ==================-->
-
+{% include 'navbar.html' %}
 <div class="container">
 
     <div class="row">
@@ -106,27 +58,7 @@
       </div>
 
       <div class="row mt-4">
-        <div class="col text-center">
-          {% if get_cat_prod.has_prev %}
-            <a href="{{url_for('get_category',id=get_cat.id, page=get_cat_prod.prev_num)}}"class="btn btn-sm btn-outline-info">previous</a>
-          {% endif %}
-          {% if get_cat_prod.total > 8 %}
-         {% for page_num in get_cat_prod.iter_pages(left_edge=1, right_edge=2, left_current=1,right_current=2) %}
-         {% if page_num %}
-           {% if get_cat_prod.page == page_num %}
-           <a href="{{url_for('get_category',id=get_cat.id, page=page_num)}}" class="btn btn-sm btn-info">{{page_num}}</a>
-           {% else %}
-           <a href="{{url_for('get_category',id=get_cat.id, page=page_num)}}" class="btn btn-sm btn-outline-info">{{page_num}}</a>
-            {% endif %}
-          {% else %}
-          ...
-          {% endif %}
-         {% endfor %}
-         {% endif %}
-         {% if get_cat_prod.has_next %}
-         <a href="{{url_for('employee', page=get_cat_prod.next_num)}}"class="btn btn-sm btn-outline-info">next</a>
-       {% endif %}
-        </div>
+
       </div>
         <!--========= END ELSE IF ===============-->
         <div class="row">
@@ -139,14 +71,14 @@
                 {% if ticket.discount > 0 %}
                 <h5 style="text-shadow: 1px 2px 2px #000; color: #f00; transform: rotate(-15deg); position: absolute; top: 23%; left: 25%; font-weight: 600;"> Discount {{ticket.discount}}</h5>
                 {% endif %}
-              <h5 class="text-center">{{ticket.name}}</h5>
+              <h5 class="text-center">{{ticket.title}}</h5>
               <p class="text-center">Price £{{ticket.price}}</p>
             </div>
             <div class="card-footer">
                 <a href="{{url_for('single_page',id=ticket.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
                 <form action="{{url_for('AddBasket')}}" method="post">
                   <input type="hidden" name="ticket_id" value="{{ticket.id}}">
-                  <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
+                  <button type="submit" class="btn btn-sm btn-warning float-right">Add to Basket</button>
                   <input type="hidden" name="quantity" value="1" min="1" max="20">
 
               </form>
@@ -158,25 +90,7 @@
 
       <div class="row mt-4">
         <div class="col text-center">
-          {% if tickets.has_prev %}
-            <a href="{{url_for('employee', page=tickets.prev_num)}}"class="btn btn-sm btn-outline-info">previus</a>
-          {% endif %}
-          {% if tickets.total> 8 %}
-         {% for page_num in tickets.iter_pages(left_edge=1, right_edge=2, left_current=1,right_current=2) %}
-         {% if page_num %}
-           {% if tickets.page == page_num %}
-           <a href="{{url_for('employee', page=page_num)}}" class="btn btn-sm btn-info">{{page_num}}</a>
-           {% else %}
-           <a href="{{url_for('employee', page=page_num)}}" class="btn btn-sm btn-outline-info">{{page_num}}</a>
-            {% endif %}
-          {% else %}
-          ...
-          {% endif %}
-         {% endfor %}
-         {% endif %}
-         {% if tickets.has_next %}
-         <a href="{{url_for('employee', page=tickets.next_num)}}"class="btn btn-sm btn-outline-info">next</a>
-       {% endif %}
+
         </div>
       </div>
 

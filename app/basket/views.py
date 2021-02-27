@@ -18,12 +18,12 @@ def AddBasket():
     try:
         ticket_id = request.form.get('ticket_id')
         quantity = int(request.form.get('quantity'))
-        category = request.form.get('category')
+
         ticket = Addticket.query.filter_by(id=ticket_id).first()
 
         if request.method == "POST":
-            DictItems = {ticket_id: {'name': ticket.name, 'price': float(ticket.price), 'discount': ticket.discount,
-                                      'quantity': quantity, 'category': ticket.category}}
+            DictItems = {ticket_id: {'title': ticket.title, 'price': float(ticket.price), 'discount': ticket.discount,
+                                      'quantity': quantity, }}
             if 'ShoppingBasket' in session:
                 print(session['ShoppingBasket'])
                 if ticket_id in session['ShoppingBasket']:
@@ -67,13 +67,13 @@ def updatebasket(code):
         return redirect(url_for('home'))
     if request.method == "POST":
         quantity = request.form.get('quantity')
-        category = request.form.get('category')
+
         try:
             session.modified = True
             for key, item in session['ShoppingBasket'].items():
                 if int(key) == code:
                     item['quantity'] = quantity
-                    item['category'] = category
+
                     flash('Item is updated!')
                     return redirect(url_for('getBasket'))
         except Exception as e:

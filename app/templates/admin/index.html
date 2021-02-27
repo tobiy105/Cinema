@@ -17,15 +17,10 @@
               <a class="nav-link" href="{{url_for('updateuser', id=user_id)}}">Edit Profile</a>
             </li>
             {% endif %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Add Tickets
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{{url_for('addticket')}}">Add ticket</a>
-
-              </div>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('addticket')}}">Add ticket</a>
             </li>
+
           </ul>
         </div>
       </nav>
@@ -75,6 +70,9 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="{{url_for('deleteticket',id=ticket.id)}}" method="post">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
 
 
               </div>

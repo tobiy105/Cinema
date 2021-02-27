@@ -58,8 +58,8 @@ def customerLogin():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             flash('You are login now!', 'success')
-            next = request.args.get('next')
-            return redirect(next or url_for('home'))
+
+            return redirect(url_for('home'))
         flash('Incorrect email and password','danger')
         return redirect(url_for('customerLogin'))
             

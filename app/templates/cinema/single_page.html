@@ -7,7 +7,7 @@
     <div class="row">
 
         <div class="col-md-6">
-            <h4>Ticket name: {{ticket.name}} </h4>
+            <h4>Ticket name: {{ticket.title}} </h4>
             <hr>
             <p>Ticket price: £{{ticket.price}}</p>
             <hr>
@@ -16,7 +16,7 @@
             {% endif %}
             <hr>
             <b>Ticket description</b>
-            <p>{{ticket.desc}}</p>
+            <p>{{ticket.genres}}</p>
             <form action="{{url_for('AddBasket')}}" method="post">
                 <input type="hidden" name="ticket_id" value="{{ticket.id}}">
                 <button type="submit" class="btn btn-sm btn-warning">Add to Cart</button>

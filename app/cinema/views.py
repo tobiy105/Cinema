@@ -19,7 +19,7 @@ def home():
 @app.route('/result')
 def result():
     searchword = request.args.get('q')
-    tickets = Addticket.query.msearch(searchword, fields=['name','desc'] , limit=10)
+    tickets = Addticket.query.msearch(searchword, fields=['title','genres'] , limit=10)
     return render_template('cinema/result.html',tickets=tickets)
 
 #route for displaying a tickets found from word search
@@ -250,7 +250,7 @@ def deleteticket(id):
         
         db.session.delete(ticket)
         db.session.commit()
-        flash(f'The ticket {ticket.name} was delete from your record','success')
+        flash(f'The ticket {ticket.title} was delete from your record','success')
         return redirect(url_for('admin'))
     flash(f'Can not delete the ticket','success')
     return redirect(url_for('admin'))
