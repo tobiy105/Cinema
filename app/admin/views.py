@@ -15,11 +15,9 @@ def admin():
     user_id = user.id
 
     tickets = Addticket.query.all()
-    print(tickets)
+
 
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
-
-
 
 #route for creating admin account
 @app.route('/register', methods=['GET', 'POST'])

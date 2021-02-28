@@ -25,20 +25,13 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2af89ba7-ee6b-4df8-834a-0304e577081a" name="Default Changelist" comment="Added cinema folder">
+    <list default="true" id="c14b1365-0079-4b28-ac2d-e60a78b0e36c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/admin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.db" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/basket/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/basket/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/cinema/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/cinema/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/customers/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/customers/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/admin/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/basket.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/basket.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/cinema/single_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/cinema/single_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/customer/order.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/customer/order.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/employee/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/employee/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/navbar.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +77,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -146,7 +140,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2af89ba7-ee6b-4df8-834a-0304e577081a" name="Default Changelist" comment="" />
+      <changelist id="c14b1365-0079-4b28-ac2d-e60a78b0e36c" name="Default Changelist" comment="" />
       <created>1612968665410</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -161,6 +155,8 @@
       <workItem from="1613682778523" duration="40545000" />
       <workItem from="1614285598759" duration="2172000" />
       <workItem from="1614350133348" duration="19274000" />
+      <workItem from="1614461320805" duration="1298000" />
+      <workItem from="1614548936920" duration="3381000" />
     </task>
     <task id="LOCAL-00001" summary="Made templates, login for admin and customer">
       <created>1612981353322</created>
@@ -226,7 +222,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added cinema folder" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/sep_group$run.coverage" NAME="run Coverage Results" MODIFIED="1614402356741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/sep_group$run.coverage" NAME="run Coverage Results" MODIFIED="1614548963841" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/sep_group$sep_group.coverage" NAME="sep_group Coverage Results" MODIFIED="1613416889133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

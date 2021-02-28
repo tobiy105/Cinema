@@ -26,11 +26,7 @@ patch_request_class(app)
 
 # Handles all migrations.
 migrate = Migrate(app, db)
-with app.app_context():
-    if db.engine.url.drivername == "sqlite":
-        migrate.init_app(app, db, render_as_batch=True)
-    else:
-        migrate.init_app(app, db)
+
 
 #Handles all customers accounts
 login_manager = LoginManager()

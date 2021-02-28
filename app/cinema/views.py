@@ -19,7 +19,7 @@ def home():
 @app.route('/result')
 def result():
     searchword = request.args.get('q')
-    tickets = Addticket.query.msearch(searchword, fields=['title','genres'] , limit=10)
+    tickets = Addticket.query.msearch(searchword, fields=['title','genres','price'] , limit=10)
     return render_template('cinema/result.html',tickets=tickets)
 
 #route for displaying a tickets found from word search
@@ -187,7 +187,7 @@ def addticket():
                               plot=plot,genres=genres,certificate=certificate,ratingReason=ratingReason)
         db.session.add(newticket)
         flash(f'The ticket {title} was added in database','success')
-        print(newticket.title)
+
         db.session.commit()
         return redirect(url_for('admin'))
 
@@ -227,7 +227,7 @@ def updateticket(id):
     form.price.data = ticket.price
     form.discount.data = ticket.discount
     form.stock.data = ticket.stock
-    form.time = ticket.time
+    form.time.data = ticket.time
     form.date.data= ticket.date
     form.plot.data = ticket.plot
     form.genres.data = ticket.genres
