@@ -1,6 +1,7 @@
 #pycache files, and the database
 *.pyc
 *.db
+*.xml
 
 #folders that shouldnt be staged
 .venv/
