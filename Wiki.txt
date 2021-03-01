@@ -50,3 +50,16 @@ Features (look at spreadsheet for more info)
 Contact andrew and ask what he is doing this week
 Design the Database in more detail
 
+
+Meeting 3 Minutes
+
+Present: Tobi, Ben, James, Alec, Matthew, Andrew
+
+Done:
+Talked about the upcoming demo 
+Done everything necessary for the deadline on march 2nd
+To do:
+Everyone needs to send their belbin team roles for the wiki
+Finish any final programming bits before the end of sprint
+Need to meet and merge work together and deal with any conflicts
+
