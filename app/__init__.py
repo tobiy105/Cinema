@@ -8,6 +8,8 @@ from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_cl
 from flask_msearch import Search
 from flask_login import LoginManager
 
+from flask_mail import Mail, Message
+from pdfkit import pdfkit
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -34,6 +36,19 @@ login_manager.init_app(app)
 login_manager.login_view='customerLogin'
 login_manager.needs_refresh_message_category='danger'
 login_manager.login_message = u"Please login first"
+
+
+
+#Configures flask_mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'noreply.seproject2021@gmail.com'
+app.config['MAIL_PASSWORD'] = 'softwareproject'
+app.config['MAIL_DEFAULT_SENDER'] = 'noreply.seproject2021@gmail.com'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
 
 from app.cinema import views
 from app.admin import views
