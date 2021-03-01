@@ -1,2 +1,8 @@
-/venv/
-/.idea/
+#pycache files, and the database
+*.pyc
+*.db
+
+#folders that shouldnt be staged
+.venv/
+.idea/
+_pycache_/
