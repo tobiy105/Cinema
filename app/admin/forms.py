@@ -29,3 +29,8 @@ class LoginForm(Form):
 class CompareMovieForm(Form):
     movie1 = StringField('First Movie', [validators.Length(min=1, max=100), validators.DataRequired()])
     movie2 = StringField('Second Movie', [validators.Length(min=1, max=100), validators.DataRequired()])
+
+class MovieSalesData(Form):
+    movie = StringField('First Movie', [validators.Length(min=1, max=100), validators.DataRequired()])
+    date = StringField('Week', [validators.DataRequired()])
+

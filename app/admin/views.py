@@ -1,7 +1,7 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
 from app.cinema.models import Addticket
-from .forms import RegistrationForm, LoginForm, CompareMovieForm
+from .forms import RegistrationForm, LoginForm, CompareMovieForm, MovieSalesData
 from .models import User
 
 #Admin page
@@ -84,5 +84,13 @@ def cmpmovies():
         movie1 = form.movie1.data
         movie2 = form.movie2.data
 
-    return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',)
+    return render_template('admin/cmpmovies.html', form=form, title='Compare Movies')
 
+@app.route('/moviesales',methods=['GET','POST'])
+def moviesales():
+    form = MovieSalesData(request.form)
+    if request.method == "POST":
+        movie = form.movie.data
+        week = form.date.data
+
+    return render_template('admin/moviesales.html', form=form, title='Movie Sales Data')
