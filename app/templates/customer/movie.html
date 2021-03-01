@@ -13,11 +13,11 @@
                 </tr>
             </thread>
             <tbody>
-                {% for x in range(0, movies|length)  %}
+                {% for x in range(0, movietitle|length)  %}
                 <tr>
-                    <td>Title</td>
-                    <td>description</td>
-                    <td>{% for y in range(0, times|length)  %}<input type="submit" class="btn btn-info" name="times" value="">{{times[y]}}</input>{% endfor %}</td>
+                    <td>{{movietitle[x]}}</td>
+                    <td>Plot = {{movieplot[x]}}<br>Genre = {{moviegenre[x]}} <br>Certificate = {{moviecertificate[x]}} <br>Rating Reason = {{movierating[x]}} <br>Price = {{movieprice[x]}} </td>
+                    <td>{% for y in range(0, moviedate|length)  %} Date and time = {{moviedate[y]}} {% for z in range(0, movietime|length)  %}<input type="submit" class="btn btn-info" name="times" value="">{{movietime[z]}}</input>{% endfor %}{% endfor %}</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -40,10 +40,38 @@ def customerLogin():
 
 @app.route('/customer/movie', methods=['GET','POST'])
 def movieSelection():
+    movietitle = []
+    movieprice = []
+    moviediscount = []
+    movietime = []
+    moviedate = []
+    movieplot = []
+    moviegenre = []
+    moviecertificate = []
+    movierating = []
+    for movies in cinema.models.Addticket.query.all():
+        movietitle.append(movies.title)
+        movieprice.append(movies.price)
+        moviediscount.append(movies.discount)
+        movietime.append(movies.time)
+        moviedate.append(movies.date)
+        movieplot.append(movies.plot)
+        moviegenre.append(movies.genre)
+        moviecertificate.append(movies.certificate)
+        movierating.append(movies.ratingReason)
     if request.method == 'POST':
         if request.form.get('chosenTime'):
-            #stumped
+            session['movie'] = {movietime[0],movieprice[0],moviediscount[0],moviedate[0],movietime[0]}
+            return redirect('/customer/ticket')
     return render_template('/customer/movie.html',
+        movietitle = movietitle,
+        movieprice = movieprice,
+        movietime = movietime,
+        moviedate = moviedate,
+        movieplot = movieplot,
+        moviegenre = moviegenre,
+        movierating = movierating,
+        moviecertificate = moviecertificate,
         title = 'Movie Selection')
 
 

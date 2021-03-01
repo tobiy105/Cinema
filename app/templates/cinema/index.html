@@ -1,0 +1,100 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+        <script>
+        window.cookieconsent.initialise({
+          "palette": {
+            "popup": {
+              "background": "#edeff5",
+              "text": "#838391"
+            },
+            "button": {
+              "background": "#4b81e8"
+            }
+          },
+          "theme": "classic"
+        });
+        </script>
+    </body>
+</head>
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container">
+
+    <div class="row">
+        {% if get_cat_prod %}
+        {% for get_cat in get_cat_prod.items %}
+        <div class="col-md-3 mt-4">
+            <div class="card">
+
+                <div class="card-body">
+                    {% if get_cat.discount > 0 %}
+                    <h5 style="text-shadow: 1px 2px 2px #000; color: #f00; transform: rotate(-15deg); position: absolute; top: 23%; left: 25%; font-weight: 600;"> Discount {{get_cat.discount}}</h5>
+                    {% endif %}
+                  <h5 class="text-center">{{get_cat.name}}</h5>
+                  <p class="text-center">Price £{{get_cat.price}}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{url_for('single_page', id=get_cat.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
+                    <form action="{{url_for('AddBasket')}}" method="post">
+                      <input type="hidden" name="ticket_id" value="{{get_cat.id}}">
+                      <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
+                      <input type="hidden" name="quantity" value="1" min="1" max="20">
+                      {% set category = get_cat.category.split(',') %}
+                      <select name="category" id="category" style="visibility: hidden;">
+                          {% for categories in category %}
+                          {% set col = categories.split(':') %}
+                          <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                          {% endfor %}
+                      </select>
+                  </form>
+                </div>
+            </div>
+          </div>
+
+        {% endfor %}
+      </div>
+
+      <div class="row mt-4">
+
+      </div>
+        <!--========= END ELSE IF ===============-->
+        <div class="row">
+         {% else %}
+        {% for ticket in tickets.items %}
+      <div class="col-md-3 mt-4">
+        <div class="card">
+
+            <div class="card-body">
+                {% if ticket.discount > 0 %}
+                <h5 style="text-shadow: 1px 2px 2px #000; color: #f00; transform: rotate(-15deg); position: absolute; top: 23%; left: 25%; font-weight: 600;"> Discount {{ticket.discount}}</h5>
+                {% endif %}
+              <h5 class="text-center">{{ticket.title}}</h5>
+              <p class="text-center">Price £{{ticket.price}}</p>
+            </div>
+            <div class="card-footer">
+                <a href="{{url_for('single_page',id=ticket.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
+                <form action="{{url_for('AddBasket')}}" method="post">
+                  <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                  <button type="submit" class="btn btn-sm btn-warning float-right">Add to Basket</button>
+                  <input type="hidden" name="quantity" value="1" min="1" max="20">
+
+              </form>
+            </div>
+        </div>
+      </div>
+        {% endfor %}
+      </div>
+
+      <div class="row mt-4">
+        <div class="col text-center">
+
+        </div>
+      </div>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
