@@ -1,10 +1,11 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app
-from app import app,db,photos, search
+from app import app,db,photos, search, Message, mail
 from .models import Addticket
 from .forms import Addtickets, MovieForm
 import requests
 import secrets
 import os
+import pdfkit
 
 #route for home
 @app.route('/')
@@ -26,6 +27,18 @@ def result():
 @app.route('/ticket/<int:id>')
 def single_page(id):
     ticket = Addticket.query.get_or_404(id)
+
+    name = "James"
+    movie = "Fast and Furios 9"
+    ticketTemplate = render_template('cinema/ticketTemplate.html', name=name, movie=movie)
+    ticketPdf = pdfkit.from_string(ticketTemplate, False)
+    emailTo = ["bridge.james2409@gmail.com"]
+
+    sendTicket = Message('Test', recipients = emailTo)
+    sendTicket.body = "Test message via flask_mail"
+    sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
+    mail.send(sendTicket)
+
     return render_template('cinema/single_page.html',ticket=ticket)
 
 
@@ -228,7 +241,6 @@ def updateticket(id):
     form.discount.data = ticket.discount
     form.stock.data = ticket.stock
     form.time.data = ticket.time
-
     form.date.data= ticket.date
     form.plot.data = ticket.plot
     form.genres.data = ticket.genres
@@ -260,7 +272,6 @@ def deleteticket(id):
 # route for movie search (view movie details)
 @app.route('/customer/viewMovieDetails', methods=['GET', 'POST'])
 def viewMovieDetails():
-    data =""
     response = None
     url = "https://imdb8.p.rapidapi.com/title/auto-complete"
     headers = {
@@ -273,19 +284,16 @@ def viewMovieDetails():
         title = form.title.data
         querystring = {"q": title}
         response = requests.request("GET", url, headers=headers, params=querystring)
-
-
+        # flash(f'Response: {response.text}')
 
         # to query details need to extract value from the id field, starting "tt" eg: "tt944947"
         foundID = False
-        foundUrls = False
 
         for i in range(0, len(response.text)):
             if foundID:
                 break
             if response.text[i] == '"':
                 # flash('Found a "')
-
                 for j in range(i + 1, len(response.text)):
                     if response.text[j] == '"':
                         # flash('Found another "')
@@ -294,29 +302,7 @@ def viewMovieDetails():
                             id = response.text[i + 1: j]  # get the movie id
                             foundID = True
                             # flash(f'ID: {id}')
-                            # print("hello--------------")
-                            # print(response.text[27 : 35])
-                            # # print(response.text[34])
-                            # print(response.text[38])
-                            #
-
-                        if response.text[i + 1: i + 9] == "imageUrl":  # if the susbtring is an id
-                            # url = response.text[i + 1: j]  # get the movie id
-                            # foundUrls = True
-                            # # flash(f'ID: {id}')
-                            #
-                            # print(url)
-                            for k in range(j + 3, len(response.text)):
-                                if response.text[k] == '"':  # end of title field value
-                                    url = response.text[j + 3: k]
-                                    foundUrls = True
-                                    data = url
-                                    flash(f'Found Image: {url}')
-                                    flash(f'Found change image: {data}')
-                                    break
                         break
-
-
 
         # now that we have the ID given by the IMDB database, we can query again for movie details
         # this id can be used for querying in general
@@ -341,6 +327,7 @@ def viewMovieDetails():
         foundYear = False
         foundRatingReason = False
         foundGenres = False
+        foundUrls = False
 
         for i in range(0, len(response.text)):
             if response.text[i] == '"':
@@ -348,7 +335,14 @@ def viewMovieDetails():
                     if response.text[j] == '"':
                         field = response.text[i + 1: j]
 
-
+                        if field == "urls" and not foundUrls:  # the returned string has multiple fields called title
+                            if response.text[1 + 1] == ':' and response.text[j + 2] == '"':
+                                for k in range(j + 3, len(response.text)):
+                                    if response.text[k] == '"':  # end of title field value
+                                        urls = response.text[j + 3: k]
+                                        foundUrls = True
+                                        flash(f'Found urls: {urls}')
+                                        break
 
                         if field == "title" and not foundTitle:  # the returned string has multiple fields called title
                             if response.text[j + 1] == ':' and response.text[j + 2] == '"':
@@ -411,5 +405,14 @@ def viewMovieDetails():
                                     flash(f'Found genres: {genres}')
                                     break
 
+                        # elif field == "urls" and not foundUrls:
+                        #     flash(f'Substring    {response.text[i + 5: k]}')
+                        #
+                        #     for k in range(j + 1, len(response.text)):
+                        #         if response.text[k] == '"':
+                        #             urls = response.text[j + 0: k]
+                        #             foundUrls = True
+                        #             flash(f'Found urls: {urls}')
+                        #             break
 
-    return render_template('cinema/viewMovieDetails.html', form=form, data=data)
+    return render_template('cinema/viewMovieDetails.html', form=form)
