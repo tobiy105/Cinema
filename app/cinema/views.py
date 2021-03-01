@@ -260,6 +260,7 @@ def deleteticket(id):
 # route for movie search (view movie details)
 @app.route('/customer/viewMovieDetails', methods=['GET', 'POST'])
 def viewMovieDetails():
+    data =""
     response = None
     url = "https://imdb8.p.rapidapi.com/title/auto-complete"
     headers = {
@@ -410,14 +411,5 @@ def viewMovieDetails():
                                     flash(f'Found genres: {genres}')
                                     break
 
-                        # elif field == "urls" and not foundUrls:
-                        #     flash(f'Substring    {response.text[i + 5: k]}')
-                        #
-                        #     for k in range(j + 1, len(response.text)):
-                        #         if response.text[k] == '"':
-                        #             urls = response.text[j + 0: k]
-                        #             foundUrls = True
-                        #             flash(f'Found urls: {urls}')
-                        #             break
 
     return render_template('cinema/viewMovieDetails.html', form=form, data=data)
