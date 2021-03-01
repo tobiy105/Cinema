@@ -1,7 +1,7 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
 from app.cinema.models import Addticket
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, CompareMovieForm
 from .models import User
 
 #Admin page
@@ -75,4 +75,14 @@ def updateuser(id):
     form.email.data = updateuser.email
     form.password.data = updateuser.password
     return render_template('admin/register.html',form=form, title='Update User',updateuser=updateuser)
+
+#route for comparing movies
+@app.route('/cmpmovies',methods=['GET','POST'])
+def cmpmovies():
+    form = CompareMovieForm(request.form)
+    if request.method == "POST":
+        movie1 = form.movie1.data
+        movie2 = form.movie2.data
+
+    return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',)
 
