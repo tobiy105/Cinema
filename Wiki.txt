@@ -63,3 +63,27 @@ Everyone needs to send their belbin team roles for the wiki
 Finish any final programming bits before the end of sprint
 Need to meet and merge work together and deal with any conflicts
 
+Sprint 1 Plan:
+Alec : 
+    - View movie details (blurb, certificate, director, lead actors)
+
+Tobi :
+    - Search for a movie/screening by keyword or date
+    - Handle card payment for ticket (simulated)
+    - Support user accounts and user login
+    - Good security for user accounts
+
+Matt : 
+    - View weekly income, overall and per-movie
+    - Compare movies by number of tickets sold in a given time period
+
+Ben : 
+    - Handle cash payment for ticket (simulated)
+
+James : 
+    - Send ticket via email
+    - Printable ticket (eg. generate a PDF)
+
+Andrew : 
+    - View screenings of a movie (date, time, cinema screen)
+    - Buy ticket for a screening – adult, child (age<16, available if appropriate to certificate) or senior (age>=65, discounted) options
