@@ -1,7 +1,7 @@
-from flask import render_template, request,redirect,url_for,flash
+from flask import render_template, request,redirect,url_for,flash, session
 from flask_login import login_user
 from app import app,db,bcrypt
-from .forms import CustomerRegisterForm, CustomerLoginFrom
+from .forms import CustomerRegisterForm, CustomerLoginFrom, TSF
 from .model import Register
 
 @app.route('/')
@@ -38,11 +38,61 @@ def customerLogin():
             
     return render_template('customer/login.html', form=form)
 
+@app.route('/customer/movie', methods=['GET','POST'])
+def movieSelection():
+    if request.method == 'POST':
+        if request.form.get('chosenTime'):
+            #stumped
+    return render_template('/customer/movie.html',
+        title = 'Movie Selection')
 
 
-
-
-
-
-
-
+#route to allow customers to select what type of ticket they want and the amount of tickets they want.
+@app.route('/customer/ticket', methods=['GET','POST'])
+def ticketSelection():
+    session['movie'] = 'Tron'
+    form = TSF()
+    priceDiscount = 0.99
+    childPrice = round(priceDiscount * 9.00,2)
+    teenPrice = round(priceDiscount * 10.00,2)
+    adultPrice = round(priceDiscount * 11.00,2)
+    elderlyPrice = round(priceDiscount * 9.00,2)
+    flash('Hello World')
+    #Assuming we are using sessions to carry over the specific movie the customer wants to this route (remove if we are not)
+    if 'movie' in session:
+        flash('Inside movie')
+        movie = session['movie']
+        if request.method == 'POST':
+            flash('Inside post')
+            if request.form.get('Confirm'):
+                flash('Indise confirm')
+                if form.child.data == 0 and form.teen.data == 0 and form.adult.data == 0 and form.elderly.data == 0:
+                    flash('Inside checks')
+                    flash('No tickets have been selected. Please select the tickets you would like for the movie.')
+                    return redirect('/customer/ticket')
+                if form.child.data != 0:
+                    childTicket = form.child.data
+                else:
+                    childTicket = 0
+                if form.teen.data != 0:
+                    teenTicket = form.teen.data
+                else:
+                    teenTicket = 0
+                if form.adult.data != 0:
+                    adultTicket = form.adult.data
+                else:
+                    adultTicket = 0
+                if form.elderly.data != 0:
+                    elderlyTicket = form.elderly.data
+                else:
+                    elderlyTicket = 0
+                session['ticketChosen'] = {{movie},{childTicket},{teenTicket},{adultTicket},{elderlyTicket}}
+                flash('The tickets have been added to your basket. Proceed to payment when ready.')
+                return redirect('/')
+    return render_template('customer/tickets.html',
+        childPrice = childPrice,
+        teenPrice = teenPrice,
+        adultPrice = adultPrice,
+        elderlyPrice = elderlyPrice,
+        form = form,
+        title='Ticket Selection')

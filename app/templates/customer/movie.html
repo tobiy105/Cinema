@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 style="text-align:center;">Movie Selection</h1>
+<form action="" method="post" form="form">
+    <div class="container">
+        <table class="table">
+            <thread>
+                <tr>
+                    <th>Movie Title</th>
+                    <th>Movie Description</th>
+                    <th>Movie Times</th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for x in range(0, movies|length)  %}
+                <tr>
+                    <td>Title</td>
+                    <td>description</td>
+                    <td>{% for y in range(0, times|length)  %}<input type="submit" class="btn btn-info" name="times" value="">{{times[y]}}</input>{% endfor %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</form>
+
+{% endblock %}

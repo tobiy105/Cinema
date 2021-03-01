@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 style="text-align:center;">Ticket Selection</h1>
+<form action="" method="post" name="form">
+    <div class="container-fluid">
+        <p style="text-align:center;">This is the tickets you can select for your movie.</p>
+        <br>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+                Child ticket
+                <br>
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#childdetails">child ticket details</button>
+                <div id="childdetails" class="collapse">
+                    (An child is from years 0 to 12)
+                </div>
+            </div>
+            <div class="col-sm-2">£{{childPrice}}</div>
+            <div class="col-sm-1">
+                <select name = 'child' id = 'child'>
+                    <option value='5' selected='selected'>5</option>
+                    <option value='4' selected='selected'>4</option>
+                    <option value='3' selected='selected'>3</option>
+                    <option value='2' selected='selected'>2</option>
+                    <option value='1' selected='selected'>1</option>
+                    <option value='0' selected='selected'>0</option>
+                </select>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+                Teen ticket
+                <br>
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#teendetails">Teen ticket details</button>
+                <div id="teendetails" class="collapse">
+                    (A teen is from years 13 to 18)
+                </div>
+            </div>
+            <div class="col-sm-2">£{{teenPrice}}</div>
+            <div class="col-sm-1">
+                <select name = 'teen' id = 'teen'>
+                    <option value='5' selected='selected'>5</option>
+                    <option value='4' selected='selected'>4</option>
+                    <option value='3' selected='selected'>3</option>
+                    <option value='2' selected='selected'>2</option>
+                    <option value='1' selected='selected'>1</option>
+                    <option value='0' selected='selected'>0</option>
+                </select>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+                Adult ticket
+                <br>
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#adultdetails">Adult ticket details</button>
+                <div id="adultdetails" class="collapse">
+                    (An adult is from years 19 to 65)
+                </div>
+            </div>
+            <div class="col-sm-2">£{{adultPrice}}</div>
+            <div class="col-sm-1">
+                <select name = 'adult' id = 'adult'>
+                    <option value='5' selected='selected'>5</option>
+                    <option value='4' selected='selected'>4</option>
+                    <option value='3' selected='selected'>3</option>
+                    <option value='2' selected='selected'>2</option>
+                    <option value='1' selected='selected'>1</option>
+                    <option value='0' selected='selected'>0</option>
+                </select>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+                Elderly ticket
+                <br>
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#elderlydetails">Elderly ticket details</button>
+                <div id="elderlydetails" class="collapse">
+                    (An elderly is from years 66)
+                </div>
+            </div>
+            <div class="col-sm-2">£{{elderlyPrice}}</div>
+            <div class="col-sm-1">
+                <select name = 'elderly' id = 'elderly'>
+                    <option value='5' selected='selected'>5</option>
+                    <option value='4' selected='selected'>4</option>
+                    <option value='3' selected='selected'>3</option>
+                    <option value='2' selected='selected'>2</option>
+                    <option value='1' selected='selected'>1</option>
+                    <option value='0' selected='selected'>0</option>
+                </select>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <br>
+        <p style="text-align:center;"><input type="submit" class="btn btn-primary" name="Confirm" value="Confirm"></p>
+    </div>
+</form>
+{% endblock %}

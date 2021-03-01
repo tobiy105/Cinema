@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, TextAreaField, PasswordField,SubmitField,validators, ValidationError
+from wtforms import Form, StringField, TextAreaField, PasswordField, IntegerField, SubmitField,validators, ValidationError
 from flask_wtf.file import FileRequired,FileAllowed, FileField
 from flask_wtf import FlaskForm
 from .model import Register
@@ -24,6 +24,14 @@ class CustomerRegisterForm(FlaskForm):
 class CustomerLoginFrom(FlaskForm):
     email = StringField('Email: ', [validators.Email(), validators.DataRequired()])
     password = PasswordField('Password: ', [validators.DataRequired()])
+
+#creating the TSF (ticket selection form) class
+class TSF(FlaskForm):
+    child = IntegerField('child')
+    teen = IntegerField('teen')
+    adult = IntegerField('adult')
+    elderly = IntegerField('elderly')
+
 
    
 
