@@ -26,7 +26,7 @@
                 <a class="dropdown-item" href="{{url_for('addmovie')}}">Add movie</a>
                 <a class="dropdown-item" href="{{url_for('movies')}}">View movies</a>
               </div>
-           </li>
+            </li>
 
           </ul>
         </div>
@@ -41,43 +41,44 @@
         <thead>
             <th>Sr</th>
             <th>Name</th>
-            <th>Price</th>
-            <th>Discount</th>
+            <th>Image</th>
+
 
             <th>Edit</th>
             <th>Delete</th>
         </thead>
         <tbody>
-          {% for ticket in tickets %}
+          {% for movie in movies %}
           <tr>
             <td>{{loop.index}}</td>
 
-            <td>{{ ticket.title }}</td>
-            <td>{{ ticket.price }}</td>
-            <td>{{ ticket.discount }}</td>
+            <td>{{ movie.title }}</td>
 
-            <td> <a href="{{url_for('updateticket', id=ticket.id)}}" class="btn btn-sm btn-info">Edit </a> </td>
-            <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{ticket.id}}">
+            <td><img width="40px"  src="{{movie.image}}"></td>
+
+
+          <td> <a href="{{url_for('updatemovie', id=movie.id)}}" class="btn btn-sm btn-info">Edit </a> </td>
+            <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{movie.id}}">
               Delete
             </button></td>
           </tr>
 
  <!--============= MODEL ===================-->
-        <div class="modal fade" id="exampleModal-{{ticket.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal-{{movie.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ticket.title }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{movie.title }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <p class="text-danger">Are you Sure that you want to delete this movie ({{ ticket.title }})</p>
+                <p class="text-danger">Are you Sure that you want to delete this movie ({{ movie.title }})</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="{{url_for('deleteticket',id=ticket.id)}}" method="post">
+                <form action="{{url_for('deletemovie',id=movie.id)}}" method="post">
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
 
@@ -87,6 +88,8 @@
           </div>
         </div>
 <!--==============MODEL ===================-->
+
+
 
           {% endfor %}
         </tbody>
