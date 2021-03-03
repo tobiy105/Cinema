@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime
+from datetime import time
 
 
 # create the movie database table
@@ -30,8 +31,8 @@ class Movies(db.Model):
 class Screening(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    startTime = db.Column(db.DateTime, nullable=False)
-    endTime = db.Column(db.DateTime, nullable=False)
+    startTime = db.Column(db.Time, nullable=False)
+    endTime = db.Column(db.Time, nullable=False)
     date = db.Column(db.Date, nullable=False)
     theatre = db.Column(db.Text, nullable=False)
     seats = db.Column(db.Integer, nullable=False)

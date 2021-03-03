@@ -27,31 +27,32 @@ def movies():
 
     return render_template('cinema/movies.html', movies=movies)
 
-#route for adding products
-@app.route('/addproduct', methods=['GET','POST'])
-def addproduct():
+#route for adding screen
+@app.route('/addscreen', methods=['GET','POST'])
+def addscreen():
     if 'email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
-    form = Screening(request.form)
+    form = Screen(request.form)
     movies = Movies.query.all()
 
-    if request.method=="POST"  and 'image_1' in request.files:
+    if request.method=="POST":
         startTime = form.startTime.data
         endTime = form.endTime.data
         date = form.date.data
         theatre = form.theatre.data
         seats = form.seats.data
 
-        movie = request.form.get('Movie')
+        movie_id = request.form.get('movie')
 
-        addscreen = Screening(startTime=startTime,endTime=endTime,date=date,theatre=theatre,seats=seats,movie_id=movie)
+
+        addscreen = Screening(startTime=startTime,endTime=endTime,date=date,theatre=theatre,seats=seats,movie_id=movie_id)
         db.session.add(addscreen)
         flash(f'The Screen was added in database','success')
         db.session.commit()
         return redirect(url_for('admin'))
-    return render_template('products/addproduct.html', form=form, title='Add a Product' ,movies=movies)
+    return render_template('cinema/addscreen.html', form=form, title='Add a Product' ,movies=movies)
 
 
 

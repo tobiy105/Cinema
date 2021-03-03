@@ -1,8 +1,9 @@
-from wtforms import Form, SubmitField,IntegerField,FloatField,StringField,TextAreaField,validators , ValidationError, DateField, DateTimeField
+from wtforms import Form, SubmitField,IntegerField,FloatField,StringField,TextAreaField,validators ,ValidationError,DateField,DateTimeField, TimeField
 from flask_wtf.file import FileField,FileRequired,FileAllowed
 from .models import Movies, Screening
 from _datetime import datetime
-
+from datetime import datetime
+from datetime import time
 #creating the ticket form class
 class Movie(Form):
     title = StringField('Title', [validators.DataRequired()])
@@ -23,8 +24,8 @@ class Movie(Form):
 
 #creating the screen from class
 class Screen(Form):
-    startTime = DateTimeField('Start Time', [validators.DataRequired()], default=datetime.now())
-    endTime = DateTimeField('End Time', [validators.DataRequired()], default=datetime.now())
+    startTime = TimeField('Start Time', [validators.DataRequired()], default=datetime.now())
+    endTime = TimeField('End Time', [validators.DataRequired()], default=datetime.now())
     date = DateField('Date', [validators.DataRequired()], default=datetime.now())
     theatre = TextAreaField('Theatre', [validators.DataRequired()])
     seats = IntegerField('Seats', [validators.DataRequired()])
