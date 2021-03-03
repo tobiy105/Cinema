@@ -1,7 +1,7 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app
 from app import app,db,photos, search
 from .models import Addticket, Movies, Screening
-from .forms import Addtickets, SearchMovieForm, Movie
+from .forms import Addtickets, SearchMovieForm, Movie, Screen
 import requests
 import secrets
 import os
@@ -13,10 +13,10 @@ def home():
     tickets = Addticket.query.filter(Addticket.stock > 0).order_by(Addticket.id.desc()).paginate()
 
     return render_template('cinema/index.html', tickets=tickets)
-
+#
 #query search for movie
 def movie():
-    movie = Movie.query.join(Screening, (Movie.id == Screening.movie_id)).all()
+    movie = Movies.query.join(Screening, (Movies.id == Screening.movie_id)).all()
     return movie
 
 #route for home
@@ -26,6 +26,33 @@ def movies():
     movies = Movies.query.all()
 
     return render_template('cinema/movies.html', movies=movies)
+
+#route for adding products
+@app.route('/addproduct', methods=['GET','POST'])
+def addproduct():
+    if 'email' not in session:
+        flash(f'Please login first', 'danger')
+        return redirect(url_for('login'))
+
+    form = Screening(request.form)
+    movies = Movies.query.all()
+
+    if request.method=="POST"  and 'image_1' in request.files:
+        startTime = form.startTime.data
+        endTime = form.endTime.data
+        date = form.date.data
+        theatre = form.theatre.data
+        seats = form.seats.data
+
+        movie = request.form.get('Movie')
+
+        addscreen = Screening(startTime=startTime,endTime=endTime,date=date,theatre=theatre,seats=seats,movie_id=movie)
+        db.session.add(addscreen)
+        flash(f'The Screen was added in database','success')
+        db.session.commit()
+        return redirect(url_for('admin'))
+    return render_template('products/addproduct.html', form=form, title='Add a Product' ,movies=movies)
+
 
 
 #route for result of finding a ticket by using search word

@@ -1,7 +1,7 @@
 from wtforms import Form, SubmitField,IntegerField,FloatField,StringField,TextAreaField,validators , ValidationError, DateField, DateTimeField
 from flask_wtf.file import FileField,FileRequired,FileAllowed
 from .models import Movies, Screening
-import datetime
+from _datetime import datetime
 
 #creating the ticket form class
 class Movie(Form):
@@ -22,7 +22,7 @@ class Movie(Form):
             raise ValidationError("This title is already in use!")
 
 #creating the screen from class
-class Sceen(Form):
+class Screen(Form):
     startTime = DateTimeField('Start Time', [validators.DataRequired()], default=datetime.now())
     endTime = DateTimeField('End Time', [validators.DataRequired()], default=datetime.now())
     date = DateField('Date', [validators.DataRequired()], default=datetime.now())

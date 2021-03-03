@@ -4,7 +4,7 @@ from datetime import datetime
 
 # create the movie database table
 class Movies(db.Model):
-    __seachable__ = ['title', 'genres']
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     duration = db.Column(db.Text, nullable=False)
@@ -28,15 +28,14 @@ class Movies(db.Model):
 
 # create the movie database table
 class Screening(db.Model):
-    __seachable__ = ['date']
+
     id = db.Column(db.Integer, primary_key=True)
     startTime = db.Column(db.DateTime, nullable=False)
     endTime = db.Column(db.DateTime, nullable=False)
     date = db.Column(db.Date, nullable=False)
     theatre = db.Column(db.Text, nullable=False)
     seats = db.Column(db.Integer, nullable=False)
-
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'),nullable=False)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'),nullable=False)
     movie =  db.relationship('Movies',backref=db.backref('movie', lazy=True))
 
     def __repr__(self):
