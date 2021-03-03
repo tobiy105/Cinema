@@ -1,6 +1,7 @@
-from wtforms import Form, SubmitField,IntegerField,FloatField,StringField,TextAreaField,validators , ValidationError
+from wtforms import Form, SubmitField,IntegerField,FloatField,StringField,TextAreaField,validators , ValidationError, DateField, DateTimeField
 from flask_wtf.file import FileField,FileRequired,FileAllowed
-from .models import Movies
+from .models import Movies, Screening
+import datetime
 
 #creating the ticket form class
 class Movie(Form):
@@ -20,6 +21,15 @@ class Movie(Form):
         if Movies.query.filter_by(title=title.data).first():
             raise ValidationError("This title is already in use!")
 
+#creating the screen from class
+class Sceen(Form):
+    startTime = DateTimeField('Start Time', [validators.DataRequired()], default=datetime.now())
+    endTime = DateTimeField('End Time', [validators.DataRequired()], default=datetime.now())
+    date = DateField('Date', [validators.DataRequired()], default=datetime.now())
+    theatre = TextAreaField('Theatre', [validators.DataRequired()])
+    seats = IntegerField('Seats', [validators.DataRequired()])
+
+
 
 #creating the ticket form class
 class Addtickets(Form):
@@ -35,6 +45,13 @@ class Addtickets(Form):
     ratingReason = TextAreaField('Rating Reason', [validators.DataRequired()])
 
     #image = FileField('Image', validators=[FileRequired(), FileAllowed(['jpg','png','gif','jpeg']), 'Images only please'])
+
+    # seatNo = IntegerField('Seat Number', [validators.DataRequired()])
+    #
+    # # check for the seats is not already taken
+    # def validate_seats(self, seatNo):
+    #     if Screening.query.filter_by(seatNo=seatNo.data).first():
+    #         raise ValidationError("This seat is already taken!")
 
 
 

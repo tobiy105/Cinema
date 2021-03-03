@@ -1,6 +1,7 @@
 from app import db
 from datetime import datetime
 
+
 # create the movie database table
 class Movies(db.Model):
     __seachable__ = ['title', 'genres']
@@ -24,22 +25,22 @@ class Movies(db.Model):
 
     def __repr__(self):
         return '<Movie %r>' % self.title
-#
-# # create the movie database table
-# class Screening(db.Model):
-#     __seachable__ = ['date']
-#     id = db.Column(db.Integer, primary_key=True)
-#     startTime = db.Column(db.Text, nullable=False)
-#     endTime = db.Column(db.Text, nullable=False)
-#     date = db.Column(db.Text, nullable=False)
-#     theatre = db.Column(db.Text, nullable=False)
-#     seats = db.Column(db.Text, nullable=False)
-#
-#     movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'),nullable=False)
-#     movie =  db.relationship('Movies',backref=db.backref('movies', lazy=True))
-#
-#     def __repr__(self):
-#         return '<Screening %r>' % self.id
+
+# create the movie database table
+class Screening(db.Model):
+    __seachable__ = ['date']
+    id = db.Column(db.Integer, primary_key=True)
+    startTime = db.Column(db.DateTime, nullable=False)
+    endTime = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    theatre = db.Column(db.Text, nullable=False)
+    seats = db.Column(db.Integer, nullable=False)
+
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'),nullable=False)
+    movie =  db.relationship('Movies',backref=db.backref('movie', lazy=True))
+
+    def __repr__(self):
+        return '<Screening %r>' % self.id
 
 # create the ticket database table
 class Addticket(db.Model):
@@ -55,6 +56,8 @@ class Addticket(db.Model):
     genres = db.Column(db.Text, nullable=False)
     certificate = db.Column(db.Text, nullable=False)
     ratingReason = db.Column(db.Text, nullable=False)
+
+    #seatNo = db.Column(db.Integer, nullable=False)
 
     #image = db.Column(db.String(150), nullable=False, default='image.jpg')
 

@@ -1,6 +1,6 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app
 from app import app,db,photos, search
-from .models import Addticket, Movies
+from .models import Addticket, Movies, Screening
 from .forms import Addtickets, SearchMovieForm, Movie
 import requests
 import secrets
@@ -13,6 +13,11 @@ def home():
     tickets = Addticket.query.filter(Addticket.stock > 0).order_by(Addticket.id.desc()).paginate()
 
     return render_template('cinema/index.html', tickets=tickets)
+
+#query search for movie
+def movie():
+    movie = Movie.query.join(Screening, (Movie.id == Screening.movie_id)).all()
+    return movie
 
 #route for home
 @app.route('/movies')
