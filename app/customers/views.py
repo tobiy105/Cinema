@@ -14,7 +14,6 @@ buplishable_key ='pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefC
 stripe.api_key ='sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
 
 finish = False
-
 #route for payment for the customer
 @app.route('/payment',methods=['POST'])
 @login_required
@@ -36,9 +35,7 @@ def payment():
     db.session.commit()
     flash(f'The order payment has been successful!', 'success')
     flash(f'Thank you shopping with us!', 'success')
-
     return redirect(url_for('orders',invoice=invoice))
-
 
 #route for register with the customer account
 @app.route('/customer/register', methods=['GET','POST'])
@@ -62,11 +59,9 @@ def customerLogin():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             flash('You are login now!', 'success')
-
             return redirect(url_for('home'))
         flash('Incorrect email and password','danger')
         return redirect(url_for('customerLogin'))
-            
     return render_template('customer/login.html', form=form)
 
 
@@ -76,7 +71,6 @@ def updatecustomer(id):
     if 'email' not in session:
         flash('Login first please', 'danger')
         return redirect(url_for('login'))
-
     updatecustomer = Register.query.get_or_404(id)
     form = CustomerRegisterForm(request.form)
     if request.method == "POST":
@@ -85,8 +79,6 @@ def updatecustomer(id):
         updatecustomer.email = form.email.data
         hash_password = bcrypt.generate_password_hash(form.password.data)
         updatecustomer.password = hash_password
-
-
         flash(f'The  {updatecustomer.name} profile was updated', 'success')
         db.session.commit()
         return redirect(url_for('home'))
@@ -94,16 +86,12 @@ def updatecustomer(id):
     form.username.data = updatecustomer.username
     form.email.data = updatecustomer.email
     form.password.data = updatecustomer.password
-
-
     return render_template('customer/register.html', form=form, title='Update User', updatecustomer=updatecustomer)
-
 
 @app.route('/customer/logout')
 def customer_logout():
     logout_user()
     return redirect(url_for('home'))
-
 
 # deleting some of basket sessions
 def updateshoppingbasket():
@@ -112,7 +100,6 @@ def updateshoppingbasket():
         del shopping['image']
         del shopping['category']
     return updateshoppingbasket
-
 
 # route for getting the order for the customer account
 @app.route('/getorder')
@@ -133,7 +120,6 @@ def get_order():
             print(e)
             flash('Some thing went wrong while get order', 'danger')
             return redirect(url_for('getBasket'))
-
 
 # route for getting the order invoice for the customer account
 @app.route('/orders/<invoice>')
@@ -172,12 +158,3 @@ def orders(invoice):
         return redirect(url_for('customerLogin'))
     return render_template('customer/order.html', invoice=invoice, tax=tax, subTotal=subTotal, grandTotal=grandTotal,
                            customer=customer, orders=orders)
-
-
-
-
-
-
-
-
-

@@ -43,7 +43,6 @@ def addscreen():
         date = form.date.data
         theatre = form.theatre.data
         seats = form.seats.data
-
         movie_id = request.form.get('movie')
 
 
@@ -191,7 +190,6 @@ def addmovie():
                                             plotSummary = response.text[k + 7: x]
                                             foundPlot = True
                                             form.plot.data = plotSummary
-
                                             break
                                     break
 
@@ -201,7 +199,6 @@ def addmovie():
                                     certificate = response.text[j + 3: k]
                                     foundCertificates = True
                                     form.certificate.data = certificate
-
                                     break
 
                         elif field == "ratingReason" and not foundRatingReason:
@@ -210,7 +207,6 @@ def addmovie():
                                     ratingReason = response.text[j + 3: k]
                                     foundRatingReason = True
                                     form.ratingReason.data = ratingReason
-
                                     break
 
                         elif field == "genres" and not foundGenres:
@@ -221,9 +217,7 @@ def addmovie():
                                     genres = genres.replace(',', ', ')
                                     foundGenres = True
                                     form.genres.data = genres
-
                                     break
-
 
     if request.method=="POST" and form.validate():
         title = form.title.data
@@ -240,9 +234,7 @@ def addmovie():
         flash(f'The ticket {title} was added in database','success')
         db.session.commit()
         return redirect(url_for('movies'))
-
     return render_template('cinema/addmovie.html', form1=form1, form=form,data=data, title='Add a Movie')
-
 
 # route for updating ticket
 @app.route('/updatemovie/<int:id>', methods=['GET', 'POST'])
@@ -262,7 +254,6 @@ def updatemovie(id):
         movie.certificate = form.certificate.data
         movie.ratingReason = form.ratingReason.data
         movie.releaseDate = form.releaseDate.data
-
         flash('The ticket was updated', 'success')
         db.session.commit()
         return redirect(url_for('movies'))
@@ -275,9 +266,7 @@ def updatemovie(id):
     form.ratingReason.data = movie.ratingReason
     form.image.data = movie.image
     form1 = form
-
     return render_template('cinema/addmovie.html', form1=form1, form=form, title='Update Ticket', getmovie=movie)
-
 
 # route for deleting ticket
 @app.route('/deletemovie/<int:id>', methods=['POST'])
@@ -315,8 +304,6 @@ def addticket():
         title = form1.title.data
         querystring = {"q": title}
         response = requests.request("GET", url, headers=headers, params=querystring)
-        # flash(f'Response: {response.text}')
-
         # to query details need to extract value from the id field, starting "tt" eg: "tt944947"
         foundID = False
 
@@ -324,20 +311,15 @@ def addticket():
             if foundID:
                 break
             if response.text[i] == '"':
-                # flash('Found a "')
                 for j in range(i + 1, len(response.text)):
                     if response.text[j] == '"':
-                        # flash('Found another "')
-                        # flash(f'Substring    {response.text[i + 10: i + 20]}')
                         if response.text[i + 1: i + 3] == "tt":  # if the susbtring is an id
                             id = response.text[i + 1: j]  # get the movie id
                             foundID = True
-                            # flash(f'ID: {id}')
                         break
 
         # now that we have the ID given by the IMDB database, we can query again for movie details
         # this id can be used for querying in general
-
         url = "https://imdb8.p.rapidapi.com/title/get-overview-details"
 
         querystring = {"tconst": id, "currentCountry": "GB"}
@@ -357,13 +339,11 @@ def addticket():
         foundRatingReason = False
         foundGenres = False
 
-
         for i in range(0, len(response.text)):
             if response.text[i] == '"':
                 for j in range(i + 1, len(response.text)):
                     if response.text[j] == '"':
                         field = response.text[i + 1: j]
-
 
                         if field == "title" and not foundTitle:  # the returned string has multiple fields called title
                             if response.text[j + 1] == ':' and response.text[j + 2] == '"':
@@ -372,7 +352,6 @@ def addticket():
                                         title = response.text[j + 3: k]
                                         foundTitle = True
                                         form.title.data=title
-
                                         break
                         elif field == "runningTimeInMinutes" and not foundRunningTime:
                             for k in range(j + 3, len(response.text)):
@@ -380,7 +359,6 @@ def addticket():
                                     runningTime = response.text[j + 2: k]
                                     foundRunningTime = True
                                     form.time.data = runningTime
-
                                     break
 
                         elif field == "year" and not foundYear:
@@ -389,7 +367,6 @@ def addticket():
                                     year = response.text[j + 2: k]
                                     foundYear = True
                                     form.date.data = year
-
                                     break
 
                         elif field == "plotSummary" and not foundPlot:
@@ -400,7 +377,6 @@ def addticket():
                                             plotSummary = response.text[k + 7: x]
                                             foundPlot = True
                                             form.plot.data = plotSummary
-
                                             break
                                     break
 
@@ -410,7 +386,6 @@ def addticket():
                                     certificate = response.text[j + 3: k]
                                     foundCertificates = True
                                     form.certificate.data = certificate
-
                                     break
 
                         elif field == "ratingReason" and not foundRatingReason:
@@ -419,7 +394,6 @@ def addticket():
                                     ratingReason = response.text[j + 3: k]
                                     foundRatingReason = True
                                     form.ratingReason.data = ratingReason
-
                                     break
 
                         elif field == "genres" and not foundGenres:
@@ -430,7 +404,6 @@ def addticket():
                                     genres = genres.replace(',', ', ')
                                     foundGenres = True
                                     form.genres.data = genres
-
                                     break
 
     if request.method=="POST" and form.validate():
@@ -444,14 +417,12 @@ def addticket():
         genres = form.genres.data
         certificate = form.certificate.data
         ratingReason = form.ratingReason.data
-
         newticket = Addticket(title=title,price=price,discount=discount,stock=stock,time=time,date=date,
                               plot=plot,genres=genres,certificate=certificate,ratingReason=ratingReason)
         db.session.add(newticket)
         flash(f'The ticket {title} was added in database','success')
         db.session.commit()
         return redirect(url_for('admin'))
-
     return render_template('cinema/addticket.html',form1=form1, form=form, title='Add a Ticket')
 
 #route for updating ticket
@@ -463,7 +434,6 @@ def updateticket(id):
 
     form = Addtickets(request.form)
     ticket = Addticket.query.get_or_404(id)
-    
 
     if request.method =="POST" :
         ticket.title = form.title.data
@@ -476,8 +446,6 @@ def updateticket(id):
         ticket.genres = form.genres.data
         ticket.certificate = form.certificate.data
         ticket.ratingReason = form.ratingReason.data
-
-
         flash('The ticket was updated','success')
         db.session.commit()
         return redirect(url_for('admin'))
@@ -486,15 +454,12 @@ def updateticket(id):
     form.discount.data = ticket.discount
     form.stock.data = ticket.stock
     form.time.data = ticket.time
-
-    form.date.data= ticket.date
+    form.date.data = ticket.date
     form.plot.data = ticket.plot
     form.genres.data = ticket.genres
     form.certificate.data = ticket.certificate
     form.ratingReason.data = ticket.ratingReason
     form1=form
-
-
     return render_template('cinema/addticket.html',form1=form1, form=form, title='Update Ticket',getticket=ticket)
 
 #route for deleting ticket
@@ -503,17 +468,14 @@ def deleteticket(id):
     if 'email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
-
     ticket = Addticket.query.get_or_404(id)
     if request.method =="POST":
-        
         db.session.delete(ticket)
         db.session.commit()
         flash(f'The ticket {ticket.title} was delete from your record','success')
         return redirect(url_for('admin'))
     flash(f'Can not delete the ticket','success')
     return redirect(url_for('admin'))
-
 
 # route for movie search (view movie details)
 @app.route('/customer/viewMovieDetails', methods=['GET', 'POST'])
@@ -532,8 +494,6 @@ def viewMovieDetails():
         querystring = {"q": title}
         response = requests.request("GET", url, headers=headers, params=querystring)
 
-
-
         # to query details need to extract value from the id field, starting "tt" eg: "tt944947"
         foundID = False
         foundUrls = False
@@ -542,21 +502,13 @@ def viewMovieDetails():
             if foundID:
                 break
             if response.text[i] == '"':
-                # flash('Found a "')
 
                 for j in range(i + 1, len(response.text)):
                     if response.text[j] == '"':
-                        # flash('Found another "')
-                        # flash(f'Substring    {response.text[i + 10: i + 20]}')
+
                         if response.text[i + 1: i + 3] == "tt":  # if the susbtring is an id
                             id = response.text[i + 1: j]  # get the movie id
                             foundID = True
-                            # flash(f'ID: {id}')
-                            # print("hello--------------")
-                            # print(response.text[27 : 35])
-                            # # print(response.text[34])
-                            # print(response.text[38])
-                            #
 
                         if response.text[i + 1: i + 9] == "imageUrl":  # if the susbtring is an id
 
@@ -569,11 +521,8 @@ def viewMovieDetails():
                                     break
                         break
 
-
-
         # now that we have the ID given by the IMDB database, we can query again for movie details
         # this id can be used for querying in general
-
         url = "https://imdb8.p.rapidapi.com/title/get-overview-details"
 
         querystring = {"tconst": id, "currentCountry": "GB"}
@@ -584,8 +533,6 @@ def viewMovieDetails():
         }
 
         response = requests.request("GET", url, headers=headers, params=querystring)
-
-        # flash(f'Response: {response.text}')
 
         foundTitle = False
         foundRunningTime = False
@@ -600,8 +547,6 @@ def viewMovieDetails():
                 for j in range(i + 1, len(response.text)):
                     if response.text[j] == '"':
                         field = response.text[i + 1: j]
-
-
 
                         if field == "title" and not foundTitle:  # the returned string has multiple fields called title
                             if response.text[j + 1] == ':' and response.text[j + 2] == '"':
@@ -663,6 +608,5 @@ def viewMovieDetails():
                                     foundGenres = True
                                     flash(f'Found genres: {genres}')
                                     break
-
 
     return render_template('cinema/viewMovieDetails.html', form=form, data=data)
