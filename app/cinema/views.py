@@ -19,13 +19,21 @@ def movie():
     movie = Movies.query.join(Screening, (Movies.id == Screening.movie_id)).all()
     return movie
 
-#route for home
+#route for movies
 @app.route('/movies')
 def movies():
 
     movies = Movies.query.all()
 
     return render_template('cinema/movies.html', movies=movies)
+
+#route for screens
+@app.route('/screen')
+def screens():
+
+    screens = Screening.query.all()
+
+    return render_template('cinema/screen.html', screens=screens)
 
 #route for adding screen
 @app.route('/addscreen', methods=['GET','POST'])
@@ -50,9 +58,56 @@ def addscreen():
         db.session.add(addscreen)
         flash(f'The Screen was added in database','success')
         db.session.commit()
-        return redirect(url_for('admin'))
+        return redirect(url_for('screens'))
     return render_template('cinema/addscreen.html', form=form, title='Add a Product' ,movies=movies)
 
+# route for updating ticket
+@app.route('/updatescreen/<int:id>', methods=['GET', 'POST'])
+def updatescreen(id):
+    if 'email' not in session:
+        flash(f'Please login first', 'danger')
+        return redirect(url_for('login'))
+
+    form = Screen(request.form)
+    screen = Screening.query.get_or_404(id)
+    screens = Screening.query.all()
+    movies = Movies.query.all()
+    movie = request.form.get('movie')
+    if request.method == "POST":
+        screen.startTime = form.startTime.data
+        screen.endTime = form.endTime.data
+        screen.date = form.date.data
+        screen.theatre = form.theatre.data
+        screen.seats = form.seats.data
+        screen.movie_id = movie
+
+        flash('The screen was updated', 'success')
+        db.session.commit()
+        return redirect(url_for('screens'))
+    form.startTime.data = screen.startTime
+    form.endTime.data = screen.endTime
+    form.date.data = screen.date
+    form.theatre.data = screen.theatre
+    form.seats.data = screen.seats
+    movie=screen.movie.title
+
+    return render_template('cinema/addscreen.html',form=form, title='Update Ticket', getscreen=screen)
+
+# route for deleting ticket
+@app.route('/deletescreen/<int:id>', methods=['POST'])
+def deletescreen(id):
+    if 'email' not in session:
+        flash(f'Please login first', 'danger')
+        return redirect(url_for('login'))
+
+    screen = Screening.query.get_or_404(id)
+    if request.method == "POST":
+        db.session.delete(screen)
+        db.session.commit()
+        flash(f'The ticket {screen.id} was delete from your record', 'success')
+        return redirect(url_for('screens'))
+    flash(f'Can not delete the screen', 'success')
+    return redirect(url_for('screens'))
 
 
 #route for result of finding a ticket by using search word
@@ -254,7 +309,7 @@ def updatemovie(id):
         movie.certificate = form.certificate.data
         movie.ratingReason = form.ratingReason.data
         movie.releaseDate = form.releaseDate.data
-        flash('The ticket was updated', 'success')
+        flash('The movie was updated', 'success')
         db.session.commit()
         return redirect(url_for('movies'))
     form.title.data = movie.title
@@ -279,7 +334,7 @@ def deletemovie(id):
     if request.method == "POST":
         db.session.delete(movie)
         db.session.commit()
-        flash(f'The ticket {movie.title} was delete from your record', 'success')
+        flash(f'The movie {movie.title} was delete from your record', 'success')
         return redirect(url_for('movies'))
     flash(f'Can not delete the movie', 'success')
     return redirect(url_for('admin'))

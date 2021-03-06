@@ -28,7 +28,7 @@
                 <a class="dropdown-item" href="{{url_for('addscreen')}}">Add screen</a>
                 <a class="dropdown-item" href="{{url_for('screens')}}">View screen</a>
               </div>
-           </li>
+            </li>
 
           </ul>
         </div>
@@ -42,44 +42,49 @@
     <table class="table tbale-sm">
         <thead>
             <th>Sr</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Discount</th>
-
+            <th>id</th>
+            <th>Start Time</th>
+            <th>Seats</th>
+            <th>Movie id</th>
+            <th>Movie title</th>
+            <th>Movie image</th>
             <th>Edit</th>
             <th>Delete</th>
         </thead>
         <tbody>
-          {% for ticket in tickets %}
+          {% for screen in screens %}
           <tr>
             <td>{{loop.index}}</td>
 
-            <td>{{ ticket.title }}</td>
-            <td>{{ ticket.price }}</td>
-            <td>{{ ticket.discount }}</td>
+            <td>{{ screen.id }}</td>
+            <td>{{ screen.startTime }}</td>
+            <td>{{ screen.seats }}</td>
+            <td>{{ screen.movie_id }}</td>
+            <td>{{ screen.movie.title }}</td>
+            <td><img width="40px"  src="{{screen.movie.image}}"></td>
 
-            <td> <a href="{{url_for('updateticket', id=ticket.id)}}" class="btn btn-sm btn-info">Edit </a> </td>
-            <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{ticket.id}}">
+          <td> <a href="{{url_for('updatescreen', id=screen.id)}}" class="btn btn-sm btn-info">Edit </a> </td>
+            <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{screen.id}}">
               Delete
             </button></td>
           </tr>
 
  <!--============= MODEL ===================-->
-        <div class="modal fade" id="exampleModal-{{ticket.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal-{{screen.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ticket.title }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{screen.id }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <p class="text-danger">Are you Sure that you want to delete this movie ({{ ticket.title }})</p>
+                <p class="text-danger">Are you Sure that you want to delete this screen ({{ screen.id }})</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="{{url_for('deleteticket',id=ticket.id)}}" method="post">
+                <form action="{{url_for('deletescreen',id=screen.id)}}" method="post">
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
 
@@ -89,6 +94,8 @@
           </div>
         </div>
 <!--==============MODEL ===================-->
+
+
 
           {% endfor %}
         </tbody>

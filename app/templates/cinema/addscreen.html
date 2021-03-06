@@ -21,6 +21,8 @@
                 <a class="dropdown-item" href="{{url_for('addticket')}}">Add ticket</a>
                 <a class="dropdown-item" href="{{url_for('addmovie')}}">Add movie</a>
                 <a class="dropdown-item" href="{{url_for('movies')}}">View movies</a>
+                <a class="dropdown-item" href="{{url_for('addscreen')}}">Add screen</a>
+                <a class="dropdown-item" href="{{url_for('screens')}}">View screen</a>
               </div>
             </li>
           </ul>
@@ -52,10 +54,10 @@
 
                     <label for="movie">Add a Movie</label>
                     <select name="movie" id="movie" class="form-control" required>
-                    {% if getproduct %}
-                      <option value="{{getproduct.category_id}}" style="display: none;">{{getproduct.category.name}}</option>
-                      {% for category in categories %}
-                      <option value="{{category.id}}">{{category.name}}</option>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
                       {% endfor %}
                      {% else %}
                      <option value=""> Select A Movie</option>
