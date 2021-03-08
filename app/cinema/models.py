@@ -16,6 +16,7 @@ class Movies(db.Model):
     ratingReason = db.Column(db.Text, nullable=False)
     # director = db.Column(db.Text, nullable=False)
     # actors = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Numeric(10, 2), nullable=False)
 
 
     image = db.Column(db.String(150), nullable=False, default='image.jpg')
@@ -43,29 +44,17 @@ class Screening(db.Model):
         return '<Screening %r>' % self.id
 
 # create the ticket database table
-class Addticket(db.Model):
-    __seachable__ = ['title', 'genres']
+class Ticket(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
     discount = db.Column(db.Integer, default=0)
-    stock = db.Column(db.Integer, nullable=False)
-    time = db.Column(db.Text, nullable=False)
-    date = db.Column(db.Text, nullable=False)
-    plot = db.Column(db.Text, nullable=False)
-    genres = db.Column(db.Text, nullable=False)
-    certificate = db.Column(db.Text, nullable=False)
-    ratingReason = db.Column(db.Text, nullable=False)
-
-    #seatNo = db.Column(db.Integer, nullable=False)
-
-    #image = db.Column(db.String(150), nullable=False, default='image.jpg')
-
-    #may want to make mutiple catgeries
-    #may have to change this
-
+    seatNo = db.Column(db.Integer, nullable=False)
+    taken = db.Column(db.Boolean, default=False)
+    screen_id = db.Column(db.Integer, db.ForeignKey('screening.id'), nullable=False)
+    screen = db.relationship('Screening', backref=db.backref('screen', lazy=True))
 
     def __repr__(self):
-        return '<Post %r>' % self.title
+        return '<Post %r>' % self.id
 
 db.create_all()

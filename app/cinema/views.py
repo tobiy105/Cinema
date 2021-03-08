@@ -1,7 +1,7 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app
 from app import app,db,photos, search
-from .models import Addticket, Movies, Screening
-from .forms import Addtickets, SearchMovieForm, Movie, Screen
+from .models import Ticket, Movies, Screening
+from .forms import Tickets, SearchMovieForm, Movie, Screen, TSF
 import requests
 import secrets
 import os
@@ -9,15 +9,22 @@ import os
 #route for home
 @app.route('/')
 def home():
-    page = request.args.get('page', 1, type=int)
-    tickets = Addticket.query.filter(Addticket.stock > 0).order_by(Addticket.id.desc()).paginate()
 
-    return render_template('cinema/index.html', tickets=tickets)
-#
+    movies = Movies.query.all()
+
+    return render_template('cinema/index.html', movies=movies)
+
+
+
 #query search for movie
 def movie():
     movie = Movies.query.join(Screening, (Movies.id == Screening.movie_id)).all()
     return movie
+
+#query search for screen
+def screen():
+    screen = Screening.query.join(Ticket, (Screening.id == Ticket.screen_id)).all()
+    return screen
 
 #route for movies
 @app.route('/movies')
@@ -114,14 +121,84 @@ def deletescreen(id):
 @app.route('/result')
 def result():
     searchword = request.args.get('q')
-    tickets = Addticket.query.msearch(searchword, fields=['title','genres','price'] , limit=10)
+    tickets = Ticket.query.msearch(searchword, fields=['title','genres','price'] , limit=10)
     return render_template('cinema/result.html',tickets=tickets)
 
 #route for displaying a tickets found from word search
 @app.route('/ticket/<int:id>')
 def single_page(id):
-    ticket = Addticket.query.get_or_404(id)
-    return render_template('cinema/single_page.html',ticket=ticket)
+    movie = Movies.query.get_or_404(id)
+    screens = Screening.query.all()
+    session['movie'] = id
+
+    return render_template('cinema/single_page.html',movie=movie, screens=screens)
+
+
+#route for displaying a tickets found from word search
+@app.route('/seats/<int:id>')
+def seats_page(id):
+    screen = Screening.query.get_or_404(id)
+    tickets = Ticket.query.all()
+    session['screen'] = id
+
+    return render_template('cinema/seats.html',screen=screen, tickets=tickets)
+
+#route to allow customers to select what type of ticket they want and the amount of tickets they want.
+@app.route('/customer/ticket/<int:id>', methods=['GET','POST'])
+def ticketSelection(id):
+    movieID = session['movie']
+    screenID = session['screen']
+    movie = Movies.query.get_or_404(movieID)
+    screen = Screening.query.get_or_404(screenID)
+    session['seatNo'] = id
+    form = TSF()
+
+    price = float(movie.price)
+
+    childPrice = round(price * 0.80,2)
+    teenPrice = round(price * 0.90,2)
+    adultPrice = round(price * 1.00,2)
+    elderlyPrice = round(price * 0.80,2)
+
+    #Assuming we are using sessions to carry over the specific movie the customer wants to this route (remove if we are not)
+    if 'movie' in session:
+
+
+        if request.method == 'POST':
+
+            if request.form.get('Confirm'):
+
+                if form.child.data == 0 and form.teen.data == 0 and form.adult.data == 0 and form.elderly.data == 0:
+
+                    flash('No tickets have been selected. Please select the tickets you would like for the movie.')
+                    return redirect('/customer/ticket')
+                if form.child.data != 0:
+                    childTicket = form.child.data
+                else:
+                    childTicket = 0
+                if form.teen.data != 0:
+                    teenTicket = form.teen.data
+                else:
+                    teenTicket = 0
+                if form.adult.data != 0:
+                    adultTicket = form.adult.data
+                else:
+                    adultTicket = 0
+                if form.elderly.data != 0:
+                    elderlyTicket = form.elderly.data
+                else:
+                    elderlyTicket = 0
+                session['ticketChosen'] = {{movie},{childTicket},{teenTicket},{adultTicket},{elderlyTicket}}
+                flash('The tickets have been added to your basket. Proceed to payment when ready.')
+                return redirect('/')
+    return render_template('cinema/tickets.html',
+        childPrice = childPrice,
+        teenPrice = teenPrice,
+        adultPrice = adultPrice,
+        elderlyPrice = elderlyPrice,
+        form = form,
+        title='Ticket Selection')
+
 
 
 #route for adding movies
@@ -283,8 +360,9 @@ def addmovie():
         certificate = form.certificate.data
         ratingReason = form.ratingReason.data
         image = form.image.data
+        price = form.price.data
         newMovie = Movies(title=title,duration=duration,releaseDate=releaseDate,
-                              plot=plot,genres=genres,certificate=certificate,ratingReason=ratingReason, image=image)
+                              plot=plot,genres=genres,certificate=certificate,ratingReason=ratingReason,price=price,image=image)
         db.session.add(newMovie)
         flash(f'The ticket {title} was added in database','success')
         db.session.commit()
@@ -309,6 +387,7 @@ def updatemovie(id):
         movie.certificate = form.certificate.data
         movie.ratingReason = form.ratingReason.data
         movie.releaseDate = form.releaseDate.data
+        movie.price = form.price.data
         flash('The movie was updated', 'success')
         db.session.commit()
         return redirect(url_for('movies'))
@@ -319,6 +398,7 @@ def updatemovie(id):
     form.genres.data = movie.genres
     form.certificate.data = movie.certificate
     form.ratingReason.data = movie.ratingReason
+    form.price.data = movie.price
     form.image.data = movie.image
     form1 = form
     return render_template('cinema/addmovie.html', form1=form1, form=form, title='Update Ticket', getmovie=movie)
@@ -340,145 +420,48 @@ def deletemovie(id):
     return redirect(url_for('admin'))
 
 #route for adding tickets
-@app.route('/addticket', methods=['GET','POST'])
-def addticket():
+@app.route('/addticket/<int:id>', methods=['GET','POST'])
+def addticket(id):
     if 'email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
-    form = Addtickets(request.form)
+    form = Tickets(request.form)
+    screenings = Screening.query.all()
+    movieID = session['movie']
+    screenID = session['screen']
+    movie = Movies.query.get_or_404(movieID)
+    screen = Screening.query.get_or_404(screenID)
+    seatNo = session['seatNo']
+    _price = float(movie.price)
 
-    response = None
-    url = "https://imdb8.p.rapidapi.com/title/auto-complete"
-    headers = {
-        'x-rapidapi-key': "356f657f36msh048f021d349390fp17271fjsne23da7801c20",
-        'x-rapidapi-host': "imdb8.p.rapidapi.com"
-    }
 
-    form1 = SearchMovieForm(request.form)
-    if request.method == 'POST' and form1.validate():
-        title = form1.title.data
-        querystring = {"q": title}
-        response = requests.request("GET", url, headers=headers, params=querystring)
-        # to query details need to extract value from the id field, starting "tt" eg: "tt944947"
-        foundID = False
+    if id == 1:
+        discount = 20
+        _price = round(_price * 0.80, 2)
+    elif id == 2:
+        discount = 10
+        _price = round(_price * 0.90, 2)
+    elif id == 3:
+        discount = 0
+        _price = round(_price * 1.00, 2)
+    elif id == 4:
+        discount = 20
+        _price = round(_price * 0.80, 2)
 
-        for i in range(0, len(response.text)):
-            if foundID:
-                break
-            if response.text[i] == '"':
-                for j in range(i + 1, len(response.text)):
-                    if response.text[j] == '"':
-                        if response.text[i + 1: i + 3] == "tt":  # if the susbtring is an id
-                            id = response.text[i + 1: j]  # get the movie id
-                            foundID = True
-                        break
+    if request.method == "POST":
 
-        # now that we have the ID given by the IMDB database, we can query again for movie details
-        # this id can be used for querying in general
-        url = "https://imdb8.p.rapidapi.com/title/get-overview-details"
+        price = movie.price
+        discount =discount
+        seatNo = seatNo
+        screen_id = screenID
+        newticket = Ticket(price=price,discount=discount,seatNo=seatNo,screen_id=screen_id)
 
-        querystring = {"tconst": id, "currentCountry": "GB"}
-
-        headers = {
-            'x-rapidapi-key': "356f657f36msh048f021d349390fp17271fjsne23da7801c20",
-            'x-rapidapi-host': "imdb8.p.rapidapi.com"
-        }
-
-        response = requests.request("GET", url, headers=headers, params=querystring)
-
-        foundTitle = False
-        foundRunningTime = False
-        foundPlot = False
-        foundCertificates = False
-        foundYear = False
-        foundRatingReason = False
-        foundGenres = False
-
-        for i in range(0, len(response.text)):
-            if response.text[i] == '"':
-                for j in range(i + 1, len(response.text)):
-                    if response.text[j] == '"':
-                        field = response.text[i + 1: j]
-
-                        if field == "title" and not foundTitle:  # the returned string has multiple fields called title
-                            if response.text[j + 1] == ':' and response.text[j + 2] == '"':
-                                for k in range(j + 3, len(response.text)):
-                                    if response.text[k] == '"':  # end of title field value
-                                        title = response.text[j + 3: k]
-                                        foundTitle = True
-                                        form.title.data=title
-                                        break
-                        elif field == "runningTimeInMinutes" and not foundRunningTime:
-                            for k in range(j + 3, len(response.text)):
-                                if response.text[k] == ',':  # end of running time field
-                                    runningTime = response.text[j + 2: k]
-                                    foundRunningTime = True
-                                    form.time.data = runningTime
-                                    break
-
-                        elif field == "year" and not foundYear:
-                            for k in range(j + 3, len(response.text)):
-                                if response.text[k] == '}':  # end of running time field
-                                    year = response.text[j + 2: k]
-                                    foundYear = True
-                                    form.date.data = year
-                                    break
-
-                        elif field == "plotSummary" and not foundPlot:
-                            for k in range(j + 1, len(response.text)):
-                                if response.text[k: k + 4] == "text":
-                                    for x in range(k + 7, len(response.text)):
-                                        if (response.text[x] == '"'):
-                                            plotSummary = response.text[k + 7: x]
-                                            foundPlot = True
-                                            form.plot.data = plotSummary
-                                            break
-                                    break
-
-                        elif field == "certificate" and not foundCertificates:
-                            for k in range(j + 3, len(response.text)):
-                                if response.text[k] == '"':
-                                    certificate = response.text[j + 3: k]
-                                    foundCertificates = True
-                                    form.certificate.data = certificate
-                                    break
-
-                        elif field == "ratingReason" and not foundRatingReason:
-                            for k in range(j + 3, len(response.text)):
-                                if response.text[k] == '"':
-                                    ratingReason = response.text[j + 3: k]
-                                    foundRatingReason = True
-                                    form.ratingReason.data = ratingReason
-                                    break
-
-                        elif field == "genres" and not foundGenres:
-                            for k in range(j + 5, len(response.text)):
-                                if response.text[k] == ']':
-                                    genres = response.text[j + 4: k]
-                                    genres = genres.replace('"', '')
-                                    genres = genres.replace(',', ', ')
-                                    foundGenres = True
-                                    form.genres.data = genres
-                                    break
-
-    if request.method=="POST" and form.validate():
-        title = form.title.data
-        price = form.price.data
-        discount = form.discount.data
-        stock = form.stock.data
-        time = form.time.data
-        date = form.date.data
-        plot = form.plot.data
-        genres = form.genres.data
-        certificate = form.certificate.data
-        ratingReason = form.ratingReason.data
-        newticket = Addticket(title=title,price=price,discount=discount,stock=stock,time=time,date=date,
-                              plot=plot,genres=genres,certificate=certificate,ratingReason=ratingReason)
         db.session.add(newticket)
-        flash(f'The ticket {title} was added in database','success')
+        session['ticket_id'] = newticket.id
+        flash(f'The ticket with seat number {seatNo} was added in database','success')
         db.session.commit()
-        return redirect(url_for('admin'))
-    return render_template('cinema/addticket.html',form1=form1, form=form, title='Add a Ticket')
+        return redirect(url_for('addticket',id=id))
+    return render_template('cinema/addticket.html',title='Add a Ticket',movie=movie,screen=screen,seatNo=seatNo, _price=_price)
 
 #route for updating ticket
 @app.route('/updateticket/<int:id>', methods=['GET','POST'])
@@ -487,8 +470,8 @@ def updateticket(id):
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
-    form = Addtickets(request.form)
-    ticket = Addticket.query.get_or_404(id)
+    form = Tickets(request.form)
+    ticket = Ticket.query.get_or_404(id)
 
     if request.method =="POST" :
         ticket.title = form.title.data
@@ -523,7 +506,7 @@ def deleteticket(id):
     if 'email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
-    ticket = Addticket.query.get_or_404(id)
+    ticket = Ticket.query.get_or_404(id)
     if request.method =="POST":
         db.session.delete(ticket)
         db.session.commit()

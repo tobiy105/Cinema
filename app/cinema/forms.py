@@ -1,5 +1,6 @@
 from wtforms import Form, SubmitField,IntegerField,FloatField,StringField,TextAreaField,validators ,ValidationError,DateField,DateTimeField, TimeField
 from flask_wtf.file import FileField,FileRequired,FileAllowed
+from flask_wtf import FlaskForm
 from .models import Movies, Screening
 from _datetime import datetime
 from datetime import datetime
@@ -13,10 +14,9 @@ class Movie(Form):
     genres = TextAreaField('Genres', [validators.DataRequired()])
     certificate = TextAreaField('Certificate', [validators.DataRequired()])
     ratingReason = TextAreaField('Rating Reason', [validators.DataRequired()])
+    price = FloatField('Price', [validators.DataRequired()])
 
     image = StringField('Image', [validators.DataRequired()])
-
-    confirm = TextAreaField('Are you happy with movie details (Yes/No)', [validators.DataRequired()])
 
     def validate_title(self, title):
         if Movies.query.filter_by(title=title.data).first():
@@ -31,30 +31,26 @@ class Screen(Form):
     seats = IntegerField('Seats', [validators.DataRequired()])
 
 
+#creating the TSF (ticket selection form) class
+class TSF(FlaskForm):
+    child = IntegerField('child')
+    teen = IntegerField('teen')
+    adult = IntegerField('adult')
+    elderly = IntegerField('elderly')
+
+
 
 #creating the ticket form class
-class Addtickets(Form):
-    title = StringField('Title', [validators.DataRequired()])
+class Tickets(Form):
+
     price = FloatField('Price', [validators.DataRequired()])
     discount = IntegerField('Discount', default=0)
-    stock = IntegerField('Stock', [validators.DataRequired()])
-    time = TextAreaField('Running Time', [validators.DataRequired()])
-    date = TextAreaField('Date', [validators.DataRequired()])
-    plot = TextAreaField('Plot', [validators.DataRequired()])
-    genres = TextAreaField('Genres', [validators.DataRequired()])
-    certificate = TextAreaField('Certificate', [validators.DataRequired()])
-    ratingReason = TextAreaField('Rating Reason', [validators.DataRequired()])
+    seatNo = IntegerField('Seat Number', [validators.DataRequired()])
 
-    #image = FileField('Image', validators=[FileRequired(), FileAllowed(['jpg','png','gif','jpeg']), 'Images only please'])
-
-    # seatNo = IntegerField('Seat Number', [validators.DataRequired()])
-    #
-    # # check for the seats is not already taken
-    # def validate_seats(self, seatNo):
-    #     if Screening.query.filter_by(seatNo=seatNo.data).first():
-    #         raise ValidationError("This seat is already taken!")
-
-
+    # check for the seats is not already taken
+    def validate_seats(self, seatNo):
+        if Screening.query.filter_by(seatNo=seatNo.data).first():
+            raise ValidationError("This seat is already taken!")
 
 
 #creating a form for movie search

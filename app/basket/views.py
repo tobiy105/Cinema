@@ -1,6 +1,6 @@
 from flask import render_template, session, request, redirect, url_for, flash, current_app
 from app import db, app
-from app.cinema.models import Addticket
+from app.cinema.models import Ticket
 
 import json
 
@@ -16,14 +16,13 @@ def MagerDicts(dict1, dict2):
 @app.route('/addbasket', methods=['POST'])
 def AddBasket():
     try:
-        ticket_id = request.form.get('ticket_id')
-        quantity = int(request.form.get('quantity'))
+        ticket_id = session['ticket_id']
+        ticket = Ticket.query.get_or_404(ticket_id)
 
-        ticket = Addticket.query.filter_by(id=ticket_id).first()
+        ticket = Ticket.query.filter_by(id=ticket_id).first()
 
         if request.method == "POST":
-            DictItems = {ticket_id: {'title': ticket.title, 'price': float(ticket.price), 'discount': ticket.discount,
-                                      'quantity': quantity, }}
+            DictItems = {ticket_id: {'title': ticket.title, 'price': float(ticket.price), 'discount': ticket.discount }}
             if 'ShoppingBasket' in session:
                 print(session['ShoppingBasket'])
                 if ticket_id in session['ShoppingBasket']:
@@ -31,6 +30,8 @@ def AddBasket():
                         if int(key) == int(ticket_id):
                             session.modified = True
                             item['quantity'] += 1
+                            ticket.taken = True
+                            flash(f'The ticket with seat number is now {ticket.taken} ', 'success')
                 else:
                     session['ShoppingBasket'] = MagerDicts(session['ShoppingBasket'], DictItems)
                     return redirect(request.referrer)

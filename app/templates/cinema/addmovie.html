@@ -18,7 +18,7 @@
                 Add tickets
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{{url_for('addticket')}}">Add ticket</a>
+
                 <a class="dropdown-item" href="{{url_for('addmovie')}}">Add movie</a>
                 <a class="dropdown-item" href="{{url_for('movies')}}">View movies</a>
                 <a class="dropdown-item" href="{{url_for('addscreen')}}">Add screen</a>
@@ -60,7 +60,7 @@
                     {{ render_field(form.certificate, class="form-control") }}
                     {{ render_field(form.ratingReason, class="form-control") }}
                     {{ render_field(form.image, class="form-control") }}
-                    {{ render_field(form.confirm, class="form-control") }}
+                    {{ render_field(form.price, class="form-control") }}
 
                     {% if data %}
                         <img width="100px"  src="{{data}}">

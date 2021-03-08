@@ -1,71 +1,41 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{url_for('admin')}}">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('admin')}}">Ticket <span class="sr-only">(current)</span></a>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Add tickets
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{{url_for('addticket')}}">Add ticket</a>
-                <a class="dropdown-item" href="{{url_for('addmovie')}}">Add movie</a>
-                <a class="dropdown-item" href="{{url_for('movies')}}">View movies</a>
-                <a class="dropdown-item" href="{{url_for('addscreen')}}">Add screen</a>
-                <a class="dropdown-item" href="{{url_for('screens')}}">View screen</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-</div>
-
-<!--==========END NAVBAR ==============-->
+{% include 'navbar.html' %}
 
 <div class="container">
     <div class="row">
         <div class="col-md-1"></div>
             <div class="col-md-10">
                 <div class="text-center bg-info p-2 h4">Add a ticket</div>
+                <form method="post" enctype="multipart/form-data">
                 {% from "_formhelpers.html" import render_field %}
-
-                <form method="post" name="ViewDetails">
-                    <p>
-                        {{ form1.title }}<br>
-                    </p>
-                    <p><input type="submit" value ="View Details"></p>
-                </form>
 
                 {% include '_messages.html' %}
 
-                <form method="post" enctype="multipart/form-data">
-                <div>
+                {% if movie %}
+                    <td>{{movie.title}}</td>
+                {% endif %}
+                {% if screen %}
+                    <td>{{screen.startTime}}</td>
+                    <td>{{screen.date}}</td>
+                    <td>{{screen.theatre}}</td>
+                {% endif %}
+                {% if seatNo %}
+                    <td>{{seatNo}}</td>
+                {% endif %}
+                {% if _price %}
+                    <td>£{{_price}}</td>
+                {% endif %}
 
-                    {{ render_field(form.title, class="form-control") }}
-                    {{ render_field(form.price, class="form-control") }}
-                    {{ render_field(form.discount, class="form-control") }}
-                    {{ render_field(form.stock, class="form-control") }}
-                    {{ render_field(form.time, class="form-control") }}
-                    {{ render_field(form.date, class="form-control") }}
-                    {{ render_field(form.plot, class="form-control") }}
-                    {{ render_field(form.genres, class="form-control") }}
-                    {{ render_field(form.certificate, class="form-control") }}
-                    {{ render_field(form.ratingReason, class="form-control") }}
-
-                </div>
-
-                <p><input type="submit" value="{% if getticket %}Update {% else %}Add{% endif %} ticket" class="btn-outline-info">
+                <p><input type="submit" value="{% if getticket %}Update {% else %}Add{% endif %} ticket" class="btn-outline-info"></p>
+                <a href="{{url_for('AddBasket')}}" class="btn btn-sm btn-primary">Pay</a>
                 </form>
+{#                <form action="{{url_for('AddBasket')}}" method="post">#}
+{#                      #}
+{#                      <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>#}
+{#                      <input type="hidden" name="quantity" value="1" min="1" max="20">#}
+{##}
+{#                  </form>#}
             </div>
       <div class="col-md-1"></div>
     </div>

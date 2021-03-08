@@ -1,6 +1,6 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
-from app.cinema.models import Addticket
+from app.cinema.models import Ticket
 from .forms import RegistrationForm, LoginForm
 from .models import User
 
@@ -14,7 +14,7 @@ def admin():
     user = User.query.filter_by(email=session['email']).first()
     user_id = user.id
 
-    tickets = Addticket.query.all()
+    tickets = Ticket.query.all()
 
 
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
