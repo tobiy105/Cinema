@@ -12,6 +12,8 @@ import stripe
 buplishable_key ='pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
 stripe.api_key ='sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
 
+
+
 #route for payment for the customer
 @app.route('/payment',methods=['POST'])
 @login_required
@@ -60,7 +62,7 @@ def customerLogin():
             flash('You are login now!', 'success')
 
             return redirect(url_for('home'))
-        flash('Incorrect email and password','danger')
+        flash('Incorrect email and password', 'danger')
         return redirect(url_for('customerLogin'))
             
     return render_template('customer/login.html', form=form)
@@ -177,10 +179,3 @@ def get_pdf(invoice):
                 grandTotal = float("%.2f" % (1.06 * subTotal))
 
     return request(url_for('orders'))
-
-
-
-
-
-
-

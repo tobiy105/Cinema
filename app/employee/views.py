@@ -1,7 +1,7 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app,make_response
 from flask_login import login_required, current_user, logout_user, login_user
 from app import app,db,photos, search,bcrypt,login_manager
-from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm
+from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm, PayWithCashForm
 from .models import Employee
 from app.cinema.models import Addticket
 
@@ -75,6 +75,11 @@ def updateemployee(id):
     form.password.data = updateemployee.password
 
     return render_template('employee/register.html', form=form, title='Update User', updateemployee=updateemployee)
+
+@app.route('/till', methods=['GET', 'POST'])
+def showTill():
+    form = PayWithCashForm()
+    return render_template('till/till.html', form=form)
 
 # #route for creating admin account
 # @app.route('/register', methods=['GET', 'POST'])
