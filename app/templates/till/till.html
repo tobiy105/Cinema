@@ -3,6 +3,15 @@
 {% include 'navbar.html' %}
     <h1>Pay with Cash</h1>
     <form action="" method="post" novalidate>
+        {% if flag == 1 %}
+        <p>
+            Error: Not enough money
+        </p>
+        {% elif flag == 2 %}
+        <p>
+            Error: Not enough change in till
+        </p>
+        {% endif %}
         <p>
             {{ form.n50.label }}<br>
             {{ form.n50(size=32) }}
