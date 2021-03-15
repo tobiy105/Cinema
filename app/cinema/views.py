@@ -37,6 +37,7 @@ def single_page(id):
     sendTicket = Message('Test', recipients = emailTo)
     sendTicket.body = "Test message via flask_mail"
     sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
+
     mail.send(sendTicket)
 
     return render_template('cinema/single_page.html',ticket=ticket)
