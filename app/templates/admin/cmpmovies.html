@@ -7,11 +7,39 @@
                 <div class="text-center bg-info p-2 h4">Compare Movies</div>
                 {% from "_formhelpers.html" import render_field %}
                 {% include '_messages.html' %}
-                <form method=post>
+                <form action="{{url_for('moviesales')}}" method="post">
                     {{form.csrf_token}}
                 <div>
-                    {{ render_field(form.movie1, class="form-control") }}
-                    {{ render_field(form.movie2, class="form-control") }}
+
+                    <label for="movie">First Movie</label>
+                    <select name="movie" id="movie" class="form-control" required>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
+                      {% endfor %}
+                     {% else %}
+                     <option value=""> Select A Movie</option>
+                     {% for movie in movies %}
+                     <option value="{{movie.id}}">{{movie.title}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
+
+                    <label for="movie">Second Movie</label>
+                    <select name="movie" id="movie" class="form-control" required>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
+                      {% endfor %}
+                     {% else %}
+                     <option value=""> Select A Movie</option>
+                     {% for movie in movies %}
+                     <option value="{{movie.id}}">{{movie.title}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
                 </div>
                 <p><input type="submit" value="Search" class="btn-info">
                 </form>

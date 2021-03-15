@@ -1,6 +1,6 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
-from app.cinema.models import Addticket
+from app.cinema.models import Addticket, Movies, Screening
 from .forms import RegistrationForm, LoginForm, CompareMovieForm, MovieSalesData
 from .models import User
 
@@ -78,18 +78,42 @@ def updateuser(id):
 #route for comparing movies
 @app.route('/cmpmovies',methods=['GET','POST'])
 def cmpmovies():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
     form = CompareMovieForm(request.form)
+    movies = Movies.query.all()
     if request.method == "POST":
         movie1 = form.movie1.data
         movie2 = form.movie2.data
 
-    return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',)
+    return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
 
+#route for movie sales
 @app.route('/moviesales',methods=['GET','POST'])
 def moviesales():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+
     form = MovieSalesData(request.form)
     if request.method == "POST":
         movie = form.movie.data
         week = form.date.data
 
     return render_template('admin/moviesales.html', form=form, title='Movie Sales Data')
+
+#this needs to be added to
+"""
+@app.route('/cmpmovies/results', methods=['GET','POST'])
+def cmpresults(id):
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+    movie = Movie.query.get_or_404(id)
+
+    join_query = session.query(Movies, Screening, Addticket).join(Movie,Movie.id == Screening.movie_id).join(Screening, Screening.id == Addticket.screen)
+"""
