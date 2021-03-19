@@ -10,7 +10,9 @@
               <a class="nav-link" href="/">Tickets <span class="sr-only">(current)</span></a>
             </li>
 
-             {% if current_user.is_authenticated %}
+             {% if 'customer_id' in session %}
+
+
 
              <li class="nav-item">
                <a href="{{url_for('customer_logout')}}" class="nav-link"> Logout</a>
@@ -18,7 +20,7 @@
 
 
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('updatecustomer', id=current_user.id)}}">Edit Profile</a>
+              <a class="nav-link" href="{{url_for('updatecustomer', id=session['customer_id'])}}">Edit Profile</a>
             </li>
 
 

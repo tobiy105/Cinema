@@ -14,7 +14,7 @@ stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjf
 
 # route for payment for the customer
 @app.route('/payment', methods=['POST'])
-@login_required
+
 def payment():
     invoice = request.form.get('invoice')
     amount = request.form.get('amount')
@@ -28,7 +28,7 @@ def payment():
         amount=amount,
         currency='gbp',
     )
-    orders = CustomerOrder.query.filter_by(customer_id=current_user.id, invoice=invoice).order_by(
+    orders = CustomerOrder.query.filter_by(customer_id=session['customer_id'], invoice=invoice).order_by(
         CustomerOrder.id.desc()).first()
     orders.status = 'Paid'
     db.session.commit()
@@ -59,6 +59,8 @@ def customerLogin():
     if form.validate_on_submit():
         user = Register.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
+
+            session['customer_id'] = user.id
             login_user(user)
             flash('You are login now!', 'success')
 
@@ -72,9 +74,9 @@ def customerLogin():
 # route for updating the customer account
 @app.route('/updatecustomer/<int:id>', methods=['GET', 'POST'])
 def updatecustomer(id):
-    if 'email' not in session:
+    if 'customer_id' not in session:
         flash('Login first please', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('customerLogin'))
 
     updatecustomer = Register.query.get_or_404(id)
     form = CustomerRegisterForm(request.form)
@@ -99,6 +101,7 @@ def updatecustomer(id):
 @app.route('/customer/logout')
 def customer_logout():
     logout_user()
+    del session['customer_id']
     return redirect(url_for('home'))
 
 
@@ -112,10 +115,10 @@ def updateshoppingbasket():
 
 # route for getting the order for the customer account
 @app.route('/getorder')
-@login_required
+
 def get_order():
-    if current_user.is_authenticated:
-        customer_id = current_user.id
+    if 'customer_id' in session:
+        customer_id = session['customer_id']
         invoice = secrets.token_hex(5)
         updateshoppingbasket
         try:
@@ -133,12 +136,12 @@ def get_order():
 
 # route for getting the order invoice for the customer account
 @app.route('/orders/<invoice>')
-@login_required
+
 def orders(invoice):
-    if current_user.is_authenticated:
+    if 'customer_id' in session:
         grandTotal = 0
         subTotal = 0
-        customer_id = current_user.id
+        customer_id = session['customer_id']
         customer = Register.query.filter_by(id=customer_id).first()
         orders = CustomerOrder.query.filter_by(customer_id=customer_id, invoice=invoice).order_by(
             CustomerOrder.id.desc()).first()
@@ -161,10 +164,11 @@ def orders(invoice):
 @app.route('/get_pdf/<invoice>', methods=['POST'])
 @login_required
 def get_pdf(invoice):
-    if current_user.is_authenticated:
+    if 'customer_id'  in session:
+
         grandTotal = 0
         subTotal = 0
-        customer_id = current_user.id
+        customer_id = session['customer_id']
         if request.method == "POST":
             customer = Register.query.filter_by(id=customer_id).first()
             orders = CustomerOrder.query.filter_by(customer_id=customer_id, invoice=invoice).order_by(
