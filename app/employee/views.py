@@ -13,7 +13,7 @@ def employee():
         return redirect(url_for('login'))
 
     page = request.args.get('page', 1, type=int)
-    tickets = Addticket.query.filter(Addticket.stock > 0).order_by(Addticket.id.desc()).paginate()
+    tickets = Ticket.query.filter(Ticket.stock > 0).order_by(Ticket.id.desc()).paginate()
 
     return render_template('employee/index.html', title='Admin Page', tickets=tickets)
 
@@ -40,7 +40,7 @@ def employeeLogin():
     if request.method == "POST" and form.validate():
         user = Employee.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user)
+            session['employee_email'] = form.email.data
             flash('You are login now!', 'success')
             next = request.args.get('next')
             return redirect(next or url_for('employee'))

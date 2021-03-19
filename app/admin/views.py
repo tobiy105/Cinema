@@ -42,6 +42,7 @@ def login():
         user = User.query.filter_by(email = form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             session['email'] = form.email.data
+
             flash(f'Welcome {form.email.data} You are logged in now', 'success')
             return redirect(request.args.get('next') or url_for('admin'))
         else:

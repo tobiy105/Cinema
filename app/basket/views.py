@@ -15,23 +15,24 @@ def MagerDicts(dict1, dict2):
 # route for adding tickets to the Basket
 @app.route('/addbasket', methods=['POST'])
 def AddBasket():
+
     try:
-        ticket_id = session['ticket_id']
-        ticket = Ticket.query.get_or_404(ticket_id)
+        ticket_id = request.form.get('ticket_id')
+        quantity = int(request.form.get('quantity'))
 
         ticket = Ticket.query.filter_by(id=ticket_id).first()
-
+        title = ticket.screen.movie.title
         if request.method == "POST":
-            DictItems = {ticket_id: {'title': ticket.title, 'price': float(ticket.price), 'discount': ticket.discount }}
+            DictItems = {ticket_id: {'title': title, 'price': float(ticket.price), 'discount': ticket.discount,
+                                      'quantity': quantity}}
             if 'ShoppingBasket' in session:
-                print(session['ShoppingBasket'])
+
                 if ticket_id in session['ShoppingBasket']:
                     for key, item in session['ShoppingBasket'].items():
                         if int(key) == int(ticket_id):
                             session.modified = True
+                            ticket.taken=True
                             item['quantity'] += 1
-                            ticket.taken = True
-                            flash(f'The ticket with seat number is now {ticket.taken} ', 'success')
                 else:
                     session['ShoppingBasket'] = MagerDicts(session['ShoppingBasket'], DictItems)
                     return redirect(request.referrer)

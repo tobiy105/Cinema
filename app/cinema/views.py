@@ -460,8 +460,15 @@ def addticket(id):
         session['ticket_id'] = newticket.id
         flash(f'The ticket with seat number {seatNo} was added in database','success')
         db.session.commit()
-        return redirect(url_for('addticket',id=id))
+        return redirect(url_for('corfirmticket',id=newticket.id))
     return render_template('cinema/addticket.html',title='Add a Ticket',movie=movie,screen=screen,seatNo=seatNo, _price=_price)
+
+#route for confirm ticket
+@app.route('/corfirmticket/<int:id>', methods=['GET','POST'])
+def corfirmticket(id):
+    ticket = Ticket.query.get_or_404(id)
+
+    return render_template('cinema/confirm.html',ticket=ticket)
 
 #route for updating ticket
 @app.route('/updateticket/<int:id>', methods=['GET','POST'])

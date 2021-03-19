@@ -7,35 +7,31 @@
         <div class="col-md-1"></div>
             <div class="col-md-10">
                 <div class="text-center bg-info p-2 h4">Add a ticket</div>
+
                 <form method="post" enctype="multipart/form-data">
-                {% from "_formhelpers.html" import render_field %}
+                    {% from "_formhelpers.html" import render_field %}
 
-                {% include '_messages.html' %}
+                    {% include '_messages.html' %}
 
-                {% if movie %}
-                    <td>{{movie.title}}</td>
-                {% endif %}
-                {% if screen %}
-                    <td>{{screen.startTime}}</td>
-                    <td>{{screen.date}}</td>
-                    <td>{{screen.theatre}}</td>
-                {% endif %}
-                {% if seatNo %}
-                    <td>{{seatNo}}</td>
-                {% endif %}
-                {% if _price %}
-                    <td>£{{_price}}</td>
-                {% endif %}
+                    {% if movie %}
+                        <td>{{movie.title}}</td>
+                    {% endif %}
+                    {% if screen %}
+                        <td>{{screen.startTime}}</td>
+                        <td>{{screen.date}}</td>
+                        <td>{{screen.theatre}}</td>
+                    {% endif %}
+                    {% if seatNo %}
+                        <td>{{seatNo}}</td>
+                    {% endif %}
+                    {% if _price %}
+                        <td>£{{_price}}</td>
+                    {% endif %}
 
-                <p><input type="submit" value="{% if getticket %}Update {% else %}Add{% endif %} ticket" class="btn-outline-info"></p>
-                <a href="{{url_for('AddBasket')}}" class="btn btn-sm btn-primary">Pay</a>
+                    <p><input type="submit" value="{% if getticket %}Update {% else %}Add{% endif %} ticket" class="btn-outline-info"></p>
+
                 </form>
-{#                <form action="{{url_for('AddBasket')}}" method="post">#}
-{#                      #}
-{#                      <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>#}
-{#                      <input type="hidden" name="quantity" value="1" min="1" max="20">#}
-{##}
-{#                  </form>#}
+
             </div>
       <div class="col-md-1"></div>
     </div>
