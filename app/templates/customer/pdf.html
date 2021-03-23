@@ -37,6 +37,7 @@
                     {% endif %}
                     {% set subtotal = product.quantity|int * product.price|float  %}
                     £{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}
+
                     <img src="{{ qrcode(invoice) }}">
                 </form>
                 </tr>

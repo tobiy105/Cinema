@@ -121,8 +121,8 @@ def deletescreen(id):
 @app.route('/result')
 def result():
     searchword = request.args.get('q')
-    tickets = Ticket.query.msearch(searchword, fields=['title','genres','price'] , limit=10)
-    return render_template('cinema/result.html',tickets=tickets)
+    movies = Movies.query.msearch(searchword, fields=['title','genres','price'] , limit=10)
+    return render_template('cinema/result.html',movies=movies)
 
 #route for displaying a tickets found from word search
 @app.route('/ticket/<int:id>')
@@ -140,10 +140,27 @@ def single_page(id):
 @app.route('/seats/<int:id>')
 def seats_page(id):
     screen = Screening.query.get_or_404(id)
-    tickets = Ticket.query.all()
+    tickets = Ticket.query.filter_by(screen_id=id)
     session['screen'] = id
+    arr = []
 
-    return render_template('cinema/seats.html',screen=screen, tickets=tickets)
+    for i in range(screen.seats):
+        arr.append(i)
+        for ticket in tickets:
+            if i == ticket.seatNo:
+                arr.remove(i)
+    print(arr)
+    # arr.pop
+    # max = len(arr)
+    # print(max)
+    # for ticket in tickets:
+    #     for j in range(max):
+    #         if ticket.seatNo == arr[j]:
+    #             arr.pop(j)
+    #
+    # print(arr)
+
+    return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
 
 #route to allow customers to select what type of ticket they want and the amount of tickets they want.
 @app.route('/customer/ticket/<int:id>', methods=['GET','POST'])

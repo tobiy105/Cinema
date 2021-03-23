@@ -28,10 +28,9 @@
                 <tr>
                     <td>{{loop.index}}</td>
                     <td>{{product.title}}</td>
+                    <td>Id: {{ product.id }}  </td>
                     <form action="{{url_for('updatebasket', code=key)}}" method="post">
-                    <td>
-                        {{product.color|capitalize}}
-                    </td>
+
                     <td>£{{"%.2f"|format(product.price)}}</td>
                     <td> {{product.quantity}} </td>
                     {% if product.discount  %}
@@ -41,6 +40,7 @@
                     {% endif %}
                     {% set subtotal = product.quantity|int * product.price|float  %}
                     <td>£{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}</td>
+
                 </form>
                 </tr>
                 {% endfor %}

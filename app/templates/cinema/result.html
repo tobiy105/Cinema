@@ -3,25 +3,18 @@
 {% include 'navbar.html' %}
 <div class="container">
     <div class="row">
-        {% for ticket in tickets %}
+        {% for movie in movies %}
       <div class="col-md-3 mt-4">
         <div class="card">
-
+            <img src="{{movie.image}}" class="card-img-top" alt="{{movie.title}}" width="200">
             <div class="card-body">
-                {% if ticket.discount > 0 %}
-                <h5 style="text-shadow: 1px 2px 2px #000; color: #f00; transform: rotate(-15deg); position: absolute; top: 23%; left: 25%; font-weight: 600;"> Discount {{ticket.discount}}</h5>
-                {% endif %}
-              <h5 class="text-center">{{ticket.title}}</h5>
-              <p class="text-center">Price £{{ticket.price}}</p>
+
+              <h5 class="text-center">{{movie.title}}</h5>
+              <p class="text-center">Price £{{movie.price}}</p>
             </div>
             <div class="card-footer">
-                <a href="{{url_for('single_page',id=ticket.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
-                <form action="{{url_for('AddBasket')}}" method="post">
-                  <input type="hidden" name="ticket_id" value="{{ticket.id}}">
-                  <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
-                  <input type="hidden" name="quantity" value="1" min="1" max="20">
-                  
-              </form>
+                <a href="{{url_for('single_page',id=movie.id)}}" class="float-md-none btn btn-sm btn-primary">Times & Tickets</a>
+
             </div>
         </div>
       </div>

@@ -9,9 +9,21 @@
     <div class="row">
 
         <div class="col-md-6">
-           {% for num in range(screen.seats) %}
-               <a href="{{url_for('ticketSelection',id=num)}}" class="btn btn-sm btn-primary">{{ num }}</a>
+           {% for i in range(screen.seats) %}
+               {% for j in arr%}
+                   {% if i == j%}
+                        <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary">{{ i }}</a>
+                   {% endif %}
+               {% endfor %}
+               {% for ticket in tickets %}
+                   {% if i == ticket.seatNo %}
+                       <button type="button" class="btn btn-danger btn-sm" >{{ i }}</button>
+                   {% endif %}
+
+               {% endfor %}
+
            {% endfor %}
+
         </div>
     </div>
 
