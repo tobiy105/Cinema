@@ -117,7 +117,6 @@ def updateshoppingbasket():
 
 # route for getting the order for the customer account
 @app.route('/getorder')
-
 def get_order():
     if 'customer_id' in session:
         customer_id = session['customer_id']
@@ -153,7 +152,7 @@ def orders(invoice):
             grandTotal = ("%.2f" % (1.00 * float(subTotal)))
 
         if orders.status =='Paid':
-            print("out")
+            #here is pdf is printed
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
                                              customer=customer, orders=orders)
