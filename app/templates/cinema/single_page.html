@@ -37,9 +37,13 @@
                     <p>Theatre: {{screen.theatre}}</p>
                     <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Seats</a>
                 {% endif %}
+
             {% endfor %}
         </div>
     </div>
+    {% if data %}
+    <img src="{{ qrcode(data) }}">
+    {% endif %}
 
 
 

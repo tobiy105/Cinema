@@ -5,7 +5,7 @@ from .forms import Tickets, SearchMovieForm, Movie, Screen, TSF
 import requests
 import secrets
 import os
-
+import qrcode
 #route for home
 @app.route('/')
 def home():
@@ -131,7 +131,9 @@ def single_page(id):
     screens = Screening.query.all()
     session['movie'] = id
 
-    return render_template('cinema/single_page.html',movie=movie, screens=screens)
+    data = "1234"
+
+    return render_template('cinema/single_page.html',movie=movie, screens=screens, data=data)
 
 
 #route for displaying a tickets found from word search

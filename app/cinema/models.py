@@ -38,7 +38,7 @@ class Screening(db.Model):
     theatre = db.Column(db.Text, nullable=False)
     seats = db.Column(db.Integer, nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'),nullable=False)
-    movie =  db.relationship('Movies',backref=db.backref('movie', lazy=True))
+    movie = db.relationship('Movies',backref=db.backref('movie', lazy=True))
 
     def __repr__(self):
         return '<Screening %r>' % self.id

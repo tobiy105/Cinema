@@ -24,7 +24,7 @@ def AddBasket():
         title = ticket.screen.movie.title
         if request.method == "POST":
             DictItems = {ticket_id: {'title': title, 'price': float(ticket.price), 'discount': ticket.discount,
-                                      'quantity': quantity}}
+                                      'quantity': quantity }}
             if 'ShoppingBasket' in session:
 
                 if ticket_id in session['ShoppingBasket']:

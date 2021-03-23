@@ -1,12 +1,14 @@
 from flask import render_template, session, request, redirect, url_for, flash, current_app, make_response
 from flask_login import login_required, current_user, logout_user, login_user
-from app import app, db, photos, search, bcrypt, login_manager
+from app import app, db, photos, search, bcrypt, login_manager, Message, mail
 from .forms import CustomerRegisterForm, CustomerLoginFrom
 from .models import Register, CustomerOrder
 
 import secrets
 
 import stripe
+import pdfkit
+
 
 buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
 stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
@@ -14,7 +16,6 @@ stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjf
 
 # route for payment for the customer
 @app.route('/payment', methods=['POST'])
-
 def payment():
     invoice = request.form.get('invoice')
     amount = request.form.get('amount')
@@ -113,6 +114,7 @@ def updateshoppingbasket():
     return updateshoppingbasket
 
 
+
 # route for getting the order for the customer account
 @app.route('/getorder')
 
@@ -133,12 +135,10 @@ def get_order():
             flash('Some thing went wrong while get order', 'danger')
             return redirect(url_for('getBasket'))
 
-
 # route for getting the order invoice for the customer account
 @app.route('/orders/<invoice>')
-
 def orders(invoice):
-    if 'customer_id' in session:
+    if 'customer_id'  in session:
         grandTotal = 0
         subTotal = 0
         customer_id = session['customer_id']
@@ -149,41 +149,28 @@ def orders(invoice):
             discount = (ticket['discount'] / 100) * float(ticket['price'])
             subTotal += float(ticket['price']) * int(ticket['quantity'])
             subTotal -= discount
-            tax = ("%.2f" % (.06 * float(subTotal)))
-            grandTotal = ("%.2f" % (1.06 * float(subTotal)))
+
+            grandTotal = ("%.2f" % (1.00 * float(subTotal)))
+
+        if orders.status =='Paid':
+            print("out")
+            ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
+                                             grandTotal=grandTotal,
+                                             customer=customer, orders=orders)
+            ticketPdf = pdfkit.from_string(ticketTemplate, False)
+            user = Register.query.filter_by(id=customer_id).first()
+            email = user.email
+            emailTo = [email]
+
+            sendTicket = Message('Test', recipients=emailTo)
+            sendTicket.body = "Test message via flask_mail"
+            sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
+            mail.send(sendTicket)
 
     else:
         return redirect(url_for('customerLogin'))
-    return render_template('customer/order.html', invoice=invoice, tax=tax, subTotal=subTotal, grandTotal=grandTotal,
+    return render_template('customer/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal,
                            customer=customer, orders=orders)
-
-
-# route for getting the order invoice for the customer account
-# Need to change it allow pdf to print off
-
-@app.route('/get_pdf/<invoice>', methods=['POST'])
-@login_required
-def get_pdf(invoice):
-    if 'customer_id'  in session:
-
-        grandTotal = 0
-        subTotal = 0
-        customer_id = session['customer_id']
-        if request.method == "POST":
-            customer = Register.query.filter_by(id=customer_id).first()
-            orders = CustomerOrder.query.filter_by(customer_id=customer_id, invoice=invoice).order_by(
-                CustomerOrder.id.desc()).first()
-            for _key, ticket in orders.orders.items():
-                discount = (ticket['discount'] / 100) * float(ticket['price'])
-                subTotal += float(ticket['price']) * int(ticket['quantity'])
-                subTotal -= discount
-                tax = ("%.2f" % (.06 * float(subTotal)))
-                grandTotal = float("%.2f" % (1.06 * subTotal))
-
-    return request(url_for('orders'))
-
-
-
 
 
 

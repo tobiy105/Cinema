@@ -24,21 +24,20 @@
                 {% for key, product in orders.orders.items() %}
                 {% set discount =(product.discount/100) * product.price|float %}
                 <tr>
-                    <td>{{loop.index}}</td>
-                    <td>{{product.name}}</td>
+                    {{loop.index}}
+                    {{product.name}}
                     <form action="{{url_for('updatebasket', code=key)}}" method="post">
-                    <td>
                         {{product.color|capitalize}}
-                    </td>
-                    <td>£{{"%.2f"|format(product.price)}}</td>
-                    <td> {{product.quantity}} </td>
+
+                    £{{"%.2f"|format(product.price)}}
+
                     {% if product.discount  %}
-                    <td>{{product.discount}} % &nbsp; &nbsp; is {{"%.2f"|format(discount)}}</td>
-                    {% else %}
-                    <td></td>
+                    {{product.discount}} % &nbsp; &nbsp; is {{"%.2f"|format(discount)}}
+
                     {% endif %}
                     {% set subtotal = product.quantity|int * product.price|float  %}
-                    <td>£{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}</td>
+                    £{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}
+                    <img src="{{ qrcode(invoice) }}">
                 </form>
                 </tr>
                 {% endfor %}
@@ -47,7 +46,7 @@
         <table class="table table-sm">
 
                <td width="42%"></td>
-               <td> <h5>Tax: £{{tax}}</h5></td>
+
                <td> <h5>Grand total: £{{grandTotal}}</h5> </td>
 
 

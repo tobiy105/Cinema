@@ -8,6 +8,8 @@ from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_cl
 from flask_msearch import Search
 from flask_login import LoginManager
 
+from flask_qrcode import QRcode
+
 from flask_mail import Mail, Message
 from pdfkit import pdfkit
 import os
@@ -48,6 +50,9 @@ app.config['MAIL_DEFAULT_SENDER'] = 'noreply.seproject2021@gmail.com'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
+
+#Enables QRCode functionality
+QRcode(app)
 
 
 from app.cinema import views
