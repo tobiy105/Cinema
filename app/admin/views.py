@@ -15,7 +15,8 @@ def admin():
     user_id = user.id
 
     tickets = Ticket.query.all()
-
+    for ticket in tickets:
+        ticket.screen.startTime
 
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
 

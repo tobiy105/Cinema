@@ -27,7 +27,7 @@
                     {{loop.index}}
                     {{product.name}}
                     <form action="{{url_for('updatebasket', code=key)}}" method="post">
-                        {{product.color|capitalize}}
+
 
                     £{{"%.2f"|format(product.price)}}
 
@@ -38,7 +38,7 @@
                     {% set subtotal = product.quantity|int * product.price|float  %}
                     £{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}
 
-                    <img src="{{ qrcode(invoice) }}">
+                    <img src="{{ qrcode( url) }}">
                 </form>
                 </tr>
                 {% endfor %}

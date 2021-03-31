@@ -25,29 +25,297 @@
             <hr>
         </div>
     </div>
-    <div class="row">
 
-        <div class="col-md-6">
-            {% for screen in screens %}
-                {% if screen.movie.title == movie.title %}
-                    <p>Date: {{screen.date}}</p>
-                    <hr>
-                    <p>Time: {{screen.startTime}}</p>
-                    <hr>
-                    <p>Theatre: {{screen.theatre}}</p>
-                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Seats</a>
-                {% endif %}
 
-            {% endfor %}
-        </div>
-    </div>
-    {% if data %}
-    <img src="{{ qrcode(data) }}">
-    {% endif %}
+
 
 
 
 </div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html, body {
+	margin: 0;
+	font-family: 'Karla';
+	color: #546E7A;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.timetable {
+	display: grid;
+	grid-template-areas: ". week" "time content";
+	grid-template-columns: 120px;
+	grid-template-rows: 60px;
+	width: 100vw;
+	height: 100vh;
+}
+
+.timetable .accent-pink-gradient {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #ee8ebc, #eea08e);
+	transition: .2s ease box-shadow, .2s ease transform;
+}
+
+.timetable .accent-pink-gradient:hover {
+	box-shadow: 0 20px 30px 0 rgba(238, 142, 188, 0.3);
+	transform: scale(1.05);
+}
+
+.timetable .accent-orange-gradient {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #eec08e, #dcee8e);
+	transition: .2s ease box-shadow, .2s ease transform;
+}
+
+.timetable .accent-orange-gradient:hover {
+	box-shadow: 0 20px 30px 0 rgba(238, 192, 142, 0.3);
+	transform: scale(1.05);
+}
+
+.timetable .accent-green-gradient {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #bcee8e, #8eeea0);
+	transition: .2s ease box-shadow, .2s ease transform;
+}
+
+.timetable .accent-green-gradient:hover {
+	box-shadow: 0 20px 30px 0 rgba(188, 238, 142, 0.3);
+	transform: scale(1.05);
+}
+
+.timetable .accent-cyan-gradient {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #8eeec0, #8edcee);
+	transition: .2s ease box-shadow, .2s ease transform;
+}
+
+.timetable .accent-cyan-gradient:hover {
+	box-shadow: 0 20px 30px 0 rgba(142, 238, 192, 0.3);
+	transform: scale(1.05);
+}
+
+.timetable .accent-blue-gradient {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #8ebcee, #a08eee);
+	transition: .2s ease box-shadow, .2s ease transform;
+}
+
+.timetable .accent-blue-gradient:hover {
+	box-shadow: 0 20px 30px 0 rgba(142, 188, 238, 0.3);
+	transform: scale(1.05);
+}
+
+.timetable .accent-purple-gradient {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #c08eee, #ee8edc);
+	transition: .2s ease box-shadow, .2s ease transform;
+}
+
+.timetable .accent-purple-gradient:hover {
+	box-shadow: 0 20px 30px 0 rgba(192, 142, 238, 0.3);
+	transform: scale(1.05);
+}
+
+.timetable .weekend {
+	background: #fbfbfc;
+	color: #87a1ad;
+}
+
+.timetable .week-names {
+	grid-area: week;
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+.timetable .week-names > div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	box-shadow: inset 1px 0 0 #ECEFF1;
+}
+
+.timetable .time-interval {
+	grid-area: time;
+	display: grid;
+	grid-template-rows: repeat(6, 1fr);
+	font-size: 14px;
+}
+
+.timetable .time-interval > div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	box-shadow: inset 0 1px 0 0 #ECEFF1;
+}
+
+.timetable .content {
+	grid-area: content;
+	display: grid;
+	grid-template-rows: repeat(6, 1fr);
+	grid-template-columns: repeat(7, 1fr);
+}
+
+.timetable .content > div {
+	box-shadow: inset 1px 0 0 #ECEFF1, inset 0 1px 0 0 #ECEFF1;
+}
+</style>
+</head>
+<body>
+
+<div class="timetable">
+  <div class="week-names">
+    <div>monday</div>
+    <div>tuesday</div>
+    <div>wednesday</div>
+    <div>thursday</div>
+    <div>friday</div>
+    <div>saturday</div>
+    <div>sunday</div>
+  </div>
+  <div class="time-interval">
+    <div>8:00 - 10:00</div>
+    <div>10:00 - 12:00</div>
+    <div>12:00 - 14:00</div>
+    <div>14:00 - 16:00</div>
+    <div>16:00 - 18:00</div>
+    <div>18:00 - 20:00</div>
+  </div>
+  <div class="content">
+    <div>
+
+    </div>
+    <div></div>
+    <div>
+
+    </div>
+    <div></div>
+      <div>
+
+    </div>
+    <div></div>
+    <div></div>
+
+    <div></div>
+    <div></div>
+    <div>
+
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <div>
+        <div>{% for screen in screens %}
+                {% if screen.id == 1 %}
+
+                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Seats</a>
+                {% endif %}
+
+            {% endfor %}
+         </div>
+    </div>
+    <div>
+        <div>{% for screen in screens %}
+                {% if screen.id == 2 %}
+
+                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Seats</a>
+                {% endif %}
+
+            {% endfor %}
+         </div>
+    </div>
+    <div>
+        <div>{% for screen in screens %}
+                {% if screen.id == 3 %}
+
+                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Seats</a>
+                {% endif %}
+
+            {% endfor %}
+         </div>
+    </div>
+    <div>
+        <div>{% for screen in screens %}
+                {% if screen.id == 4 %}
+
+                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Seats</a>
+                {% endif %}
+
+            {% endfor %}
+         </div>
+    </div>
+    <div>
+        <div>{% for screen in screens %}
+                {% if screen.id == 5 %}
+
+                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Seats</a>
+                {% endif %}
+
+            {% endfor %}
+         </div>
+    </div>
+    <div></div>
+    <div></div>
+
+    <div></div>
+    <div></div>
+    <div>
+
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <div></div>
+    <div></div>
+    <div>
+
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+
+</body>
+</html>
+
 
 
 {% endblock content %}
