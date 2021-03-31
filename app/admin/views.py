@@ -1,8 +1,11 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
 from app.cinema.models import Ticket, Movies, Screening
+from app.customers.models import CustomerOrder
 from .forms import RegistrationForm, LoginForm, CompareMovieForm, MovieSalesData
 from .models import User
+from datetime import date
+import json
 
 #Admin page
 @app.route('/admin')
@@ -84,12 +87,37 @@ def cmpmovies():
 
     form = CompareMovieForm(request.form)
     movies = Movies.query.all()
+    print(request.method)
+    movie1 = request.form.get('movie1')
+    movie2 = request.form.get('movie2')
+    date = date.today()
     if request.method == "POST":
-        movie1 = form.movie1.data
-        movie2 = form.movie2.data
+        print("BANANANANANANANANANANANA")
+        print(movie1)
+        return redirect(url_for('admin'))
 
+
+    print(movies)
     return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
 
+
+
+
+"""
+#this needs to be added to
+@app.route('/cmpmovies/results', methods=['GET','POST'])
+def cmpresults():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+    form = CompareMovieForm(request.form)
+    #movie = Movie.query.get_or_404(id)
+
+    #join_query = session.query(Movies, Screening, Addticket).join(Movie,Movie.id == Screening.movie_id).join(Screening, Screening.id == Addticket.screen)
+    
+    return render_template('admin/cmpresults', form=form, title=cmpresults())
+"""
 #route for movie sales
 @app.route('/moviesales',methods=['GET','POST'])
 def moviesales():
@@ -97,23 +125,11 @@ def moviesales():
         flash('Login first please','danger')
         return redirect(url_for('login'))
 
+    movies = Movies.query.all()
 
     form = MovieSalesData(request.form)
     if request.method == "POST":
         movie = form.movie.data
         week = form.date.data
 
-    return render_template('admin/moviesales.html', form=form, title='Movie Sales Data')
-
-#this needs to be added to
-"""
-@app.route('/cmpmovies/results', methods=['GET','POST'])
-def cmpresults(id):
-    if 'email' not in session:
-        flash('Login first please','danger')
-        return redirect(url_for('login'))
-
-    movie = Movie.query.get_or_404(id)
-
-    join_query = session.query(Movies, Screening, Addticket).join(Movie,Movie.id == Screening.movie_id).join(Screening, Screening.id == Addticket.screen)
-"""
+    return render_template('admin/moviesales.html', form=form, title='Movie Sales Data', movies=movies)

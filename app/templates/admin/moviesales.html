@@ -40,7 +40,20 @@
                 <form method=post>
                     {{form.csrf_token}}
                 <div>
-                    {{ render_field(form.movie, class="form-control") }}
+                    <label for="movie">Add a Movie</label>
+                    <select name="movie" id="movie" class="form-control" required>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
+                      {% endfor %}
+                     {% else %}
+                     <option value=""> Select A Movie</option>
+                     {% for movie in movies %}
+                     <option value="{{movie.id}}">{{movie.title}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
                     {{ render_field(form.date, class="form-control") }}
                 </div>
                 <p><input type="submit" value="Search by week" class="btn-info">
