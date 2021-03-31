@@ -1,7 +1,7 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app,make_response
 from flask_login import login_required, current_user, logout_user, login_user
 from app import app,db,photos, search,bcrypt,login_manager
-from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm
+from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm, PayWithCashForm
 from .models import Employee
 from app.cinema.models import Ticket, Movies, Screening
 

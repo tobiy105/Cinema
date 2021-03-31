@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'navbar.html' %}
+    <h1>Pay with Cash</h1>
+    <form action="" method="post" novalidate>
+        {% if flag == 1 %}
+        <p>
+            Error: Not enough money
+        </p>
+        {% elif flag == 2 %}
+        <p>
+            Error: Not enough change in till
+        </p>
+        {% endif %}
+        <p>
+            {{ form.n50.label }}<br>
+            {{ form.n50(size=32) }}
+        </p>
+        <p>
+            {{ form.n20.label }}<br>
+            {{ form.n20(size=32) }}
+        </p>
+        <p>
+            {{ form.n10.label }}<br>
+            {{ form.n10(size=32) }}
+        </p>
+        <p>
+            {{ form.n5.label }}<br>
+            {{ form.n5(size=32) }}
+        </p>
+        <p>
+            {{ form.c200.label }}<br>
+            {{ form.c200(size=32) }}
+        </p>
+        <p>
+            {{ form.c100.label }}<br>
+            {{ form.c100(size=32) }}
+        </p>
+        <p>
+            {{ form.c50.label }}<br>
+            {{ form.c50(size=32) }}
+        </p>
+        <p>
+            {{ form.c20.label }}<br>
+            {{ form.c20(size=32) }}
+        </p>
+        <p>
+            {{ form.c10.label }}<br>
+            {{ form.c10(size=32) }}
+        </p>
+        <p>
+            {{ form.c5.label }}<br>
+            {{ form.c5(size=32) }}
+        </p>
+        <p>
+            {{ form.c2.label }}<br>
+            {{ form.c2(size=32) }}
+        </p>
+        <p>
+            {{ form.c1.label }}<br>
+            {{ form.c1(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock content %}
