@@ -93,6 +93,10 @@ class Till:
                 return 0, toReturn
         return 2, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) #not enough change
 
+@app.route('/till/ticketSelect')
+def selectFilm():
+    return render_template('till/ticketSelect.html')
+
 
 @app.route('/till/<amount>', methods=['GET', 'POST'])
 def showTill(amount):
