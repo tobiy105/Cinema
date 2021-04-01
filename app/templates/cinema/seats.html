@@ -3,34 +3,335 @@
 {% include 'navbar.html' %}
 <!---============== END OF NAV BAR ==================-->
 
-<div class="container mt-5">
-
-
+<div class="container-fluid">
+    {% set seatPos = ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","C11","D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","D11","E1","E2","E3","E9","E10","E11"] %}
+    {% set first = ["A1","A2","A3"] %}
+    {% set second = ["A4","A5","A6","A7","A8"] %}
+    {% set third = ["A9","A10","A11"] %}
+    {% set forth = ["B1","B2","B3"] %}
+    {% set fifth = ["B4","B5","B6","B7","B8"] %}
+    {% set sixth = ["B9","B10","B11"] %}
+    {% set seventh = ["C1","C2","C3"] %}
+    {% set eigth = ["C4","C5","C6","C7","C8"] %}
+    {% set ninth = ["C9","C10","C11"] %}
+    {% set tenth = ["D1","D2","D3"] %}
+    {% set eleventh = ["D4","D5","D6","D7","D8"] %}
+    {% set twelth = ["D9","D10","D11"] %}
+    {% set thirteenth = ["E1","E2","E3"] %}
+    {% set forteenth = ["E9","E10","E11"] %}
+    <br>
+    <br>
+    <br>
     <div class="row">
-
-        <div class="col-md-6">
-           {% for i in range(screen.seats) %}
-               {% for j in arr%}
-                   {% if i == j%}
-                        <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary">{{ i }}</a>
-                   {% endif %}
-               {% endfor %}
-               {% for ticket in tickets %}
-                   {% if i == ticket.seatNo %}
-                       <button type="button" class="btn btn-danger btn-sm" >{{ i }}</button>
-                   {% endif %}
-
-               {% endfor %}
-
-           {% endfor %}
-
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in first %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in first %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in second %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in second %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in third %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in third %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
         </div>
     </div>
-
-
-
-
+    <br>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in forth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in forth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in fifth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-warning active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in fifth %}
+                            <button type="button" class="btn btn-sm btn-warning disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in sixth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in sixth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in seventh %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in seventh %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in eigth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in eigth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in ninth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in ninth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in tenth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in tenth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in eleventh %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in eleventh %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in twelth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in twelth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in thirteenth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in thirteenth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2" style="text-align: center;">
+            {% for i in range(screen.seats) %}
+                {% for j in arr%}
+                    {% set seat = seatPos[i] %}
+                    {% if seat in forteenth %}
+                        {% if i == j%}
+                            <a href="{{url_for('ticketSelection',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for ticket in tickets %}
+                    {% if i == ticket.seatNo %}
+                        {% set seat = seatPos[i] %}
+                        {% if seat in forteeenth %}
+                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-2" style="text-align: center;">
+            <p>
+                Screen
+            </p>
+        </div>
+    </div>
 </div>
-
-
 {% endblock content %}
