@@ -53,7 +53,7 @@ class Ticket(db.Model):
     taken = db.Column(db.Boolean, default=False)
     screen_id = db.Column(db.Integer, db.ForeignKey('screening.id'), nullable=False)
     screen = db.relationship('Screening', backref=db.backref('screen', lazy=True))
-
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     def __repr__(self):
         return '<Post %r>' % self.id
 

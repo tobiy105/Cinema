@@ -6,15 +6,12 @@ import requests
 import secrets
 import os
 import qrcode
+
 #route for home
 @app.route('/')
 def home():
-
     movies = Movies.query.all()
-
     return render_template('cinema/index.html', movies=movies)
-
-
 
 #query search for movie
 def movie():
@@ -37,9 +34,7 @@ def movies():
 #route for screens
 @app.route('/screen')
 def screens():
-
     screens = Screening.query.all()
-
     return render_template('cinema/screen.html', screens=screens)
 
 #route for adding screen
@@ -59,13 +54,12 @@ def addscreen():
         theatre = form.theatre.data
         seats = form.seats.data
         movie_id = request.form.get('movie')
-
-
         addscreen = Screening(startTime=startTime,endTime=endTime,date=date,theatre=theatre,seats=seats,movie_id=movie_id)
         db.session.add(addscreen)
         flash(f'The Screen was added in database','success')
         db.session.commit()
         return redirect(url_for('screens'))
+
     return render_template('cinema/addscreen.html', form=form, title='Add a Product' ,movies=movies)
 
 # route for updating ticket
