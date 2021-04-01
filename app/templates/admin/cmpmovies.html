@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="text-center bg-info p-2 h4">Compare Movies</div>
+                {% from "_formhelpers.html" import render_field %}
+                {% include '_messages.html' %}
+                <form action='cmpmovies' method="post">
+                    {{form.csrf_token}}
+                <div>
+
+                    <label for="movie">First Movie</label>
+                    <select name="movie1" id="movie1" class="form-control" required>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
+                      {% endfor %}
+                     {% else %}
+                     <option value=""> Select A Movie</option>
+                     {% for movie in movies %}
+                     <option value="{{movie.id}}">{{movie.title}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
+
+                    <label for="movie">Second Movie</label>
+                    <select name="movie2" id="movie2" class="form-control" required>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
+                      {% endfor %}
+                     {% else %}
+                     <option value=""> Select A Movie</option>
+                     {% for movie in movies %}
+                     <option value="{{movie.id}}">{{movie.title}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
+                </div>
+                <button type="submit" class="btn -info" >Search</button>
+                </form>
+            </div>
+      <div class="col-md-3"></div>
+    </div>
+</div>
+{% endblock content %}

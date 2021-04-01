@@ -1,0 +1,72 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+  <div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="text-center bg-info p-2 h4">Movie Sales Data</div>
+                {% from "_formhelpers.html" import render_field %}
+                {% include '_messages.html' %}
+                <form method=post>
+                    {{form.csrf_token}}
+                <div>
+                    <label for="movie">Add a Movie</label>
+                    <select name="movie" id="movie" class="form-control" required>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
+                      {% endfor %}
+                     {% else %}
+                     <option value=""> Select A Movie</option>
+                     {% for movie in movies %}
+                     <option value="{{movie.id}}">{{movie.title}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
+                    {{ render_field(form.date, class="form-control") }}
+                </div>
+                <p><input type="submit" value="Search by week" class="btn-info">
+                    <input type="submit" value="Search by Total" class="btn-info">
+                </form>
+            </div>
+      <div class="col-md-3"></div>
+    </div>
+
+</div>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
+
+
+{% endblock content %}

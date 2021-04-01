@@ -6,15 +6,12 @@ import requests
 import secrets
 import os
 import qrcode
+
 #route for home
 @app.route('/')
 def home():
-
     movies = Movies.query.all()
-
     return render_template('cinema/index.html', movies=movies)
-
-
 
 #query search for movie
 def movie():
@@ -37,9 +34,7 @@ def movies():
 #route for screens
 @app.route('/screen')
 def screens():
-
     screens = Screening.query.all()
-
     return render_template('cinema/screen.html', screens=screens)
 
 #route for adding screen
@@ -59,13 +54,12 @@ def addscreen():
         theatre = form.theatre.data
         seats = form.seats.data
         movie_id = request.form.get('movie')
-
-
         addscreen = Screening(startTime=startTime,endTime=endTime,date=date,theatre=theatre,seats=seats,movie_id=movie_id)
         db.session.add(addscreen)
         flash(f'The Screen was added in database','success')
         db.session.commit()
         return redirect(url_for('screens'))
+
     return render_template('cinema/addscreen.html', form=form, title='Add a Product' ,movies=movies)
 
 # route for updating ticket
@@ -121,7 +115,7 @@ def deletescreen(id):
 @app.route('/result')
 def result():
     searchword = request.args.get('q')
-    movies = Movies.query.msearch(searchword, fields=['title','genres','price'] , limit=10)
+    movies = Movies.query.msearch(searchword, fields=['title','genres'], limit=10)
     return render_template('cinema/result.html',movies=movies)
 
 #route for displaying a tickets found from word search
@@ -131,10 +125,22 @@ def single_page(id):
     screens = Screening.query.all()
     session['movie'] = id
 
-    data = "1234"
 
-    return render_template('cinema/single_page.html',movie=movie, screens=screens, data=data)
 
+    return render_template('cinema/single_page.html',movie=movie, screens=screens)
+
+#route for confirm ticket
+@app.route('/corfirmqrcode/', methods=['GET','POST'])
+def corfirmqrcode(id):
+    print(id)
+
+    ticket = "Ticket.query.get_or_404(id)"
+    taken = ticket.taken
+    paid = ""
+    if taken == True:
+        paid = "Paid for the ticket"
+
+    return render_template('employee/corfirmqrcode.html',ticket=ticket, taken=taken)
 
 #route for displaying a tickets found from word search
 @app.route('/seats/<int:id>')
@@ -149,16 +155,7 @@ def seats_page(id):
         for ticket in tickets:
             if i == ticket.seatNo:
                 arr.remove(i)
-    print(arr)
-    # arr.pop
-    # max = len(arr)
-    # print(max)
-    # for ticket in tickets:
-    #     for j in range(max):
-    #         if ticket.seatNo == arr[j]:
-    #             arr.pop(j)
-    #
-    # print(arr)
+
 
     return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
 
@@ -181,7 +178,6 @@ def ticketSelection(id):
 
     #Assuming we are using sessions to carry over the specific movie the customer wants to this route (remove if we are not)
     if 'movie' in session:
-
 
         if request.method == 'POST':
 

@@ -149,13 +149,15 @@ def orders(invoice):
             subTotal += float(ticket['price']) * int(ticket['quantity'])
             subTotal -= discount
 
+            url = "http://127.0.0.1:5000/" + str(ticket['id'])
             grandTotal = ("%.2f" % (1.00 * float(subTotal)))
 
         if orders.status =='Paid':
             #here is pdf is printed
+
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
-                                             customer=customer, orders=orders)
+                                             customer=customer, orders=orders, url=url)
             ticketPdf = pdfkit.from_string(ticketTemplate, False)
             user = Register.query.filter_by(id=customer_id).first()
             email = user.email

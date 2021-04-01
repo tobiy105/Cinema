@@ -1,8 +1,11 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
-from app.cinema.models import Ticket
-from .forms import RegistrationForm, LoginForm
+from app.cinema.models import Ticket, Movies, Screening
+from app.customers.models import CustomerOrder
+from .forms import RegistrationForm, LoginForm, CompareMovieForm, MovieSalesData
 from .models import User
+from datetime import datetime, timedelta
+import json
 
 #Admin page
 @app.route('/admin')
@@ -15,7 +18,8 @@ def admin():
     user_id = user.id
 
     tickets = Ticket.query.all()
-
+    for ticket in tickets:
+        ticket.screen.startTime
 
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
 
@@ -76,3 +80,85 @@ def updateuser(id):
     form.password.data = updateuser.password
     return render_template('admin/register.html',form=form, title='Update User',updateuser=updateuser)
 
+def oneWeekLess(dateMax,screenDate):
+    for i in range(7):
+        newdate = dateMax - timedelta(days = i)
+        print(newdate)
+        if newdate.day == screenDate.day and newdate.month == screenDate.month and newdate.year == screenDate.year:
+            return True
+
+    return False
+
+
+
+def ticketsPerMovie(movieId):
+    count = 0
+    screenings = Screening.query.filter_by(movie_id=movieId)
+    for screen in screenings:
+        if oneWeekLess(datetime.today(), screen.date) == True:
+            tickets = Ticket.query.filter_by(screen_id=screen.id)
+            for ticket in tickets:
+                count = count + 1
+    return count
+    
+
+
+#route for comparing movies
+@app.route('/cmpmovies',methods=['GET','POST'])
+def cmpmovies():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+    form = CompareMovieForm(request.form)
+    movies = Movies.query.all()
+    movie1 = request.form.get('movie1')
+    movie2 = request.form.get('movie2')
+    print(movie1)
+    print(movie2)
+    movob = Movies.query.get_or_404(int(movie1))
+    title1 = movob.title
+    movob2 = Movies.query.get_or_404(int(movie2))
+    title2 = movob2.title
+    count1 = ticketsPerMovie(movie1)
+    count2 = ticketsPerMovie(movie2)
+    if request.method == "POST":
+        pass
+        return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2)
+
+
+    return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
+
+
+
+
+"""
+#this needs to be added to
+@app.route('/cmpmovies/results', methods=['GET','POST'])
+def cmpresults():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+    form = CompareMovieForm(request.form)
+    #movie = Movie.query.get_or_404(id)
+
+    #join_query = session.query(Movies, Screening, Addticket).join(Movie,Movie.id == Screening.movie_id).join(Screening, Screening.id == Addticket.screen)
+    
+    return render_template('admin/cmpresults', form=form, title=cmpresults())
+"""
+#route for movie sales
+@app.route('/moviesales',methods=['GET','POST'])
+def moviesales():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+    movies = Movies.query.all()
+
+    form = MovieSalesData(request.form)
+    if request.method == "POST":
+        movie = form.movie.data
+        week = form.date.data
+
+    return render_template('admin/moviesales.html', form=form, title='Movie Sales Data', movies=movies)

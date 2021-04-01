@@ -3,7 +3,7 @@ from flask_login import login_required, current_user, logout_user, login_user
 from app import app,db,photos, search,bcrypt,login_manager
 from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm
 from .models import Employee
-from app.cinema.models import Ticket
+from app.cinema.models import Ticket, Movies, Screening
 
 #Employee page
 @app.route('/employee')
@@ -75,6 +75,8 @@ def updateemployee(id):
     form.password.data = updateemployee.password
 
     return render_template('employee/register.html', form=form, title='Update User', updateemployee=updateemployee)
+
+
 
 # #route for creating admin account
 # @app.route('/register', methods=['GET', 'POST'])
