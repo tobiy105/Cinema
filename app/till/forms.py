@@ -24,6 +24,6 @@ class SelectScreeningForm(Form):
 
 class SelectTicketForm(Form):
     ticket = SelectField('Ticket', choices=[], default=0)
-    discount = SelectField('Discount', choices=[('c', 'Child'), ('t', 'Teen'), ('a', 'Adult'), ('e', 'Elderly')])
+    discount = SelectField('Discount', choices=[('0.80', 'Child'), ('0.90', 'Teen'), ('1.00', 'Adult'), ('0.80', 'Elderly')])
     submit = SubmitField('Select')
 

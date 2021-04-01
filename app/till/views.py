@@ -1,7 +1,9 @@
+import decimal
+
 from flask import render_template, request, redirect, url_for
 from app import app, db
 from .forms import PayWithCashForm, SelectScreeningForm, SelectTicketForm
-from app.cinema.models import Screening, Ticket
+from app.cinema.models import Screening, Ticket, Movies
 from sqlalchemy import asc
 
 
@@ -119,14 +121,16 @@ def ticketSelect(screen_id):
     return render_template('till/ticketSelect.html', form=form)
 
 def createTicket(screening, seat, discount):
-    return "<h1>Ticket Created</h1>"
+    movie = Movies.query.filter_by(id=screening.movie_id).first()
+    amount = movie.price * decimal.Decimal(discount)
+    return redirect(url_for('showTill', amount=amount))
 
 @app.route('/till/<amount>', methods=['GET', 'POST'])
 def showTill(amount):
     form = PayWithCashForm(request.form)
     if request.method == "POST":
         payment = Cash(form.n50.data, form.n20.data, form.n10.data, form.n5.data, form.c200.data, form.c100.data, form.
-                       c50.data, form.c20.data, form.c10.data,form.c5.data, form.c2.data, form.c1.data)
+                       c50.data, form.c20.data, form.c10.data, form.c5.data, form.c2.data, form.c1.data)
         cash = Cash(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10)
         till = Till(cash)
         flag, change = till.cashPayment(amount, payment)
