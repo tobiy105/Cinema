@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'navbar.html' %}
+    <h1>Select Ticket</h1>
+    <form action="" method="POST">
+        {{ form.screening }}
+        {{ form.submit() }}
+    </form>
+{% endblock content %}
