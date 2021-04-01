@@ -1,4 +1,5 @@
-from wtforms import Form, SubmitField, IntegerField
+from wtforms import Form, SubmitField, IntegerField, SelectField
+
 
 class PayWithCashForm(Form):
     n50 = IntegerField('Amount of £50 notes', default=0)
@@ -14,3 +15,15 @@ class PayWithCashForm(Form):
     c2 = IntegerField('Amount of 2p coins', default=0)
     c1 = IntegerField('Amount of 1p coins', default=0)
     submit = SubmitField('Pay')
+
+
+class SelectScreeningForm(Form):
+    screening = SelectField('Screening', choices=[], default=0)
+    submit = SubmitField('Select')
+
+
+class SelectTicketForm(Form):
+    ticket = SelectField('Ticket', choices=[], default=0)
+    discount = SelectField('Discount', choices=[('c', 'Child'), ('t', 'Teen'), ('a', 'Adult'), ('e', 'Elderly')])
+    submit = SubmitField('Select')
+

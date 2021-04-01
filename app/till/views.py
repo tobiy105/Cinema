@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for
-from app import app
-from .forms import PayWithCashForm
-
-
+from app import app, db
+from .forms import PayWithCashForm, SelectScreeningForm, SelectTicketForm
+from app.cinema.models import Screening, Ticket
+from sqlalchemy import asc
 
 
 class Cash:
@@ -78,8 +78,6 @@ class Till:
                 errorNotEnoughChange = errorNotEnoughChange + 1
         return errorNotEnoughChange, toReturn  # if errorNotEnoughChange = 1 then
 
-        # toReturn is garbage
-
 
     def cashPayment(self, amount, payment):
         cashCheck = cashPaymentCheck(amount, payment)
@@ -93,26 +91,53 @@ class Till:
                 return 0, toReturn
         return 2, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) #not enough change
 
-@app.route('/till/ticketSelect')
-def selectFilm():
-    return render_template('till/ticketSelect.html')
 
+@app.route('/till/screeningSelect', methods=['GET', 'POST'])
+def selectFilm():
+    form = SelectScreeningForm(request.form)
+    form.screening.choices = [(screen.id, (screen.movie, screen.date)) for screen in Screening.query.order_by(asc(
+        Screening.date), asc(Screening.startTime)).all()]
+    if request.method == "POST":
+        return redirect(url_for('ticketSelect', screen_id=form.screening.data))
+    return render_template('till/screeningSelect.html', form=form)
+
+
+@app.route('/till/ticketSelect/<screen_id>', methods=['GET', 'POST'])
+def ticketSelect(screen_id):
+    form = SelectTicketForm(request.form)
+    screening = Screening.query.filter_by(id=screen_id).first()
+    tickets = []
+    for i in range(1, screening.seats):
+        tickets.append((i, i))
+    ticketsTaken = Ticket.query.filter_by(screen_id=screen_id).all()
+    for ticket in ticketsTaken:
+        if ticket.taken:
+            tickets[ticket.seatNo] = (0, 0)
+    form.ticket.choices = tickets
+    if request.method == "POST":
+        return createTicket(screening, form.ticket.data, form.discount.data)
+    return render_template('till/ticketSelect.html', form=form)
+
+def createTicket(screening, seat, discount):
+    return "<h1>Ticket Created</h1>"
 
 @app.route('/till/<amount>', methods=['GET', 'POST'])
 def showTill(amount):
     form = PayWithCashForm(request.form)
     if request.method == "POST":
-        payment = Cash(form.n50.data, form.n20.data, form.n10.data, form.n5.data, form.c200.data, form.c100.data, form.c50.data, form.c20.data, form.c10.data,form.c5.data, form.c2.data, form.c1.data)
+        payment = Cash(form.n50.data, form.n20.data, form.n10.data, form.n5.data, form.c200.data, form.c100.data, form.
+                       c50.data, form.c20.data, form.c10.data,form.c5.data, form.c2.data, form.c1.data)
         cash = Cash(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10)
         till = Till(cash)
         flag, change = till.cashPayment(amount, payment)
         if flag == 0:  #success
-            return redirect(url_for ('admin')) #should go to payment confimed
+            return redirect(url_for('admin')) #should go to payment confimed
         elif flag == 1:  #error not enough money
             return render_template('till/till.html', form=form, flag=1, amount=amount)
         elif flag == 2:  #error not enough change
             return render_template('till/till.html', form=form, flag=2, amount=amount)
     return render_template('till/till.html', form=form, flag=0, amount=amount)
+
 
 def cashPaymentCheck(amount, cash):
     value = cash.valueofcash()
