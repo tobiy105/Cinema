@@ -4,7 +4,7 @@ from app.cinema.models import Ticket, Movies, Screening
 from app.customers.models import CustomerOrder
 from .forms import RegistrationForm, LoginForm, CompareMovieForm, MovieSalesData
 from .models import User
-from datetime import date
+from datetime import datetime, timedelta
 import json
 
 #Admin page
@@ -80,6 +80,29 @@ def updateuser(id):
     form.password.data = updateuser.password
     return render_template('admin/register.html',form=form, title='Update User',updateuser=updateuser)
 
+def oneWeekLess(dateMax,screenDate):
+    for i in range(7):
+        newdate = dateMax - timedelta(days = i)
+        print(newdate)
+        if newdate.day == screenDate.day and newdate.month == screenDate.month and newdate.year == screenDate.year:
+            return True
+
+    return False
+
+
+
+def ticketsPerMovie(movieId):
+    count = 0
+    screenings = Screening.query.filter_by(movie_id=movieId)
+    for screen in screenings:
+        if oneWeekLess(datetime.today(), screen.date) == True:
+            tickets = Ticket.query.filter_by(screen_id=screen.id)
+            for ticket in tickets:
+                count = count + 1
+    return count
+    
+
+
 #route for comparing movies
 @app.route('/cmpmovies',methods=['GET','POST'])
 def cmpmovies():
@@ -89,17 +112,21 @@ def cmpmovies():
 
     form = CompareMovieForm(request.form)
     movies = Movies.query.all()
-    print(request.method)
     movie1 = request.form.get('movie1')
     movie2 = request.form.get('movie2')
-    date = date.today()
+    print(movie1)
+    print(movie2)
+    movob = Movies.query.get_or_404(int(movie1))
+    title1 = movob.title
+    movob2 = Movies.query.get_or_404(int(movie2))
+    title2 = movob2.title
+    count1 = ticketsPerMovie(movie1)
+    count2 = ticketsPerMovie(movie2)
     if request.method == "POST":
-        print("BANANANANANANANANANANANA")
-        print(movie1)
-        return redirect(url_for('admin'))
+        pass
+        return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2)
 
 
-    print(movies)
     return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
 
 
