@@ -114,16 +114,16 @@ def cmpmovies():
     movies = Movies.query.all()
     movie1 = request.form.get('movie1')
     movie2 = request.form.get('movie2')
-    print(movie1)
-    print(movie2)
-    movob = Movies.query.get_or_404(int(movie1))
-    title1 = movob.title
-    movob2 = Movies.query.get_or_404(int(movie2))
-    title2 = movob2.title
-    count1 = ticketsPerMovie(movie1)
-    count2 = ticketsPerMovie(movie2)
+
     if request.method == "POST":
-        pass
+        print(movie1)
+        print(movie2)
+        movob = Movies.query.get_or_404(int(movie1))
+        title1 = movob.title
+        movob2 = Movies.query.get_or_404(int(movie2))
+        title2 = movob2.title
+        count1 = ticketsPerMovie(movie1)
+        count2 = ticketsPerMovie(movie2)
         return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2)
 
 
