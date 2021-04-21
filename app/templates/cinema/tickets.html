@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
-
+{% from "_formhelpers.html" import render_field %}
+{% include '_messages.html' %}
 <h1 style="text-align:center;">Ticket Selection</h1>
-<form action="" method="post" name="form">
+<form method="post">
+    {{form.csrf_token}}
     <div class="container-fluid">
-        <p style="text-align:center;">This is the tickets you can select for your movie.</p>
+        <p style="text-align:center;">
+            This is the tickets you can select for your movie.
+            Please enter the amount of tickets you would like.
+            (If ticket is not wanted please enter 0)
+        </p>
         <br>
         <div class="row">
             <div class="col-sm-2"></div>
@@ -16,9 +22,11 @@
                     (An child is from years 0 to 12)
                 </div>
             </div>
-            <div class="col-sm-2">£{{childPrice}}</div>
+            <div class="col-sm-2">
+                £{{childPrice}}
+            </div>
             <div class="col-sm-1">
-                <a href="{{url_for('addticket',id=1)}}" class="float-left btn btn-sm btn-primary">Add ticket</a>
+                {{ render_field(form.child, class="form-control") }} 
             </div>
             <div class="col-sm-2"></div>
         </div>
@@ -35,7 +43,7 @@
             </div>
             <div class="col-sm-2">£{{teenPrice}}</div>
             <div class="col-sm-1">
-                <a href="{{url_for('addticket',id=2)}}" class="float-left btn btn-sm btn-primary">Add ticket</a>
+                {{ render_field(form.teen, class="form-control") }}
             </div>
             <div class="col-sm-2"></div>
         </div>
@@ -52,7 +60,7 @@
             </div>
             <div class="col-sm-2">£{{adultPrice}}</div>
             <div class="col-sm-1">
-               <a href="{{url_for('addticket',id=3)}}" class="float-left btn btn-sm btn-primary">Add ticket</a>
+                {{ render_field(form.adult, class="form-control") }} 
             </div>
             <div class="col-sm-2"></div>
         </div>
@@ -69,12 +77,14 @@
             </div>
             <div class="col-sm-2">£{{elderlyPrice}}</div>
             <div class="col-sm-1">
-                <a href="{{url_for('addticket',id=4)}}" class="float-left btn btn-sm btn-primary">Add ticket</a>
+                {{ render_field(form.elderly, class="form-control") }} 
             </div>
             <div class="col-sm-2"></div>
         </div>
         <br>
-
+        <p style="text-align:center;">
+            <input type="submit" class="btn btn-sm btn-primary" value="Confirm">
+        </p>
     </div>
 </form>
 {% endblock %}

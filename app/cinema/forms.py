@@ -33,10 +33,10 @@ class Screen(Form):
 
 #creating the TSF (ticket selection form) class
 class TSF(FlaskForm):
-    child = IntegerField('child')
-    teen = IntegerField('teen')
-    adult = IntegerField('adult')
-    elderly = IntegerField('elderly')
+    child = IntegerField('child', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
+    teen = IntegerField('teen', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
+    adult = IntegerField('adult', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
+    elderly = IntegerField('elderly', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
 
 
 

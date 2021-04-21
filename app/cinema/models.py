@@ -57,4 +57,14 @@ class Ticket(db.Model):
     def __repr__(self):
         return '<Post %r>' % self.id
 
+class Catagory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    child = db.Column(db.Integer)
+    teen = db.Column(db.Integer)
+    adult = db.Column(db.Integer)
+    elderly = db.Column(db.Integer)
+    def __repr__(self):
+        return '<Catagory %r>' % self.id 
+
+
 db.create_all()
