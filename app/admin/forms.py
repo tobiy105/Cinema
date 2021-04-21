@@ -32,5 +32,4 @@ class CompareMovieForm(Form):
 
 class MovieSalesData(Form):
     movie = StringField('First Movie', [validators.Length(min=1, max=100), validators.DataRequired()])
-    date = StringField('Week', [validators.DataRequired()])
 
