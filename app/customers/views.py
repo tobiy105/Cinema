@@ -3,6 +3,7 @@ from flask_login import login_required, current_user, logout_user, login_user
 from app import app, db, photos, search, bcrypt, login_manager, Message, mail
 from .forms import CustomerRegisterForm, CustomerLoginFrom
 from .models import Register, CustomerOrder
+from app.cinema.models import Ticket
 
 import secrets
 
@@ -153,6 +154,11 @@ def orders(invoice):
             grandTotal = ("%.2f" % (1.00 * float(subTotal)))
 
         if orders.status =='Paid':
+            for _key, ticket in orders.orders.items():
+                ticket_id = ticket['id']
+                tick = Ticket.query.get_or_404(ticket_id)
+                tick.taken = True
+                db.session.commit()
             #here is pdf is printed
 
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,

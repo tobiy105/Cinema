@@ -31,7 +31,7 @@ def AddBasket():
                     for key, item in session['ShoppingBasket'].items():
                         if int(key) == int(ticket_id):
                             session.modified = True
-                            ticket.taken=True
+
                             item['quantity'] += 1
                 else:
                     session['ShoppingBasket'] = MagerDicts(session['ShoppingBasket'], DictItems)
@@ -57,9 +57,9 @@ def getBasket():
         discount = (ticket['discount'] / 100) * float(ticket['price'])
         subtotal += float(ticket['price']) * int(ticket['quantity'])
         subtotal -= discount
-        tax = ("%.2f" % (.06 * float(subtotal)))
-        grandtotal = float("%.2f" % (1.06 * subtotal))
-    return render_template('cinema/basket.html', tax=tax, grandtotal=grandtotal)
+
+        grandtotal = ("%.2f" % (1.00 * float(subtotal)))
+    return render_template('cinema/basket.html', grandtotal=grandtotal)
 
 
 # route for updating the Basket

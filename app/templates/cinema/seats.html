@@ -31,15 +31,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in first %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                           {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in first %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in first %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -51,15 +64,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in second %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                           {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in second %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in second %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -71,15 +97,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in third %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in third %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in third %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -95,15 +134,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in forth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in forth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in forth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -115,15 +167,30 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in fifth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-warning active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in fifth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                            <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                            <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                            <button type="submit" class="btn btn-sm btn-warning active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
+
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in fifth %}
-                            <button type="button" class="btn btn-sm btn-warning disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-warning disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -135,15 +202,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in sixth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in sixth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in sixth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -159,15 +239,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in seventh %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in seventh %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in seventh %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -179,15 +272,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in eigth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in eigth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in eigth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -199,15 +305,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in ninth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in ninth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in ninth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -223,15 +342,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in tenth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in tenth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in tenth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -243,15 +375,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in eleventh %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in eleventh %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in eleventh %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -263,15 +408,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in twelth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in twelth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in twelth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -287,15 +445,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in thirteenth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in thirteenth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in thirteenth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
@@ -308,15 +479,28 @@
                     {% set seat = seatPos[i] %}
                     {% if seat in forteenth %}
                         {% if i == j%}
-                            <a href="{{url_for('addticket',id=i)}}" class="btn btn-sm btn-primary active">{{ seat }}</a>
+                            {% for ticket in tickets %}
+                                {% if i == ticket.seatNo and ticket.taken==False %}
+                                    {% set seat = seatPos[i] %}
+                                    {% if seat in forteenth %}
+                                        <form action="{{url_for('AddBasket')}}" method="post">
+                                          <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                                          <input type="hidden" name="quantity" value="1" min="1" max="20">
+                                          <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
+
+
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% for ticket in tickets %}
-                    {% if i == ticket.seatNo %}
+                    {% if i == ticket.seatNo and ticket.taken==True %}
                         {% set seat = seatPos[i] %}
                         {% if seat in forteeenth %}
-                            <button type="button" class="btn btn-sm btn-primary disabled" >{{ seat }}</button>
+                            <button type="button" class="btn btn-sm btn-primary disabled float-left" >{{ seat }}</button>
                         {% endif %}
                     {% endif %}
                 {% endfor %}

@@ -58,6 +58,22 @@ def addscreen():
         db.session.add(addscreen)
         flash(f'The Screen was added in database','success')
         db.session.commit()
+        movie = Movies.query.get_or_404(movie_id)
+        for i in range(seats):
+            price = movie.price
+            discount = 0
+            seatNo = i
+            num = Screening.query.all()
+            screenID = len(num)
+            screen_id = screenID
+            newticket = Ticket(price=price, discount=discount, seatNo=seatNo, screen_id=screen_id)
+
+            db.session.add(newticket)
+            session['ticket_id'] = newticket.id
+            flash(f'The ticket with seat number {seatNo} was added in database', 'success')
+            db.session.commit()
+
+
         return redirect(url_for('screens'))
 
     return render_template('cinema/addscreen.html', form=form, title='Add a Product' ,movies=movies)
@@ -155,9 +171,9 @@ def seats_page(id):
         for i in range(screen.seats):
             arr.append(i)
             for ticket in tickets:
-                if i == ticket.seatNo:
-                    arr.remove(i)
 
+                if i == ticket.seatNo and ticket.taken==True:
+                    arr.remove(i)
 
     return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
 
@@ -187,7 +203,7 @@ def ticketSelection(id):
             if request.form.get('child') != None:
                 childTicket = request.form.get('child')
             else:
-                childTicket = o
+                childTicket = 0
             if request.form.get('teen') != None:
                 teenTicket = request.form.get('teen')
             else:
@@ -450,7 +466,7 @@ def addticket(id):
     movieID = session['movie']
     screenID = session['screen']
     movie = Movies.query.get_or_404(movieID)
-    screen = Screening.query.get_or_404(screenID)
+    screen = Screening.query.get_or_404(1)
     seatNo = session['seatNo']
     _price = float(movie.price)
 
@@ -501,29 +517,18 @@ def updateticket(id):
     ticket = Ticket.query.get_or_404(id)
 
     if request.method =="POST" :
-        ticket.title = form.title.data
+
         ticket.price = form.price.data
         ticket.discount = form.discount.data
-        ticket.stock = form.stock.data
-        ticket.time = form.time.data
-        ticket.date = form.date.data
-        ticket.plot = form.plot.data
-        ticket.genres = form.genres.data
-        ticket.certificate = form.certificate.data
-        ticket.ratingReason = form.ratingReason.data
+        ticket.seatNo = form.seatNo.data
+
         flash('The ticket was updated','success')
         db.session.commit()
         return redirect(url_for('admin'))
-    form.title.data = ticket.title
+
     form.price.data = ticket.price
     form.discount.data = ticket.discount
-    form.stock.data = ticket.stock
-    form.time.data = ticket.time
-    form.date.data = ticket.date
-    form.plot.data = ticket.plot
-    form.genres.data = ticket.genres
-    form.certificate.data = ticket.certificate
-    form.ratingReason.data = ticket.ratingReason
+    form.seatNo.data = ticket.seatNo
     form1=form
     return render_template('cinema/addticket.html',form1=form1, form=form, title='Update Ticket',getticket=ticket)
 

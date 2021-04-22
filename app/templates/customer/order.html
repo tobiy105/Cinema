@@ -51,23 +51,23 @@
 
                <td>
                    {% if orders.status =='Paid' %}
+
                    {% else %}
                     <form action="{{url_for('payment')}}" method="POST">
-                    {% set amount =  grandTotal.replace('.','') %}
-                    <input type="hidden" name="amount" value="{{amount}}">
-                    <input type="hidden" name="invoice" value="{{orders.invoice}}">
-                    <script src="https://checkout.stripe.com/checkout.js"
-                      class="stripe-button"
-                      data-key="pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja"
-                      data-name="{{customer.name}}"
-                      data-description="Cinema purchase"
-                      data-amount="{{amount}}"
-                      data-currency="gbp">
-                    </script>
-                  </form>
+                        {% set amount =  grandTotal.replace('.','') %}
+                        <input type="hidden" name="amount" value="{{amount}}">
+                        <input type="hidden" name="invoice" value="{{orders.invoice}}">
+                        <script src="https://checkout.stripe.com/checkout.js"
+                          class="stripe-button"
+                          data-key="pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja"
+                          data-name="{{customer.name}}"
+                          data-description="Cinema purchase"
+                          data-amount="{{amount}}"
+                          data-currency="gbp">
+                        </script>
+                    </form>
                    {% endif %}
             </td>
-
                <td width="42%"></td>
 
                <td> <h5>Grand total: £{{grandTotal}}</h5> </td>
