@@ -82,6 +82,69 @@ def updatebasket(code):
             print(e)
             return redirect(url_for('getBasket'))
 
+# route for deleting the Basket
+@app.route('/adult/<int:id>')
+def adult(id):
+    if 'ShoppingBasket' not in session or len(session['ShoppingBasket']) <= 0:
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, ticket in session['ShoppingBasket'].items():
+            if int(key) == id:
+                ticket['discount'] = 0
+
+                return redirect(url_for('getBasket'))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('getBasket'))
+
+# route for deleting the Basket
+@app.route('/child/<int:id>')
+def child(id):
+    if 'ShoppingBasket' not in session or len(session['ShoppingBasket']) <= 0:
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, ticket in session['ShoppingBasket'].items():
+            if int(key) == id:
+                ticket['discount'] = 20
+
+                return redirect(url_for('getBasket'))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('getBasket'))
+
+# route for deleting the Basket
+@app.route('/teen/<int:id>')
+def teen(id):
+    if 'ShoppingBasket' not in session or len(session['ShoppingBasket']) <= 0:
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, ticket in session['ShoppingBasket'].items():
+            if int(key) == id:
+                ticket['discount'] = 10
+
+                return redirect(url_for('getBasket'))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('getBasket'))
+
+# route for deleting the Basket
+@app.route('/elderly/<int:id>')
+def elderly(id):
+    if 'ShoppingBasket' not in session or len(session['ShoppingBasket']) <= 0:
+        return redirect(url_for('home'))
+    try:
+        session.modified = True
+        for key, ticket in session['ShoppingBasket'].items():
+            if int(key) == id:
+                ticket['discount'] = 20
+
+                return redirect(url_for('getBasket'))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('getBasket'))
 
 # route for deleting the Basket
 @app.route('/deleteitem/<int:id>')

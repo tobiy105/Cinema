@@ -159,14 +159,18 @@ def corfirmqrcode(id):
     return render_template('employee/corfirmqrcode.html',ticket=ticket, taken=taken)
 
 #route for displaying a tickets found from word search
-@app.route('/seats/<int:id>')
+@app.route('/seats/<int:id>', methods=['GET','POST'])
 def seats_page(id):
     totalTickets = session['total']
     screen = Screening.query.get_or_404(id)
     tickets = Ticket.query.filter_by(screen_id=id)
     session['screen'] = id
     arr = []
-
+    tick_num = -1
+    if request.method == "POST":
+        tick_num = request.form['variable']
+        print(tick_num)
+        return render_template('cinema/seats.html', screen=screen, tickets=tickets, arr=arr, tick_num=tick_num)
     if 'total' in session:
         for i in range(screen.seats):
             arr.append(i)
@@ -175,7 +179,7 @@ def seats_page(id):
                 if i == ticket.seatNo and ticket.taken==True:
                     arr.remove(i)
 
-    return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
+    return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr, tick_num=tick_num)
 
 #route to allow customers to select what type of ticket they want and the amount of tickets they want.
 @app.route('/customer/ticket/<int:id>', methods=['GET','POST'])

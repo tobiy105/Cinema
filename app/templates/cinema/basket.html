@@ -10,10 +10,8 @@
                 <th>Sr</th>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Quantity</th>
                 <th>Discount</th>
                 <th>Subtotal</th>
-                <th>Update</th>
                 <th>Delete</th>
             </thead>
             <tbody>
@@ -23,19 +21,13 @@
                     <td>{{loop.index}}</td>
 
                     <td>{{ticket.title}}</td>
-                    <form action="{{url_for('updatebasket', code=key)}}" method="post">
 
-                    <td>£{{"%.2f"|format(ticket.price)}}</td>
-                    <td> <input type="number" name="quantity" min="1" max="10" value="{{ticket.quantity}}"> </td>
-                    {% if ticket.discount  %}
-                    <td>{{ticket.discount}} % &nbsp; &nbsp; is {{"%.2f"|format(discount)}}</td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    {% set subtotal = ticket.quantity|int * ticket.price|float  %}
-                    <td>£{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}</td>
-                    <td><button type="submit" class="btn btn-sm btn-info">Update</button> </td>
-                </form>
+                    <td>{{ticket.price}}</td>
+                    <td>{{ticket.discount}}</td>
+                    <td> <a href="{{url_for('adult', id=key)}}" class="btn btn-sm btn-info">Adult</a></td>
+                    <td> <a href="{{url_for('child', id=key)}}" class="btn btn-sm btn-info">Child</a></td>
+                    <td> <a href="{{url_for('teen', id=key)}}" class="btn btn-sm btn-info">Teen</a></td>
+                    <td> <a href="{{url_for('elderly', id=key)}}" class="btn btn-sm btn-info">Elderly</a></td>
                     <td> <a href="{{url_for('deleteitem', id=key)}}" class="btn btn-sm btn-danger">Delete</a></td>
                 </tr>
                 {% endfor %}
@@ -45,7 +37,7 @@
            <tr>
                <td> <a href="{{url_for('get_order')}}" class="btn btn-success"> Order now </a> </td>
                <td width="35%"></td>
-
+               <td> <h5>Tax: £{{tax}}</h5></td>
                <td> <h3>Grand total: £{{grandtotal}}</h3> </td>
                 <td> <a href="{{url_for('clearbasket')}}" class="btn btn-danger btn-sm float-right mr-4"> Clear cart</a> </td>
            </tr>
