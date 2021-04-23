@@ -24,7 +24,7 @@ def AddBasket():
         title = ticket.screen.movie.title
         if request.method == "POST":
             DictItems = {ticket_id: {'id': ticket.id,'title': title, 'price': float(ticket.price), 'discount': ticket.discount,
-                                      'quantity': quantity }}
+                                      'quantity': quantity,'seatNo': ticket.seatNo }}
             if 'ShoppingBasket' in session:
 
                 if ticket_id in session['ShoppingBasket']:
@@ -33,6 +33,7 @@ def AddBasket():
                             session.modified = True
 
                             item['quantity'] += 1
+
                 else:
                     session['ShoppingBasket'] = MagerDicts(session['ShoppingBasket'], DictItems)
                     return redirect(request.referrer)

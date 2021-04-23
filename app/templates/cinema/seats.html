@@ -39,7 +39,9 @@
                                           <input type="hidden" name="ticket_id" value="{{ticket.id}}">
                                           <input type="hidden" name="quantity" value="1" min="1" max="20">
                                           <button type="submit" class="btn btn-sm btn-primary active float-left">{{ seat }}</button>
-
+                                          {% if request.method == 'POST' %}
+                                              {% print('Ticket added to the basket') %}
+                                          {% endif %}
 
                                         </form>
                                     {% endif %}
@@ -521,5 +523,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    var buttons = document.getElementsByClassName('btn');
+    for (var i=0 ; i < buttons.length ; i++){
+        (function(index){
+            buttons[index].onclick = function(){
+                alert("Ticket has been added to basket!!");
+            };
+        })(i)
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+</script>
 
 {% endblock content %}

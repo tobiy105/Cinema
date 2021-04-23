@@ -61,6 +61,9 @@ def addscreen():
         movie = Movies.query.get_or_404(movie_id)
         for i in range(seats):
             price = movie.price
+            if i >= 14 and i < 20:
+                price = float(price) * 1.25
+
             discount = 0
             seatNo = i
             num = Screening.query.all()
@@ -161,25 +164,24 @@ def corfirmqrcode(id):
 #route for displaying a tickets found from word search
 @app.route('/seats/<int:id>', methods=['GET','POST'])
 def seats_page(id):
-    totalTickets = session['total']
+
     screen = Screening.query.get_or_404(id)
     tickets = Ticket.query.filter_by(screen_id=id)
     session['screen'] = id
     arr = []
-    tick_num = -1
+
+    for i in range(screen.seats):
+        arr.append(i)
+        for ticket in tickets:
+
+            if i == ticket.seatNo and ticket.taken==True:
+                arr.remove(i)
+
     if request.method == "POST":
-        tick_num = request.form['variable']
-        print(tick_num)
-        return render_template('cinema/seats.html', screen=screen, tickets=tickets, arr=arr, tick_num=tick_num)
-    if 'total' in session:
-        for i in range(screen.seats):
-            arr.append(i)
-            for ticket in tickets:
+        print("open")
 
-                if i == ticket.seatNo and ticket.taken==True:
-                    arr.remove(i)
-
-    return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr, tick_num=tick_num)
+        return render_template('cinema/seats.html', screen=screen, tickets=tickets, arr=arr)
+    return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
 
 #route to allow customers to select what type of ticket they want and the amount of tickets they want.
 @app.route('/customer/ticket/<int:id>', methods=['GET','POST'])
