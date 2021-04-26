@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from app import app, db, bcrypt, photos
 from flask_wtf.file import FileField
 
-from app.cinema.models import Addticket ,Category
+from app.cinema.models import Addticket, Category
 from app.admin.forms import RegistrationForm, LoginForm
 from app.admin.models import User
 import io

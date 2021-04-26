@@ -3,6 +3,8 @@ from app import app,db,photos, search
 from .models import Ticket, Movies, Screening, Catagory
 from .forms import Tickets, SearchMovieForm, Movie, Screen, TSF
 import requests
+import datetime
+from datetime import date
 import secrets
 import os
 import qrcode
@@ -141,12 +143,24 @@ def result():
 @app.route('/ticket/<int:id>')
 def single_page(id):
     movie = Movies.query.get_or_404(id)
-    screens = Screening.query.all()
+    screens = Screening.query.filter_by(movie_id=id)
     session['movie'] = id
+    for screen in screens:
+        day = datetime.datetime.strptime(str(screen.date), '%Y-%m-%d').weekday()
+        print(day)
+        print(screen.date)
+        time_9 = "09:00:00"
+        time9 = datetime.datetime.strptime(time_9, "%H:%M:%S")
+        time_12 = "12:00:00"
+        time12 = datetime.datetime.strptime(time_12, "%H:%M:%S")
+        time_15 = "15:00:00"
+        time15 = datetime.datetime.strptime(time_15, "%H:%M:%S")
+        time_18 = "18:00:00"
+        time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
+        time = datetime.datetime.strptime(str(screen.startTime), "%H:%M:%S")
 
 
-
-    return render_template('cinema/single_page.html',movie=movie, screens=screens)
+    return render_template('cinema/single_page.html',movie=movie, screens=screens, day=day, time=time, time9=time9, time12=time12, time15=time15, time18=time18)
 
 #route for confirm ticket
 @app.route('/corfirmqrcode/', methods=['GET','POST'])

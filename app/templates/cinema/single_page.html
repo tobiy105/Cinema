@@ -230,13 +230,16 @@ html, body {
     <div></div>
 
     <div>
-        <div>{% for screen in screens %}
-                {% if screen.id == 1 %}
-
-                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                {% endif %}
-
-            {% endfor %}
+        <div>
+            {% for screen in screens %}
+                    {% if screen.movie_id == movie.id %}
+                        {% if day == 0 %}
+                            {% if time == time9 %}
+                                <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
          </div>
     </div>
 
@@ -259,7 +262,7 @@ html, body {
 
             {% endfor %}
          </div>
-    </div> 
+    </div>
     <div>
         <div>{% for screen in screens %}
                 {% if screen.id == 4 %}

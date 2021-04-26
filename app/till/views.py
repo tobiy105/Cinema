@@ -88,7 +88,7 @@ class Till:
         elif cashCheck < 0:
             return 1, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)#not enough
         elif cashCheck > 0:
-            enoughChange, toReturn = self.changeCash(int(amount))
+            enoughChange, toReturn = self.changeCash(float(amount))
             if enoughChange == 0:
                 return 0, toReturn
         return 2, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) #not enough change
@@ -145,7 +145,7 @@ def showTill(amount):
 
 def cashPaymentCheck(amount, cash):
     value = cash.valueofcash()
-    dif = int(amount) - value
+    dif = float(amount) - value
     if dif > 0:
         return -1
     elif dif == 0:
