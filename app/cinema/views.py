@@ -147,20 +147,20 @@ def single_page(id):
     session['movie'] = id
     for screen in screens:
         day = datetime.datetime.strptime(str(screen.date), '%Y-%m-%d').weekday()
-        print(day)
-        print(screen.date)
+
         time_9 = "09:00:00"
         time9 = datetime.datetime.strptime(time_9, "%H:%M:%S")
+
         time_12 = "12:00:00"
         time12 = datetime.datetime.strptime(time_12, "%H:%M:%S")
         time_15 = "15:00:00"
         time15 = datetime.datetime.strptime(time_15, "%H:%M:%S")
         time_18 = "18:00:00"
         time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
-        time = datetime.datetime.strptime(str(screen.startTime), "%H:%M:%S")
 
 
-    return render_template('cinema/single_page.html',movie=movie, screens=screens, day=day, time=time, time9=time9, time12=time12, time15=time15, time18=time18)
+
+    return render_template('cinema/single_page.html',movie=movie, screens=screens, day=day, time9=time9, time12=time12, time15=time15, time18=time18)
 
 #route for confirm ticket
 @app.route('/corfirmqrcode/', methods=['GET','POST'])
