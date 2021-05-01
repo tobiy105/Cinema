@@ -26,11 +26,6 @@
         </div>
     </div>
 
-
-
-
-
-
 </div>
 
 <!DOCTYPE html>
@@ -39,7 +34,6 @@
 <style>
 html, body {
 	margin: 0;
-	font-family: 'Karla';
 	color: #546E7A;
 }
 
@@ -52,92 +46,10 @@ html, body {
 	grid-template-areas: ". week" "time content";
 	grid-template-columns: 120px;
 	grid-template-rows: 60px;
-	width: 100vw;
-	height: 100vh;
+	width: 63vw;
+	height: 80vh;
 }
 
-.timetable .accent-pink-gradient {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(135deg, #ee8ebc, #eea08e);
-	transition: .2s ease box-shadow, .2s ease transform;
-}
-
-.timetable .accent-pink-gradient:hover {
-	box-shadow: 0 20px 30px 0 rgba(238, 142, 188, 0.3);
-	transform: scale(1.05);
-}
-
-.timetable .accent-orange-gradient {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(135deg, #eec08e, #dcee8e);
-	transition: .2s ease box-shadow, .2s ease transform;
-}
-
-.timetable .accent-orange-gradient:hover {
-	box-shadow: 0 20px 30px 0 rgba(238, 192, 142, 0.3);
-	transform: scale(1.05);
-}
-
-.timetable .accent-green-gradient {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(135deg, #bcee8e, #8eeea0);
-	transition: .2s ease box-shadow, .2s ease transform;
-}
-
-.timetable .accent-green-gradient:hover {
-	box-shadow: 0 20px 30px 0 rgba(188, 238, 142, 0.3);
-	transform: scale(1.05);
-}
-
-.timetable .accent-cyan-gradient {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(135deg, #8eeec0, #8edcee);
-	transition: .2s ease box-shadow, .2s ease transform;
-}
-
-.timetable .accent-cyan-gradient:hover {
-	box-shadow: 0 20px 30px 0 rgba(142, 238, 192, 0.3);
-	transform: scale(1.05);
-}
-
-.timetable .accent-blue-gradient {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(135deg, #8ebcee, #a08eee);
-	transition: .2s ease box-shadow, .2s ease transform;
-}
-
-.timetable .accent-blue-gradient:hover {
-	box-shadow: 0 20px 30px 0 rgba(142, 188, 238, 0.3);
-	transform: scale(1.05);
-}
-
-.timetable .accent-purple-gradient {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(135deg, #c08eee, #ee8edc);
-	transition: .2s ease box-shadow, .2s ease transform;
-}
-
-.timetable .accent-purple-gradient:hover {
-	box-shadow: 0 20px 30px 0 rgba(192, 142, 238, 0.3);
-	transform: scale(1.05);
-}
-
-.timetable .weekend {
-	background: #fbfbfc;
-	color: #87a1ad;
-}
 
 .timetable .week-names {
 	grid-area: week;
@@ -185,136 +97,464 @@ html, body {
 </style>
 </head>
 <body>
+<div class="container mt-5">
+    <div class="timetable">
+      <div class="week-names">
+        <div>monday</div>
+        <div>tuesday</div>
+        <div>wednesday</div>
+        <div>thursday</div>
+        <div>friday</div>
+        <div>saturday</div>
+        <div>sunday</div>
+      </div>
+      <div class="time-interval">
 
-<div class="timetable">
-  <div class="week-names">
-    <div>monday</div>
-    <div>tuesday</div>
-    <div>wednesday</div>
-    <div>thursday</div>
-    <div>friday</div>
-    <div>saturday</div>
-    <div>sunday</div>
-  </div>
-  <div class="time-interval">
-    <div>8:00 - 10:00</div>
-    <div>10:00 - 12:00</div>
-    <div>12:00 - 14:00</div>
-    <div>14:00 - 16:00</div>
-    <div>16:00 - 18:00</div>
-    <div>18:00 - 20:00</div>
-  </div>
-  <div class="content">
-    <div>
+        <div>9:00 - 12:00</div>
+        <div>12:00 - 15:00</div>
+        <div>15:00 - 18:00</div>
+        <div>18:00 - 21:00</div>
 
-    </div>
-    <div></div>
-    <div>
+      </div>
+      <div class="content">
 
-    </div>
-    <div></div>
-      <div>
-
-    </div>
-    <div></div>
-    <div></div>
-
-    <div></div>
-    <div></div>
-    <div>
-
-    </div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-
-    <div>
+    {#    9:00#}
         <div>
-            {% for screen in screens %}
-                    {% if screen.movie_id == movie.id %}
-                        {% if day == 0 %}
-                            {% if time == time9 %}
-                                <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 0 %}
+                                {% if time == time9 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
-                    {% endif %}
                 {% endfor %}
-         </div>
+             </div>
+        </div>
+
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 1 %}
+                                {% if time == time9 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 2 %}
+                                {% if time == time9 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 3 %}
+                                {% if time == time9 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 4 %}
+                                {% if time == time9 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 5 %}
+                                {% if time == time9 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 6 %}
+                                {% if time == time9 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+
+    {#    12:00#}
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 0 %}
+                                {% if time == time12 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 1 %}
+                                {% if time == time12 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 2 %}
+                                {% if time == time12 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 3 %}
+                                {% if time == time12 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 4 %}
+                                {% if time == time12 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 5 %}
+                                {% if time == time12 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 6 %}
+                                {% if time == time12 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+
+    {#    15:00#}
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 0 %}
+                                {% if time == time15 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 1 %}
+                                {% if time == time15 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 2 %}
+                                {% if time == time15 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 3 %}
+                                {% if time == time15 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 4 %}
+                                {% if time ==time15 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 5 %}
+                                {% if time == time15 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 6 %}
+                                {% if time == time15 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+
+    {#    18:00#}
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 0 %}
+                                {% if time == time18 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 1 %}
+                                {% if time == time18 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 2 %}
+                                {% if time == time18 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 3 %}
+                                {% if time == time18 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 4 %}
+                                {% if time == time18 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 5 %}
+                                {% if time == time18 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+        <div>
+            <div>
+                {% for screen in screens %}
+                        {% if screen.movie_id == movie.id %}
+                            {% if day == 6 %}
+                                {% if time == time18 %}
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
+                                    <p>Date: {{screen.date}}</p>
+                                    <p>Date: {{screen.startTime}}</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                {% endfor %}
+             </div>
+        </div>
+
+      </div>
     </div>
-
-    <div>
-        <div>{% for screen in screens %}
-                {% if screen.id == 2 %}
-
-                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                {% endif %}
-
-            {% endfor %}
-         </div>
-    </div>
-    <div>
-        <div>{% for screen in screens %}
-                {% if screen.id == 3 %}
-
-                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                {% endif %}
-
-            {% endfor %}
-         </div>
-    </div>
-    <div>
-        <div>{% for screen in screens %}
-                {% if screen.id == 4 %}
-
-                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                {% endif %}
-
-            {% endfor %}
-         </div>
-    </div>
-    <div>
-        <div>{% for screen in screens %}
-                {% if screen.id == 5 %}
-
-                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                {% endif %}
-
-            {% endfor %}
-         </div>
-    </div>
-    <div></div>
-    <div></div>
-
-    <div></div>
-    <div></div>
-    <div>
-
-    </div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-
-    <div></div>
-    <div></div>
-    <div>
-
-    </div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
 </div>
+
+
 
 
 </body>
