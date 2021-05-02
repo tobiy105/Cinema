@@ -119,6 +119,10 @@ def updateshoppingbasket():
 # route for getting the order for the customer account
 @app.route('/getorder')
 def get_order():
+    if 'customer_id' not in session:
+        flash('Login first please', 'danger')
+        return redirect(url_for('customerLogin'))
+
     if 'customer_id' in session:
         customer_id = session['customer_id']
         invoice = secrets.token_hex(5)
@@ -135,10 +139,12 @@ def get_order():
             flash('Some thing went wrong while get order', 'danger')
             return redirect(url_for('getBasket'))
 
+
 # route for getting the order invoice for the customer account
 @app.route('/orders/<invoice>')
 def orders(invoice):
-    if 'customer_id'  in session:
+
+    if 'customer_id' in session:
         grandTotal = 0
         subTotal = 0
         customer_id = session['customer_id']
@@ -175,6 +181,7 @@ def orders(invoice):
             mail.send(sendTicket)
 
     else:
+        flash('Login first please', 'danger')
         return redirect(url_for('customerLogin'))
     return render_template('customer/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal,
                            customer=customer, orders=orders)

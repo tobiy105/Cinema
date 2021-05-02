@@ -140,27 +140,51 @@ def result():
     return render_template('cinema/result.html',movies=movies)
 
 #route for displaying a tickets found from word search
-@app.route('/ticket/<int:id>')
+@app.route('/ticket/<int:id>', methods=['GET', 'POST'])
 def single_page(id):
     movie = Movies.query.get_or_404(id)
     screens = Screening.query.filter_by(movie_id=id)
     session['movie'] = id
-    for screen in screens:
-        day = datetime.datetime.strptime(str(screen.date), '%Y-%m-%d').weekday()
+    today = date.today()
+    year = today.strftime("%Y")
+    month = today.strftime("%m")
+    day = today.strftime("%d")
+    weekNo = datetime.date(int(year), int(month), int(day)).isocalendar()[1]
 
-        time_9 = "09:00:00"
-        time9 = datetime.datetime.strptime(time_9, "%H:%M:%S")
-
-        time_12 = "12:00:00"
-        time12 = datetime.datetime.strptime(time_12, "%H:%M:%S")
-        time_15 = "15:00:00"
-        time15 = datetime.datetime.strptime(time_15, "%H:%M:%S")
-        time_18 = "18:00:00"
-        time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
+    mon = datetime.datetime.strptime(f'{year}-W{weekNo}-1', "%Y-W%W-%w").date()
+    tue = datetime.datetime.strptime(f'{year}-W{weekNo}-2', "%Y-W%W-%w").date()
+    wed = datetime.datetime.strptime(f'{year}-W{weekNo}-3', "%Y-W%W-%w").date()
+    thur = datetime.datetime.strptime(f'{year}-W{weekNo}-4', "%Y-W%W-%w").date()
+    fri = datetime.datetime.strptime(f'{year}-W{weekNo}-5', "%Y-W%W-%w").date()
+    sat = datetime.datetime.strptime(f'{year}-W{weekNo}-6', "%Y-W%W-%w").date()
+    sun = datetime.datetime.strptime(f'{year}-W{weekNo}-0', "%Y-W%W-%w").date()
 
 
+    num = 0
+    if request.method == "POST":
+        num = int(request.form.get('number'))
+        mon = datetime.datetime.strptime(f'{year}-W{weekNo + num}-1', "%Y-W%W-%w").date()
+        tue = datetime.datetime.strptime(f'{year}-W{weekNo + num}-2', "%Y-W%W-%w").date()
+        wed = datetime.datetime.strptime(f'{year}-W{weekNo + num}-3', "%Y-W%W-%w").date()
+        thur = datetime.datetime.strptime(f'{year}-W{weekNo + num}-4', "%Y-W%W-%w").date()
+        fri = datetime.datetime.strptime(f'{year}-W{weekNo + num}-5', "%Y-W%W-%w").date()
+        sat = datetime.datetime.strptime(f'{year}-W{weekNo + num}-6', "%Y-W%W-%w").date()
+        sun = datetime.datetime.strptime(f'{year}-W{weekNo + num}-0', "%Y-W%W-%w").date()
 
-    return render_template('cinema/single_page.html',movie=movie, screens=screens, day=day, time9=time9, time12=time12, time15=time15, time18=time18)
+
+    time_9 = "09:00:00"
+    time9 = datetime.datetime.strptime(time_9, "%H:%M:%S")
+    time_12 = "12:00:00"
+    time12 = datetime.datetime.strptime(time_12, "%H:%M:%S")
+    time_15 = "15:00:00"
+    time15 = datetime.datetime.strptime(time_15, "%H:%M:%S")
+    time_18 = "18:00:00"
+    time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
+
+
+
+    return render_template('cinema/single_page.html',movie=movie, screens=screens, time9=time9, time12=time12, time15=time15, time18=time18,
+                           mon=mon, tue=tue, wed=wed, thur=thur, fri=fri, sat=sat, sun=sun, num=num, today=today)
 
 #route for confirm ticket
 @app.route('/corfirmqrcode/', methods=['GET','POST'])
@@ -191,10 +215,7 @@ def seats_page(id):
             if i == ticket.seatNo and ticket.taken==True:
                 arr.remove(i)
 
-    if request.method == "POST":
-        print("open")
 
-        return render_template('cinema/seats.html', screen=screen, tickets=tickets, arr=arr)
     return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
 
 #route to allow customers to select what type of ticket they want and the amount of tickets they want.
