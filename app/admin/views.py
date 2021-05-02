@@ -10,7 +10,7 @@ import json
 #Admin page
 @app.route('/admin')
 def admin():
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
@@ -45,7 +45,7 @@ def login():
 
         user = User.query.filter_by(email = form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            session['email'] = form.email.data
+            session['login_email'] = form.email.data
 
             flash(f'Welcome {form.email.data} You are logged in now', 'success')
             return redirect(request.args.get('next') or url_for('admin'))
@@ -59,7 +59,7 @@ def login():
 #route for updating admin account
 @app.route('/updateuser/<int:id>',methods=['GET','POST'])
 def updateuser(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash('Login first please','danger')
         return redirect(url_for('login'))
 
@@ -106,7 +106,7 @@ def ticketsPerMovie(movieId):
 #route for comparing movies
 @app.route('/cmpmovies',methods=['GET','POST'])
 def cmpmovies():
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash('Login first please','danger')
         return redirect(url_for('login'))
 
@@ -177,7 +177,7 @@ def earningsWeekly():
 #route for movie sales
 @app.route('/moviesales',methods=['GET','POST'])
 def moviesales():
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash('Login first please','danger')
         return redirect(url_for('login'))
 
