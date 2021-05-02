@@ -1,8 +1,11 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
-from app.cinema.models import Addticket
-from .forms import RegistrationForm, LoginForm
+from app.cinema.models import Ticket, Movies, Screening
+from app.customers.models import CustomerOrder
+from .forms import RegistrationForm, LoginForm, CompareMovieForm, MovieSalesData
 from .models import User
+from datetime import datetime, timedelta
+import json
 
 #Admin page
 @app.route('/admin')
@@ -14,8 +17,9 @@ def admin():
     user = User.query.filter_by(email=session['email']).first()
     user_id = user.id
 
-    tickets = Addticket.query.all()
-
+    tickets = Ticket.query.all()
+    for ticket in tickets:
+        ticket.screen.startTime
 
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
 
@@ -38,9 +42,11 @@ def register():
 def login():
     form = LoginForm(request.form)
     if request.method == "POST" and form.validate():
+
         user = User.query.filter_by(email = form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             session['email'] = form.email.data
+
             flash(f'Welcome {form.email.data} You are logged in now', 'success')
             return redirect(request.args.get('next') or url_for('admin'))
         else:
@@ -74,3 +80,119 @@ def updateuser(id):
     form.password.data = updateuser.password
     return render_template('admin/register.html',form=form, title='Update User',updateuser=updateuser)
 
+def oneWeekLess(dateMax,currentDate):
+    for i in range(7):
+        newdate = dateMax - timedelta(days = i)
+        if newdate.day == currentDate.day and newdate.month == currentDate.month and newdate.year == currentDate.year:
+            print(newdate)
+            return True
+
+    return False
+
+
+
+def ticketsPerMovie(movieId):
+    count = 0
+    screenings = Screening.query.filter_by(movie_id=movieId)
+    for screen in screenings:
+        tickets = Ticket.query.filter_by(screen_id=screen.id)
+        for ticket in tickets:
+            if oneWeekLess(datetime.today(), ticket.date_created):
+                count = count + 1
+    return count
+    
+
+
+#route for comparing movies
+@app.route('/cmpmovies',methods=['GET','POST'])
+def cmpmovies():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+    form = CompareMovieForm(request.form)
+    movies = Movies.query.all()
+    movie1 = request.form.get('movie1')
+    movie2 = request.form.get('movie2')
+
+    if request.method == "POST":
+        print(movie1)
+        print(movie2)
+        movob = Movies.query.get_or_404(int(movie1))
+        title1 = movob.title
+        movob2 = Movies.query.get_or_404(int(movie2))
+        title2 = movob2.title
+        count1 = ticketsPerMovie(movie1)
+        count2 = ticketsPerMovie(movie2)
+        return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2)
+
+
+    return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
+
+def allTimeSales():
+    tickets = Ticket.query.all()
+    sales = 0
+    for ticket in tickets:
+        sales += ticket.price
+    return sales
+
+
+def movieEarnings(id):
+    sales = 0
+    screenings = Screening.query.filter_by(movie_id = id)
+    for screen in  screenings:
+        tickets = Ticket.query.filter_by(screen_id = screen.id)
+        for ticket in  tickets:
+            sales += ticket.price
+    return sales
+
+def earningsWeekly():
+    tickets = Ticket.query.all()
+    startDate = datetime.today()
+    currentDate = datetime.today()
+    weeklyEarnings = []
+    for ticket in tickets:
+        if ticket.date_created < startDate:
+            startDate = ticket.date_created
+
+    print(len(tickets))
+    while len(tickets) > 0:
+        toRemove = []
+        weekSales = 0
+        for ticket in tickets:
+            if oneWeekLess(currentDate, ticket.date_created) == True:
+                weekSales += ticket.price
+                toRemove.append(ticket)
+        for item in toRemove:
+            tickets.remove(item)
+            print("removing", len(tickets))
+        print("weekSales", weekSales)
+        print(len(tickets))
+        currentDate = currentDate - timedelta(days = 7)
+        weeklyEarnings.append([currentDate,weekSales])
+
+        print(currentDate)
+    return weeklyEarnings
+
+#route for movie sales
+@app.route('/moviesales',methods=['GET','POST'])
+def moviesales():
+    if 'email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
+    movies = Movies.query.all()
+
+    overallSales = allTimeSales()
+    week = earningsWeekly()
+    form = MovieSalesData(request.form)
+    if request.method == "POST":
+
+        movieId = request.form.get('movie')
+        print("before")
+
+        movie = Movies.query.get_or_404(int(movieId))
+        sales = movieEarnings(movieId)
+
+        return render_template('admin/salesresults.html',form=form, title = 'Sales Results', movieTitle=movie.title, movieSales=sales)
+    return render_template('admin/moviesales.html', form=form, title='Movie Sales Data', movies=movies ,overallSales=overallSales, week=week)

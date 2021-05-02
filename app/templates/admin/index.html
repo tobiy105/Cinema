@@ -17,9 +17,27 @@
               <a class="nav-link" href="{{url_for('updateuser', id=user_id)}}">Edit Profile</a>
             </li>
             {% endif %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('addticket')}}">Add ticket</a>
+           <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Add tickets
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                <a class="dropdown-item" href="{{url_for('addmovie')}}">Add movie</a>
+                <a class="dropdown-item" href="{{url_for('movies')}}">View movies</a>
+                <a class="dropdown-item" href="{{url_for('addscreen')}}">Add screen</a>
+                <a class="dropdown-item" href="{{url_for('screens')}}">View screen</a>
+              </div>
+           </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{{url_for('cmpmovies')}}">Compare Movies</a>
             </li>
+
+               <li class="nav-item">
+              <a class="nav-link" href="{{url_for('moviesales')}}">Movie Sales</a>
+            </li>
+
+
 
           </ul>
         </div>
@@ -45,7 +63,7 @@
           <tr>
             <td>{{loop.index}}</td>
 
-            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.screen.movie.title }}</td>
             <td>{{ ticket.price }}</td>
             <td>{{ ticket.discount }}</td>
 
