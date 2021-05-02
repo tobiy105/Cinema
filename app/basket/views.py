@@ -62,6 +62,22 @@ def getBasket():
         grandtotal = ("%.2f" % (1.00 * float(subtotal)))
     return render_template('cinema/basket.html', grandtotal=grandtotal)
 
+# Basket page
+@app.route('/employee/basket')
+def getEmployeeBasket():
+    if 'ShoppingBasket' not in session or len(session['ShoppingBasket']) <= 0:
+        return redirect(url_for('home'))
+    subtotal = 0
+    grandtotal = 0
+    for key, ticket in session['ShoppingBasket'].items():
+        discount = (ticket['discount'] / 100) * float(ticket['price'])
+        subtotal += float(ticket['price']) * int(ticket['quantity'])
+        subtotal -= discount
+
+        grandtotal = ("%.2f" % (1.00 * float(subtotal)))
+    return render_template('employee/basket.html', grandtotal=grandtotal)
+
+
 
 # route for updating the Basket
 @app.route('/updatebasket/<int:code>', methods=['POST'])
@@ -78,9 +94,13 @@ def updatebasket(code):
                     item['quantity'] = quantity
 
                     flash('Item is updated!')
+                    if 'employee_id' in session:
+                        return redirect(url_for('getEmployeeBasket'))
                     return redirect(url_for('getBasket'))
         except Exception as e:
             print(e)
+            if 'employee_id' in session:
+                return redirect(url_for('getEmployeeBasket'))
             return redirect(url_for('getBasket'))
 
 # route for deleting the Basket
@@ -93,10 +113,13 @@ def adult(id):
         for key, ticket in session['ShoppingBasket'].items():
             if int(key) == id:
                 ticket['discount'] = 0
-
+                if 'employee_id' in session:
+                    return redirect(url_for('getEmployeeBasket'))
                 return redirect(url_for('getBasket'))
     except Exception as e:
         print(e)
+        if 'employee_id' in session:
+            return redirect(url_for('getEmployeeBasket'))
         return redirect(url_for('getBasket'))
 
 # route for deleting the Basket
@@ -109,10 +132,13 @@ def child(id):
         for key, ticket in session['ShoppingBasket'].items():
             if int(key) == id:
                 ticket['discount'] = 20
-
+                if 'employee_id' in session:
+                    return redirect(url_for('getEmployeeBasket'))
                 return redirect(url_for('getBasket'))
     except Exception as e:
         print(e)
+        if 'employee_id' in session:
+            return redirect(url_for('getEmployeeBasket'))
         return redirect(url_for('getBasket'))
 
 # route for deleting the Basket
@@ -129,6 +155,8 @@ def teen(id):
                 return redirect(url_for('getBasket'))
     except Exception as e:
         print(e)
+        if 'employee_id' in session:
+            return redirect(url_for('getEmployeeBasket'))
         return redirect(url_for('getBasket'))
 
 # route for deleting the Basket
@@ -141,10 +169,13 @@ def elderly(id):
         for key, ticket in session['ShoppingBasket'].items():
             if int(key) == id:
                 ticket['discount'] = 20
-
+                if 'employee_id' in session:
+                    return redirect(url_for('getEmployeeBasket'))
                 return redirect(url_for('getBasket'))
     except Exception as e:
         print(e)
+        if 'employee_id' in session:
+            return redirect(url_for('getEmployeeBasket'))
         return redirect(url_for('getBasket'))
 
 # route for deleting the Basket
@@ -160,6 +191,8 @@ def deleteitem(id):
                 return redirect(url_for('getBasket'))
     except Exception as e:
         print(e)
+        if 'employee_id' in session:
+            return redirect(url_for('getEmployeeBasket'))
         return redirect(url_for('getBasket'))
 
 
@@ -168,6 +201,10 @@ def deleteitem(id):
 def clearbasket():
     try:
         session.pop('ShoppingBasket', None)
+        if 'employee_id' in session:
+            return redirect(url_for('employee'))
         return redirect(url_for('home'))
     except Exception as e:
         print(e)
+        if 'employee_id' in session:
+            return redirect(url_for('getEmployeeBasket'))

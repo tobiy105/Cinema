@@ -1,17 +1,42 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app,make_response
 from flask_login import login_required, current_user, logout_user, login_user
-from app import app,db,photos, search,bcrypt,login_manager
+from app import app,db,photos, search,bcrypt,login_manager, Message, mail
 from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm, PayWithCashForm
-from .models import Employee
+from .models import Employee, EmployeeOrder
 from app.cinema.models import Ticket, Movies, Screening
 import datetime
 from datetime import date
+
+
+import secrets
+
+import stripe
+import pdfkit
+
+
+buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
+stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
+
+
+# route for payment for the customer
+@app.route('/employee/payment', methods=['POST'])
+def employeePayment():
+    invoice = request.form.get('invoice')
+    amount = request.form.get('amount')
+
+    orders = EmployeeOrder.query.filter_by(employee_id=session['employee_id'], invoice=invoice).order_by(
+        EmployeeOrder.id.desc()).first()
+    orders.status = 'Paid'
+    db.session.commit()
+    flash(f'The order payment has been successful!', 'success')
+    flash(f'Thank you shopping with us!', 'success')
+    return redirect(url_for('employee_orders', invoice=invoice))
 #Employee page
 @app.route('/employee')
 def employee():
     if 'employee_id' not in session:
         flash(f'Please login first', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('employeeLogin'))
 
     movies = Movies.query.all()
     return render_template('employee/index.html', movies=movies)
@@ -54,7 +79,7 @@ def employeeLogin():
 def updateemployee(id):
     if 'employee_id' not in session:
         flash('Login first please', 'danger')
-        return redirect(url_for('login'))
+        return redirect(url_for('employeeLogin'))
 
     updateemployee = Employee.query.get_or_404(id)
     form = EmployeeRegisterForm(request.form)
@@ -140,6 +165,90 @@ def employee_seats_page(id):
 
 
     return render_template('employee/seats.html',screen=screen, tickets=tickets, arr=arr)
+
+# deleting some of basket sessions
+def employeeupdateshoppingbasket():
+    for key, shopping in session['ShoppingBasket'].items():
+        session.modified = True
+
+    return employeeupdateshoppingbasket
+
+
+# route for getting the order for the customer account
+@app.route('/employee/getorder')
+def employee_get_order():
+    if 'employee_id' not in session:
+        flash('Login first please', 'danger')
+        return redirect(url_for('employeeLogin'))
+
+    if 'employee_id' in session:
+        employee_id = session['employee_id']
+        invoice = secrets.token_hex(5)
+        employeeupdateshoppingbasket
+        try:
+            order = EmployeeOrder(invoice=invoice, employee_id=employee_id, orders=session['ShoppingBasket'])
+            db.session.add(order)
+            db.session.commit()
+            session.pop('ShoppingBasket')
+            flash('Your order has been sent successfully', 'success')
+            return redirect(url_for('employee_orders', invoice=invoice))
+        except Exception as e:
+            print(e)
+            flash('Some thing went wrong while get order', 'danger')
+            return redirect(url_for('getEmployeeBasket'))
+
+@app.route('/employee/logout')
+def employee_logout():
+
+    del session['employee_id']
+    return redirect(url_for('employee'))
+
+# route for getting the order invoice for the customer account
+@app.route('/employee/orders/<invoice>')
+def employee_orders(invoice):
+
+    if 'employee_id' in session:
+        grandTotal = 0
+        subTotal = 0
+        employee_id = session['employee_id']
+        customer = Employee.query.filter_by(id=employee_id).first()
+        orders = EmployeeOrder.query.filter_by(employee_id=employee_id, invoice=invoice).order_by(
+            EmployeeOrder.id.desc()).first()
+        for _key, ticket in orders.orders.items():
+            discount = (ticket['discount'] / 100) * float(ticket['price'])
+            subTotal += float(ticket['price']) * int(ticket['quantity'])
+            subTotal -= discount
+
+            url = "http://127.0.0.1:5000/" + str(ticket['id'])
+            grandTotal = ("%.2f" % (1.00 * float(subTotal)))
+
+        if orders.status =='Paid':
+            for _key, ticket in orders.orders.items():
+                ticket_id = ticket['id']
+                tick = Ticket.query.get_or_404(ticket_id)
+                tick.taken = True
+                db.session.commit()
+            #here is pdf is printed
+
+            ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
+                                             grandTotal=grandTotal,
+                                             customer=customer, orders=orders, url=url)
+            ticketPdf = pdfkit.from_string(ticketTemplate, False)
+            user = Employee.query.filter_by(id=employee_id).first()
+            email = user.email
+            emailTo = [email]
+
+            sendTicket = Message('Test', recipients=emailTo)
+            sendTicket.body = "Test message via flask_mail"
+            sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
+            mail.send(sendTicket)
+
+    else:
+        flash('Login first please', 'danger')
+        return redirect(url_for('employeeLogin'))
+    return render_template('employee/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal,
+                           customer=customer, orders=orders)
+
 
 
 
