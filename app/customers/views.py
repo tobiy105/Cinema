@@ -26,7 +26,7 @@ def payment():
     )
     charge = stripe.Charge.create(
         customer=customer.id,
-        description='Sobola Food',
+        description='Cinema',
         amount=amount,
         currency='gbp',
     )
