@@ -1,4 +1,6 @@
+import csv
 import decimal
+
 
 from flask import render_template, request, redirect, url_for
 from app import app, db
@@ -123,7 +125,7 @@ def ticketSelect(screen_id):
 def createTicket(screening, seat, discount):
     movie = Movies.query.filter_by(id=screening.movie_id).first()
     amount = movie.price * decimal.Decimal(discount)
-    return redirect(url_for('showTill', amount=amount))
+    return redirect(url_for('showTill', amount=(amount*100)))
 
 @app.route('/till/<amount>', methods=['GET', 'POST'])
 def showTill(amount):
@@ -137,9 +139,9 @@ def showTill(amount):
         if flag == 0:  #success
             return redirect(url_for('admin')) #should go to payment confimed
         elif flag == 1:  #error not enough money
-            return render_template('till/till.html', form=form, flag=1, amount=amount)
+            return redirect(url_for('showTill', amount=amount))
         elif flag == 2:  #error not enough change
-            return render_template('till/till.html', form=form, flag=2, amount=amount)
+            return render_template('till/till.html', form=form, flag=2, amount=amount)#yikes
     return render_template('till/till.html', form=form, flag=0, amount=amount)
 
 
