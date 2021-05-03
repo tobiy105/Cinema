@@ -720,4 +720,4 @@ def viewMovieDetails():
                                     flash(f'Found genres: {genres}')
                                     break
 
-    return render_template('cinema/viewMovieDetails.html', form=form, data=data)
+    return render_template('customer/viewMovieDetails.html', form=form, data=data)
