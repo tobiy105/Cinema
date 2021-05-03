@@ -33,6 +33,9 @@
               <li class="nav-item">
                 <a href="{{url_for('getBasket')}}" class="nav-link"> Basket ({{ session['ShoppingBasket']|length }}) </a>
               </li>
+              <li class ="nav-item">
+                <a href = "{{url_for('viewMovieDetails')}}" class="nav-link"> Search Movies</a>
+              </li>
           </ul>
           <form class="form-inline my-2 my-lg-0" action="{{url_for('result')}}">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
