@@ -630,14 +630,14 @@ def viewMovieDetails():
                                     if response.text[k] == '"':  # end of title field value
                                         title = response.text[j + 3: k]
                                         foundTitle = True
-                                        flash(f'Found Title: {title}')
+                                        flash(f'Title: {title}')
                                         break
                         elif field == "runningTimeInMinutes" and not foundRunningTime:
                             for k in range(j + 3, len(response.text)):
                                 if response.text[k] == ',':  # end of running time field
                                     runningTime = response.text[j + 2: k]
                                     foundRunningTime = True
-                                    flash(f'Found Running Time: {runningTime}')
+                                    flash(f'Running Time: {runningTime} minutes')
                                     break
 
                         elif field == "year" and not foundYear:
@@ -645,7 +645,7 @@ def viewMovieDetails():
                                 if response.text[k] == '}':  # end of running time field
                                     year = response.text[j + 2: k]
                                     foundYear = True
-                                    flash(f'Found Year: {year}')
+                                    flash(f'Release Year: {year}')
                                     break
 
                         elif field == "plotSummary" and not foundPlot:
@@ -655,7 +655,7 @@ def viewMovieDetails():
                                         if (response.text[x] == '"'):
                                             plotSummary = response.text[k + 7: x]
                                             foundPlot = True
-                                            flash(f'Found Plot Summary: {plotSummary}')
+                                            flash(f'Plot Summary: {plotSummary}')
                                             break
                                     break
 
@@ -672,7 +672,7 @@ def viewMovieDetails():
                                 if response.text[k] == '"':
                                     ratingReason = response.text[j + 3: k]
                                     foundRatingReason = True
-                                    flash(f'Found reason for rating: {ratingReason}')
+                                    flash(f'Reason for rating: {ratingReason}')
                                     break
 
                         elif field == "genres" and not foundGenres:
@@ -682,7 +682,7 @@ def viewMovieDetails():
                                     genres=genres.replace('"','')
                                     genres=genres.replace(',',', ')
                                     foundGenres = True
-                                    flash(f'Found genres: {genres}')
+                                    flash(f'Genres: {genres}')
                                     break
 
     return render_template('cinema/viewMovieDetails.html', form=form, data=data)

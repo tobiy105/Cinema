@@ -2,31 +2,27 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-
-
 <div class="container">
-
     <div class="row">
         <body>
         <div class="col-md-1"></div>
             <div class="col-md-10">
-
                 <form method="post" name="ViewDetails">
                     <p>
                         {{ form.title }}<br>
                     </p>
-                    <p><input type="submit" value ="View Details"></p>
+                    <p><input type="submit" value ="Search for any Movie"></p>
                 </form>
 
                 {% if data %}
                 <img width="400px"  src="{{data}}">
                 {% endif %}
-
+                
                 {% include '_messages.html' %}
+                
             </div>
-
+            
         <div class="col-md-1"></div>
-
         </body>
     </div>
 </div>
