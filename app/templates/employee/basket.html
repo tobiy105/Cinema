@@ -29,15 +29,31 @@
                     <td>{{ticket.price}}</td>
                     <td>{{ticket.discount}}</td>
                     {% if ticket.seatNo >= 14 and ticket.seatNo < 20 %}
-                        <td> <a href="{{url_for('adult', id=key)}}" class="btn btn-sm btn-info">VIP</a></td>
+                        <td> <a href="{{url_for('adult', id=key)}}" class="btn btn-sm btn-warning">VIP</a></td>
                         <td></td>
                         <td></td>
                         <td></td>
                     {% else %}
-                        <td> <a href="{{url_for('adult', id=key)}}" class="btn btn-sm btn-info">Adult</a></td>
-                        <td> <a href="{{url_for('child', id=key)}}" class="btn btn-sm btn-info">Child</a></td>
-                        <td> <a href="{{url_for('teen', id=key)}}" class="btn btn-sm btn-info">Teen</a></td>
-                        <td> <a href="{{url_for('elderly', id=key)}}" class="btn btn-sm btn-info">Elderly</a></td>
+                        {% if ticket.discount == 0 %}
+                            <td> <a href="{{url_for('adult', id=key)}}" class="btn btn-sm btn-warning">Adult</a></td>
+                        {% else %}
+                            <td> <a href="{{url_for('adult', id=key)}}" class="btn btn-sm btn-primary">Adult</a></td>
+                        {% endif %}
+                        {% if ticket.discount == 20 %}
+                            <td> <a href="{{url_for('child', id=key)}}" class="btn btn-sm btn-warning">Child</a></td>
+                        {% else %}
+                            <td> <a href="{{url_for('child', id=key)}}" class="btn btn-sm btn-primary">Child</a></td>
+                        {% endif %}
+                        {% if ticket.discount == 10 %}
+                            <td> <a href="{{url_for('teen', id=key)}}" class="btn btn-sm btn-warning">Teen</a></td>
+                        {% else %}
+                            <td> <a href="{{url_for('teen', id=key)}}" class="btn btn-sm btn-primary">Teen</a></td>
+                        {% endif %}
+                        {% if ticket.discount == 15 %}
+                            <td> <a href="{{url_for('elderly', id=key)}}" class="btn btn-sm btn-warning">Elderly</a></td>
+                        {% else %}
+                            <td> <a href="{{url_for('elderly', id=key)}}" class="btn btn-sm btn-primary">Elderly</a></td>
+                        {% endif %}
                     {% endif %}
                     <td> <a href="{{url_for('deleteitem', id=key)}}" class="btn btn-sm btn-danger">Delete</a></td>
                 </tr>

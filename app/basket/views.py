@@ -168,7 +168,7 @@ def elderly(id):
         session.modified = True
         for key, ticket in session['ShoppingBasket'].items():
             if int(key) == id:
-                ticket['discount'] = 20
+                ticket['discount'] = 15
                 if 'employee_id' in session:
                     return redirect(url_for('getEmployeeBasket'))
                 return redirect(url_for('getBasket'))
