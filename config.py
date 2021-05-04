@@ -15,5 +15,5 @@ SECRET_KEY = 'g8y2g3fr6g8g8yw8yg'
 #path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 #path_wkhtmltopdf = r"/home/andrew/flask_application/GroupProject/sep_group/app/wkhtmltopdf/bin/wkhtmltopdf.exe"
 
-path_wkhtmltopdf = r'app\wkhtmltopdf\bin\wkhtmltopdf.exe'
+path_wkhtmltopdf = r"/home/andrew/flask_application/GroupProject/sep_group/app/wkhtmltopdf/bin/wkhtmltopdf.exe"
 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
