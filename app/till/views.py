@@ -1,4 +1,5 @@
 import decimal
+import sys
 
 from flask import render_template, request, redirect, url_for
 from app import app, db
@@ -31,10 +32,52 @@ class Cash:
                + self.c1 * 1
 
     def to_string(self):
-        return str(self.n50).join(',').join(str(self.n20)).join(',').join(str(self.n10)).join(',').join(str(self.n5)).\
-            join(',').join(str(self.c200)).join(',').join(str(self.c100)).join(',').join(str(self.c50)).join(',').\
-            join(str(self.c20)).join(',').join(str(self.c10)).join(',').join(str(self.c5)).join(',').\
-            join(str(self.c2)).join(',').join(str(self.c1))
+        string = str(self.n50) + ',' + str(self.n20) + ',' + str(self.n10) + ',' + str(self.n5)+',' + str(self.c200) +\
+                 ',' + str(self.c100) + ',' + str(self.c50) + ','+ str(self.c20) + ',' + str(self.c10) + ',' + \
+                 str(self.c5) + ',' + str(self.c2) + ','+ str(self.c1)
+        print(string, file=sys.stderr)
+        return string
+
+    def to_string_q(self):
+        string = str(self.n50) + '?' + str(self.n20) + '?' + str(self.n10) + '?' + str(self.n5)+'?' + str(self.c200) +\
+                 '?' + str(self.c100) + '?' + str(self.c50) + '?' + str(self.c20) + '?' + str(self.c10) + '?' + \
+                 str(self.c5) + '?' + str(self.c2) + '?' + str(self.c1)
+        print(string, file=sys.stderr)
+        return string
+
+    def remove(self, cash):
+        self.n50 -= cash.n50
+        self.n20 -= cash.n20
+        self.n10 -= cash.n10
+        self.n5 -= cash.n5
+        self.c200 -= cash.c200
+        self.c100 -= cash.c100
+        self.c50 -= cash.c50
+        self.c20 -= cash.c20
+        self.c10 -= cash.c10
+        self.c5 -= cash.c5
+        self.c2 -= cash.c2
+        self.c1 -= cash.c1
+
+    def add(self, cash):
+        self.n50 += cash.n50
+        self.n20 += cash.n20
+        self.n10 += cash.n10
+        self.n5 += cash.n5
+        self.c200 += cash.c200
+        self.c100 += cash.c100
+        self.c50 += cash.c50
+        self.c20 += cash.c20
+        self.c10 += cash.c10
+        self.c5 += cash.c5
+        self.c2 += cash.c2
+        self.c1 += cash.c1
+
+    def fromString(self, s, c):
+        data = s.split(c)
+        cash = Cash(int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4]), int(data[5]), int(data[6]),int(data[7]),
+             int(data[8]), int(data[9]), int(data[10]), int(data[11]))
+        return cash
 
 class Till:
     def __init__(self, cash):
@@ -91,12 +134,15 @@ class Till:
     def cashPayment(self, amount, payment):
         cashCheck = cashPaymentCheck(amount, payment)
         if cashCheck == 0:
+            self.cash += payment
             return 0, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)#no change
         elif cashCheck < 0:
             return 1, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)#not enough
         elif cashCheck > 0:
-            enoughChange, toReturn = self.changeCash(float(amount))
+            enoughChange, toReturn = self.changeCash(payment.valueofcash() - int(amount))
             if enoughChange == 0:
+                self.cash.add(payment)
+                self.cash.remove(toReturn)
                 return 0, toReturn
         return 2, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) #not enough change
 
@@ -155,4 +201,4 @@ def loadTill():
 
 def saveToTill(cash):
     till = open('app/till/till.csv', 'w')
-    till.write("10,10,10,10,10,10,10,10,10,10,10,10")
+    till.write(cash.to_string())

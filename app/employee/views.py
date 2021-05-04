@@ -15,7 +15,6 @@ from app.till.views import *
 @app.route('/till/<invoice>?<amount>', methods=['GET', 'POST'])
 def showTill(invoice, amount):
     form = PayWithCashForm(request.form)
-    print('invoice ' + str(invoice) , file=sys.stderr)
     if request.method == "POST":
         payment = Cash(form.n50.data, form.n20.data, form.n10.data, form.n5.data, form.c200.data, form.c100.data, form.
                        c50.data, form.c20.data, form.c10.data, form.c5.data, form.c2.data, form.c1.data)
@@ -23,17 +22,17 @@ def showTill(invoice, amount):
         flag, change = till.cashPayment(amount, payment)
         if flag == 0:  #success
             saveToTill(till.cash)
-            return redirect(url_for('employeePayment', invoice = invoice), code = 307) #should go to payment confimed
+            return redirect(url_for('employeePayment', invoice=invoice, cash=change.to_string_q()), code=307) #should go to payment confimed
         elif flag == 1:  #error not enough money
             return render_template('till/till.html', form=form, flag=1, amount=amount)
-        elif flag == 2:  #error not enough change
+        elif flag == 2:  ##error not enough change
             return render_template('till/till.html', form=form, flag=2, amount=amount)
     return render_template('till/till.html', form=form, flag=0, amount=amount)
 
 
 # route for payment for the customer
-@app.route('/employee/payment/<invoice>', methods=['POST'])
-def employeePayment(invoice):
+@app.route('/employee/payment/<invoice>/<cash>', methods=['POST'])
+def employeePayment(invoice, cash):
     emp_id = session['employee_id']
     orders = EmployeeOrder.query.filter_by(employee_id=emp_id, invoice=invoice).order_by(
         EmployeeOrder.id.desc()).first()
@@ -41,7 +40,7 @@ def employeePayment(invoice):
     db.session.commit()
     flash(f'The order payment has been successful!', 'success')
     flash(f'Thank you shopping with us!', 'success')
-    return redirect(url_for('employee_orders', invoice=invoice))
+    return redirect(url_for('employee_orders', invoice=invoice, cash=cash))
 
 
 #Employee page
@@ -207,7 +206,8 @@ def employee_get_order():
             db.session.commit()
             session.pop('ShoppingBasket')
             flash('Your order has been sent successfully', 'success')
-            return redirect(url_for('employee_orders', invoice=invoice))
+            cash = Cash(0,0,0,0,0,0,0,0,0,0,0,0,)
+            return redirect(url_for('employee_orders', invoice=invoice, cash = cash.to_string()))
         except Exception as e:
             print(e)
             flash('Some thing went wrong while get order', 'danger')
@@ -220,8 +220,8 @@ def employee_logout():
     return redirect(url_for('employee'))
 
 # route for getting the order invoice for the customer account
-@app.route('/employee/orders/<invoice>')
-def employee_orders(invoice):
+@app.route('/employee/orders/<invoice>/<cash>')
+def employee_orders(invoice, cash):
 
     if 'employee_id' in session:
         grandTotal = 0
@@ -239,6 +239,8 @@ def employee_orders(invoice):
             grandTotal = ("%.2f" % (1.00 * float(subTotal)))
 
         if orders.status =='Paid':
+            p = Cash(0,0,0,0,0,0,0,0,0,0,0,0,)
+            cash = p.fromString(cash, '?')
             for _key, ticket in orders.orders.items():
                 ticket_id = ticket['id']
                 tick = Ticket.query.get_or_404(ticket_id)
@@ -263,7 +265,7 @@ def employee_orders(invoice):
         flash('Login first please', 'danger')
         return redirect(url_for('employeeLogin'))
     return render_template('employee/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal,
-                           customer=customer, orders=orders)
+                           customer=customer, orders=orders, cash=cash)
 
 
 
