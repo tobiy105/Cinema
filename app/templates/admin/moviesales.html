@@ -15,6 +15,9 @@
 
             {% if user_id %}
             <li class="nav-item">
+                   <a href="{{url_for('admin_logout')}}" class="nav-link"> Logout</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{{url_for('updateuser', id=user_id)}}">Edit Profile</a>
             </li>
             {% endif %}
@@ -51,9 +54,16 @@
   <div class="container">
     <div class="row">
         <div class="col-md-3"></div>
-            <br class="col-md-6">
+            <div class="col-md-6">
                 <div class="text-center bg-info p-2 h4">{{ title }}</div>
-                <br><label for="overall">Overall sales = ${{overallSales }}</label></br>
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-md-9">
+                    <label class="h5" for="overall">Overall Cinema Sales = £{{overallSales }}</label>
+                    </div>
+                </div>
+
+
                 {% from "_formhelpers.html" import render_field %}
                 {% include '_messages.html' %}
                 <form method=post>
@@ -74,7 +84,7 @@
                      {% endif %}
                     </select>
                 </div>
-                <input type="submit" value="Search by Movie" class="btn btn-sm btn-info">
+                <p><input type="submit" value="Search by Movie" class="btn-info">
 
                 </form>
             </div>
@@ -92,7 +102,7 @@
           {% for item in week %}
           <tr>
             <td>{{item[0]}}</td>
-            <td>{{item[1]}}</td>
+            <td>£{{item[1]}}</td>
           </tr>
           {% endfor %}
         </tbody>

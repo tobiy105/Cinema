@@ -57,20 +57,18 @@
 
                     {% include '_messages.html' %}
 
-                    {% if movie %}
-                        <td>{{movie.title}}</td>
-                    {% endif %}
-                    {% if screen %}
-                        <td>{{screen.startTime}}</td>
-                        <td>{{screen.date}}</td>
-                        <td>{{screen.theatre}}</td>
-                    {% endif %}
-                    {% if seatNo %}
-                        <td>{{seatNo}}</td>
-                    {% endif %}
-                    {% if _price %}
-                        <td>£{{_price}}</td>
-                    {% endif %}
+                    <div>
+
+                    {{ render_field(form.title, class="form-control") }}
+                    {{ render_field(form.price, class="form-control") }}
+                    {{ render_field(form.discount, class="form-control") }}
+                    {{ render_field(form.seatNo, class="form-control") }}
+                    {{ render_field(form.taken, class="form-control") }}
+
+
+                    </div>
+
+
 
                     <p><input type="submit" value="{% if getticket %}Update {% else %}Add{% endif %} ticket" class="btn-outline-info"></p>
 

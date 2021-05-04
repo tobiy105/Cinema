@@ -23,7 +23,12 @@
                 {{ render_field(form.password, class="form-control")}}
                 {{ render_field(form.confirm ,class="form-control")}}
                 <p><input type="submit" value="Register" class="btn-info">
-
+                <br>
+                <p>
+                    If you already have an account.
+                    <br>
+                    <a href="{{url_for('employeeLogin')}}" class="btn btn-sm btn-info">Employee Login Page</a>
+                </p>
             </div>
 
             <div class="col-md-2"></div>

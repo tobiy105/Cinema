@@ -507,7 +507,7 @@ def updateticket(id):
         ticket.price = form.price.data
         ticket.discount = form.discount.data
         ticket.seatNo = form.seatNo.data
-
+        ticket.taken = form.ta
         flash('The ticket was updated','success')
         db.session.commit()
         return redirect(url_for('admin'))
@@ -515,6 +515,7 @@ def updateticket(id):
     form.price.data = ticket.price
     form.discount.data = ticket.discount
     form.seatNo.data = ticket.seatNo
+    form.taken.data = ticket.taken
     form1=form
     return render_template('cinema/addticket.html',form1=form1, form=form, title='Update Ticket',getticket=ticket)
 

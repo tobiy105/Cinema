@@ -6,6 +6,7 @@ from .models import Employee, EmployeeOrder
 from app.cinema.models import Ticket, Movies, Screening
 import datetime
 from datetime import date
+from datetime import datetime
 import sys
 import secrets
 import pdfkit
@@ -244,7 +245,7 @@ def employee_orders(invoice, cash):
                 ticket_id = ticket['id']
                 tick = Ticket.query.get_or_404(ticket_id)
                 tick.taken = True
-                tick.date_created = datetime.utcnow
+                tick.date_created = datetime.datetime.utcnow()
                 db.session.commit()
             #here is pdf is printed
 

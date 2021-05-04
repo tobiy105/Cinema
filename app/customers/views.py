@@ -4,7 +4,7 @@ from app import app, db, photos, search, bcrypt, login_manager, Message, mail
 from .forms import CustomerRegisterForm, CustomerLoginFrom
 from .models import Register, CustomerOrder
 from app.cinema.models import Ticket
-
+from datetime import datetime
 import secrets
 import datetime
 import stripe
@@ -164,7 +164,7 @@ def orders(invoice):
                 ticket_id = ticket['id']
                 tick = Ticket.query.get_or_404(ticket_id)
                 tick.taken = True
-                tick.date_created =datetime.utcnow
+                tick.date_created =datetime.datetime.utcnow()
                 db.session.commit()
             #here is pdf is printed
 
