@@ -46,5 +46,8 @@ class TestCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    def test_one_week_less(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()

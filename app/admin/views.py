@@ -108,7 +108,8 @@ def ticketsPerMovie(movieId):
         tickets = Ticket.query.filter_by(screen_id=screen.id)
         for ticket in tickets:
             if oneWeekLess(datetime.today(), ticket.date_created):
-                count = count + 1
+                if ticket.taken == True:
+                    count = count + 1
     return count
     
 
@@ -149,7 +150,8 @@ def allTimeSales():
     tickets = Ticket.query.all()
     sales = 0
     for ticket in tickets:
-        sales += ticket.price
+        if ticket.taken == True:
+            sales += ticket.price
     return sales
 
 
@@ -170,23 +172,32 @@ def earningsWeekly():
         flash('Login first please','danger')
         return redirect(url_for('login'))
     tickets = Ticket.query.all()
+    print(tickets)
+
     startDate = datetime.today()
+    print(startDate)
     currentDate = datetime.today()
+    print(currentDate)
     weeklyEarnings = []
+    takenTickets = []
+
     for ticket in tickets:
-        if ticket.date_created < startDate:
+        if ticket.date_created < startDate and ticket.taken == True:
             startDate = ticket.date_created
+            takenTickets.append(ticket)
 
     print(len(tickets))
-    while len(tickets) > 0:
+    while len(takenTickets) > 0:
         toRemove = []
         weekSales = 0
-        for ticket in tickets:
+        for ticket in takenTickets:
             if oneWeekLess(currentDate, ticket.date_created) == True:
                 weekSales += ticket.price
                 toRemove.append(ticket)
+                print('here')
+        print('here2')
         for item in toRemove:
-            tickets.remove(item)
+            takenTickets.remove(item)
             print("removing", len(tickets))
         print("weekSales", weekSales)
         print(len(tickets))
@@ -208,10 +219,18 @@ def moviesales():
 
     overallSales = allTimeSales()
     week = earningsWeekly()
-    week1 = week[0][1]
-    week2 = week[1][1]
-    week3 = week[2][1]
-    week4 = week[3][1]
+    week1 = 0
+    week2 = 0
+    week3 = 0
+    week4 = 0
+    if len(week) > 0 & len(week) < 2:
+        week1 = week[0][1]
+    elif len(week) > 1 & len(week) < 3:
+        week2 = week[1][1]
+    elif len(week) > 2 & len(week) < 4:
+        week3 = week[2][1]
+    elif len(week)>= 4:
+        week4 = week[3][1]
 
     form = MovieSalesData(request.form)
     if request.method == "POST":
