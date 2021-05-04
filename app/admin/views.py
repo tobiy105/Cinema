@@ -164,7 +164,8 @@ def movieEarnings(id):
     for screen in  screenings:
         tickets = Ticket.query.filter_by(screen_id = screen.id)
         for ticket in  tickets:
-            sales += ticket.price
+            if ticket.taken == True:
+                sales += ticket.price
     return sales
 
 def earningsWeekly():
