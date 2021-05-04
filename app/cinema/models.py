@@ -14,15 +14,10 @@ class Movies(db.Model):
     genres = db.Column(db.Text, nullable=False)
     certificate = db.Column(db.Text, nullable=False)
     ratingReason = db.Column(db.Text, nullable=False)
-    # director = db.Column(db.Text, nullable=False)
-    # actors = db.Column(db.Text, nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
 
 
     image = db.Column(db.String(150), nullable=False, default='image.jpg')
-
-    #may want to make mutiple catgeries
-    #may have to change this
 
 
     def __repr__(self):
@@ -56,15 +51,5 @@ class Ticket(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     def __repr__(self):
         return '<Post %r>' % self.id
-
-class Catagory(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    child = db.Column(db.Integer)
-    teen = db.Column(db.Integer)
-    adult = db.Column(db.Integer)
-    elderly = db.Column(db.Integer)
-    def __repr__(self):
-        return '<Catagory %r>' % self.id 
-
 
 db.create_all()

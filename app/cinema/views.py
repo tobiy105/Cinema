@@ -1,7 +1,7 @@
 from flask import render_template,session, request,redirect,url_for,flash,current_app
 from app import app,db,photos, search
-from .models import Ticket, Movies, Screening, Catagory
-from .forms import Tickets, SearchMovieForm, Movie, Screen, TSF
+from .models import Ticket, Movies, Screening
+from .forms import Tickets, SearchMovieForm, Movie, Screen
 import requests
 import datetime
 from datetime import date
@@ -186,18 +186,18 @@ def single_page(id):
     return render_template('cinema/single_page.html',movie=movie, screens=screens, time9=time9, time12=time12, time15=time15, time18=time18,
                            mon=mon, tue=tue, wed=wed, thur=thur, fri=fri, sat=sat, sun=sun, num=num, today=today)
 
-#route for confirm ticket
-@app.route('/corfirmqrcode/', methods=['GET','POST'])
-def corfirmqrcode(id):
-    print(id)
-
-    ticket = "Ticket.query.get_or_404(id)"
-    taken = ticket.taken
-    paid = ""
-    if taken == True:
-        paid = "Paid for the ticket"
-
-    return render_template('employee/corfirmqrcode.html',ticket=ticket, taken=taken)
+# #route for confirm ticket
+# @app.route('/corfirmqrcode/', methods=['GET','POST'])
+# def corfirmqrcode(id):
+#     print(id)
+#
+#     ticket = "Ticket.query.get_or_404(id)"
+#     taken = ticket.taken
+#     paid = ""
+#     if taken == True:
+#         paid = "Paid for the ticket"
+#
+#     return render_template('employee/corfirmqrcode.html',ticket=ticket, taken=taken)
 
 #route for displaying a tickets found from word search
 @app.route('/seats/<int:id>', methods=['GET','POST'])
@@ -217,65 +217,6 @@ def seats_page(id):
 
 
     return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
-
-#route to allow customers to select what type of ticket they want and the amount of tickets they want.
-@app.route('/customer/ticket/<int:id>', methods=['GET','POST'])
-def ticketSelection(id):
-    movieID = session['movie']
-    screenID = session['screen']
-    movie = Movies.query.get_or_404(movieID)
-    screen = Screening.query.get_or_404(screenID)
-    session['screen'] = id
-    form = TSF(request.form)
-
-    price = float(movie.price)
-
-    childPrice = round(price * 0.80,2)
-    teenPrice = round(price * 0.90,2)
-    adultPrice = round(price * 1.00,2)
-    elderlyPrice = round(price * 0.80,2)
-
-    #Assuming we are using sessions to carry over the specific movie the customer wants to this route (remove if we are not)
-    if 'movie' in session:
-        if request.method == 'POST' and  form.validate():
-            if request.form.get('child') == None and request.form.get('teen') == None and request.form.get('adult') == None and request.form.get('elderly') == None:
-                flash('No tickets have been selected. Please select the tickets you would like for the movie.')
-                return redirect(url_for('ticketSelection',id=screen.id))
-            if request.form.get('child') != None:
-                childTicket = request.form.get('child')
-            else:
-                childTicket = 0
-            if request.form.get('teen') != None:
-                teenTicket = request.form.get('teen')
-            else:
-                teenTicket = 0
-            if request.form.get('adult') != None:
-                adultTicket = request.form.get('adult')
-            else:
-                adultTicket = 0
-            if request.form.get('elderly') != None:
-                elderlyTicket = request.form.get('elderly')
-            else:
-                elderlyTicket = 0
-            addTickets = Catagory(child=childTicket,teen=teenTicket,adult=adultTicket,elderly=elderlyTicket)
-            db.session.add(addTickets)
-            totalTickets = childTicket + teenTicket + adultTicket + elderlyTicket
-            session['child'] = childTicket
-            session['teen'] = teenTicket
-            session['adult'] = adultTicket
-            session['elderly'] = elderlyTicket
-            session['total'] = totalTickets
-            flash('The tickets have been added to your basket. Proceed to payment when ready.')
-            return redirect(url_for('seats_page',id=screen.id))
-
-    return render_template('cinema/tickets.html',
-        childPrice = childPrice,
-        teenPrice = teenPrice,
-        adultPrice = adultPrice,
-        elderlyPrice = elderlyPrice,
-        form = form,
-        title='Ticket Selection')
-
 
 
 #route for adding movies
@@ -539,13 +480,6 @@ def addticket(id):
         db.session.commit()
         return redirect(url_for('corfirmticket',id=newticket.id))
     return render_template('cinema/addticket.html',title='Add a Ticket',movie=movie,screen=screen,seatNo=seatNo, _price=_price)
-
-#route for confirm ticket
-@app.route('/corfirmticket/<int:id>', methods=['GET','POST'])
-def corfirmticket(id):
-    ticket = Ticket.query.get_or_404(id)
-
-    return render_template('cinema/confirm.html',ticket=ticket)
 
 #route for updating ticket
 @app.route('/updateticket/<int:id>', methods=['GET','POST'])

@@ -14,7 +14,7 @@ def admin():
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
-    user = User.query.filter_by(email=session['email']).first()
+    user = User.query.filter_by(email=session['login_email']).first()
     user_id = user.id
 
     tickets = Ticket.query.all()
@@ -22,6 +22,13 @@ def admin():
         ticket.screen.startTime
 
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
+
+@app.route('/admin/logout')
+def admin_logout():
+
+    del session['login_email']
+    return redirect(url_for('home'))
+
 
 #route for creating admin account
 @app.route('/register', methods=['GET', 'POST'])
@@ -92,6 +99,9 @@ def oneWeekLess(dateMax,currentDate):
 
 
 def ticketsPerMovie(movieId):
+    if 'login_email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
     count = 0
     screenings = Screening.query.filter_by(movie_id=movieId)
     for screen in screenings:
@@ -132,6 +142,10 @@ def cmpmovies():
     return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
 
 def allTimeSales():
+    if 'login_email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
+
     tickets = Ticket.query.all()
     sales = 0
     for ticket in tickets:
@@ -140,6 +154,9 @@ def allTimeSales():
 
 
 def movieEarnings(id):
+    if 'login_email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
     sales = 0
     screenings = Screening.query.filter_by(movie_id = id)
     for screen in  screenings:
@@ -149,6 +166,9 @@ def movieEarnings(id):
     return sales
 
 def earningsWeekly():
+    if 'login_email' not in session:
+        flash('Login first please','danger')
+        return redirect(url_for('login'))
     tickets = Ticket.query.all()
     startDate = datetime.today()
     currentDate = datetime.today()

@@ -245,6 +245,7 @@ def employee_orders(invoice, cash):
                 ticket_id = ticket['id']
                 tick = Ticket.query.get_or_404(ticket_id)
                 tick.taken = True
+                tick.date_created = datetime.utcnow
                 db.session.commit()
             #here is pdf is printed
 

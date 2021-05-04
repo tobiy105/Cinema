@@ -2,9 +2,6 @@ from flask import render_template, session, request, redirect, url_for, flash, c
 from app import db, app
 from app.cinema.models import Ticket
 
-import json
-
-
 def MagerDicts(dict1, dict2):
     if isinstance(dict1, list) and isinstance(dict2, list):
         return dict1 + dict2

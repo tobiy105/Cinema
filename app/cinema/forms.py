@@ -5,6 +5,7 @@ from .models import Movies, Screening
 from _datetime import datetime
 from datetime import datetime
 from datetime import time
+
 #creating the ticket form class
 class Movie(Form):
     title = StringField('Title', [validators.DataRequired()])
@@ -29,14 +30,6 @@ class Screen(Form):
     date = DateField('Date', [validators.DataRequired()], default=datetime.now())
     theatre = TextAreaField('Theatre', [validators.DataRequired()])
     seats = IntegerField('Seats', [validators.DataRequired()])
-
-
-#creating the TSF (ticket selection form) class
-class TSF(FlaskForm):
-    child = IntegerField('child', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
-    teen = IntegerField('teen', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
-    adult = IntegerField('adult', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
-    elderly = IntegerField('elderly', [validators.NumberRange(min=None,max=10,message='To many tickets selected')])
 
 
 
