@@ -1,0 +1,170 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{url_for('admin')}}">Admin Page</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('admin')}}">Ticket <span class="sr-only">(current)</span></a>
+            </li>
+
+            {% if user_id %}
+            <li class="nav-item">
+                   <a href="{{url_for('admin_logout')}}" class="nav-link"> Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('updateuser', id=user_id)}}">Edit Profile</a>
+            </li>
+            {% endif %}
+           <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Add tickets
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                <a class="dropdown-item" href="{{url_for('addmovie')}}">Add movie</a>
+                <a class="dropdown-item" href="{{url_for('movies')}}">View movies</a>
+                <a class="dropdown-item" href="{{url_for('addscreen')}}">Add screen</a>
+                <a class="dropdown-item" href="{{url_for('screens')}}">View screen</a>
+              </div>
+           </li>
+              <li class="nav-item">
+              <a class="nav-link" href="{{url_for('cmpmovies')}}">Compare Movies</a>
+            </li>
+
+               <li class="nav-item">
+              <a class="nav-link" href="{{url_for('moviesales')}}">Movie Sales</a>
+            </li>
+
+
+
+          </ul>
+        </div>
+      </nav>
+</div>
+
+<!--==========END NAVBAR ==============-->
+<html>
+  <body>
+  <div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="text-center bg-info p-2 h4">{{ title }}</div>
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-md-9">
+                    <label class="h5" for="overall">Overall Cinema Sales = £{{overallSales }}</label>
+                    </div>
+                </div>
+
+
+                {% from "_formhelpers.html" import render_field %}
+                {% include '_messages.html' %}
+                <form method=post>
+                    {{form.csrf_token}}
+                <div>
+                    <label for="movie">Select a Movie</label>
+                    <select name="movie" id="movie" class="form-control" required>
+                    {% if getscreen %}
+                      <option value="{{getscreen.movie_id}}" style="display: none;">{{getscreen.movie.title}}</option>
+                      {% for movie in movies %}
+                      <option value="{{movie.id}}">{{movie.title}}</option>
+                      {% endfor %}
+                     {% else %}
+                     <option value=""> Select A Movie</option>
+                     {% for movie in movies %}
+                     <option value="{{movie.id}}">{{movie.title}}</option>
+                     {% endfor %}
+                     {% endif %}
+                    </select>
+                </div>
+                <p><input type="submit" value="Search by Movie" class="btn-info">
+
+                </form>
+            </div>
+      <div class="col-md-3"></div>
+    </div>
+</div>
+    <div class="container">
+    {% include '_messages.html' %}
+    <table class="table tbale-sm">
+        <thead>
+            <th>Week</th>
+            <th>Earnings</th>
+        </thead>
+        <tbody>
+          {% for item in week %}
+          <tr>
+            <td>{{item[0]}}</td>
+            <td>£{{item[1]}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+  </body>
+</html>
+    <html>
+    <center>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function crateArray(earnings) {
+          var i;
+          var x = []
+          for(i = 0; i < 4; i++){
+              x.push(earnings[i][1])
+          }
+
+          return x;
+      }
+
+      function drawChart() {
+
+        var now = new Date();
+        now.setDate(now.getDate()-7);
+        var now2 = new Date();
+        now2.setDate(now2.getDate()-14);
+        var now3 = new Date();
+        now3.setDate((now3.getDate()-21));
+        var now4 = new Date();
+        now4.setDate(now4.getDate()-28);
+
+        var data = google.visualization.arrayToDataTable([
+            ['date', 'Sales'],
+            [now, {{ week1 }}],
+            [now2, {{ week2 }}],
+            [now3, {{ week3 }}],
+            [now4, {{ week4 }}]
+            ]);
+        var options = {
+            chart: {
+                title: 'Weekly Earnings',
+                subtitle: 'A Graphical Representation of Earnings in the Past Month',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+  </body>
+    </center>
+</html>
+
+{% endblock content %}

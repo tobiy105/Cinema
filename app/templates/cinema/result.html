@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container">
+    <div class="row">
+        {% for movie in movies %}
+      <div class="col-md-3 mt-4">
+        <div class="card">
+            <img src="{{movie.image}}" class="card-img-top" alt="{{movie.title}}" width="200">
+            <div class="card-body">
+
+              <h5 class="text-center">{{movie.title}}</h5>
+              <p class="text-center">Price £{{movie.price}}</p>
+            </div>
+            <div class="card-footer">
+                <a href="{{url_for('single_page',id=movie.id)}}" class="float-md-none btn btn-sm btn-primary">Times & Tickets</a>
+
+            </div>
+        </div>
+      </div>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+{% endblock content %}

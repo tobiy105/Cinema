@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-    <form action="" method="post">
+    <form action="" method="post" >
         {{ form.csrf_token }}
         <div class="row">
             <div class="col-md-2"></div>
@@ -23,7 +23,12 @@
                 {{ render_field(form.password, class="form-control")}}
                 {{ render_field(form.confirm ,class="form-control")}}
                 {{ form.submit(class="btn btn-sm btn-info float-right") }}
-
+                <br>
+                <p>
+                    If you already have an account.
+                    <br>
+                    <a href="{{url_for('customerLogin')}}" class="btn btn-sm btn-info">Login Page</a>
+                </p>
             </div>
 
             <div class="col-md-2"></div>

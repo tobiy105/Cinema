@@ -1,1 +1,6 @@
-/venv/
+venv/
+.idea/
+*.xml
+*.pyc
+*.db
+requirements.txt

@@ -1,7 +1,7 @@
 from wtforms import Form, StringField, TextAreaField, PasswordField,SubmitField,validators, ValidationError
 from flask_wtf.file import FileRequired,FileAllowed, FileField
 from flask_wtf import FlaskForm
-from .model import Register
+from .models import Register
 
 #creating the Customer Registration form class
 class CustomerRegisterForm(FlaskForm):

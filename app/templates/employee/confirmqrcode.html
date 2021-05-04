@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container">
+
+    <div class="row">
+
+        <!--========= END ELSE IF ===============-->
+
+
+        {% if ticket  %}
+            Paid
+        {% endif %}
+
+
+    </div>
+</div>
+{% endblock content %}
