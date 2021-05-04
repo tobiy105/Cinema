@@ -174,9 +174,9 @@ def employee_seats_page(id):
     for i in range(screen.seats):
         arr.append(i)
         for ticket in tickets:
-
             if i == ticket.seatNo and ticket.taken==True:
                 arr.remove(i)
+
     return render_template('employee/seats.html',screen=screen, tickets=tickets, arr=arr)
 
 
@@ -184,7 +184,6 @@ def employee_seats_page(id):
 def employeeupdateshoppingbasket():
     for key, shopping in session['ShoppingBasket'].items():
         session.modified = True
-
     return employeeupdateshoppingbasket
 
 
@@ -252,15 +251,15 @@ def employee_orders(invoice, cash):
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
                                              customer=customer, orders=orders, url=url)
-            #ticketPdf = pdfkit.from_string(ticketTemplate, False)
+            ticketPdf = pdfkit.from_string(ticketTemplate, False)
             user = Employee.query.filter_by(id=employee_id).first()
             email = user.email
             emailTo = [email]
 
-            #sendTicket = Message('Test', recipients=emailTo)
-            #sendTicket.body = "Test message via flask_mail"
-            #sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
-            #mail.send(sendTicket)
+            sendTicket = Message('Test', recipients=emailTo)
+            sendTicket.body = "Test message via flask_mail"
+            sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
+            mail.send(sendTicket)
 
     else:
         flash('Login first please', 'danger')

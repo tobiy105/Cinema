@@ -42,7 +42,7 @@ def screens():
 #route for adding screen
 @app.route('/addscreen', methods=['GET','POST'])
 def addscreen():
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
@@ -86,7 +86,7 @@ def addscreen():
 # route for updating ticket
 @app.route('/updatescreen/<int:id>', methods=['GET', 'POST'])
 def updatescreen(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
@@ -118,12 +118,15 @@ def updatescreen(id):
 # route for deleting ticket
 @app.route('/deletescreen/<int:id>', methods=['POST'])
 def deletescreen(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
     screen = Screening.query.get_or_404(id)
+    tickets = Ticket.query.filter_by(screen_id=id)
     if request.method == "POST":
+        for ticket in tickets:
+            db.session.delete(ticket)
         db.session.delete(screen)
         db.session.commit()
         flash(f'The ticket {screen.id} was delete from your record', 'success')
@@ -222,7 +225,7 @@ def seats_page(id):
 #route for adding movies
 @app.route('/addmovie', methods=['GET','POST'])
 def addmovie():
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
     form = Movie(request.form)
@@ -390,7 +393,7 @@ def addmovie():
 # route for updating ticket
 @app.route('/updatemovie/<int:id>', methods=['GET', 'POST'])
 def updatemovie(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
@@ -424,12 +427,20 @@ def updatemovie(id):
 # route for deleting ticket
 @app.route('/deletemovie/<int:id>', methods=['POST'])
 def deletemovie(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
     movie = Movies.query.get_or_404(id)
+    screens = Screening.query.filter_by(movie_id=id)
+    tickets = Ticket.query.filter_by(screen_id=id)
     if request.method == "POST":
+        for screen in screens:
+            tickets = Ticket.query.filter_by(screen_id=screen.id)
+            for ticket in tickets:
+                db.session.delete(ticket)
+
+            db.session.delete(screen)
         db.session.delete(movie)
         db.session.commit()
         flash(f'The movie {movie.title} was delete from your record', 'success')
@@ -440,7 +451,7 @@ def deletemovie(id):
 #route for adding tickets
 @app.route('/addticket/<int:id>', methods=['GET','POST'])
 def addticket(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
     form = Tickets(request.form)
@@ -484,7 +495,7 @@ def addticket(id):
 #route for updating ticket
 @app.route('/updateticket/<int:id>', methods=['GET','POST'])
 def updateticket(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
 
@@ -510,7 +521,7 @@ def updateticket(id):
 #route for deleting ticket
 @app.route('/deleteticket/<int:id>', methods=['POST'])
 def deleteticket(id):
-    if 'email' not in session:
+    if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
     ticket = Ticket.query.get_or_404(id)
