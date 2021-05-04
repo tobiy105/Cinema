@@ -21,18 +21,37 @@ class TestCase(unittest.TestCase):
         db.create_all()
         pass
 
-    def test_category(self):
+    def test_addticketRoute(self):
         client = app.test_client(self)
-        response = client.post('/addcat', data=dict(name='test_c'), follow_redirects=True)
+        response = client.post('/addticket', follow_redirects = true)
         self.assertEqual(response.status_code, 200)
 
-    def test_product(self):
-
+    def test_screenRoute(self):
         client = app.test_client(self)
-        response = client.post('/addticket', data=dict(name="food", price=2, discount=0, stock=10,
-                               category="test_c", desc="help",  category_id=1), follow_redirects=True)
-        print(response)
-        self.assertEqual(response.status_code, 200)
+        reponse = client.post('.addscreen', data=dict(startTime="16:00:00", endTime="18:01:00", 
+                            date="2021:01:01", theatre="theatre name", seats=100))
+        self.asserEqual(response.status_code, 200)
+    
+    def test_ticketCreation(self):
+        client = app.test_client(self)
+        response = client.post('/addmovie', data=dict(title = "Hot Fuzz", duration = "121", releaseDate = "2007"
+                                plot = "Top London cop PC Nicholas Angel is good. Too good. To stop the rest of his team looking bad, he is reassigned to the quiet town of Sandford. He is paired with Danny Butterman, who endlessly questions him on the action lifestyle. Everything seems quiet for Angel until two actors are found decapitated. It is called an accident, but Angel won't accept that, especially when more and more people turn up dead. Angel and Danny clash with everyone while they try to uncover the truth behind the mystery of the apparent",
+                                genres = "Action, Comedy, Mystery, Thriller", certificate = "R", ratingReason = "Rated R for violent content including some graphic images, and language", 
+                                price = 10.50), follow_redirects = true)
+        self.assertEqual(resonse.status_code, 200)
+
+    #def test_category(self):
+    #    client = app.test_client(self)
+    #   response = client.post('/addcat', data=dict(name='test_c'), follow_redirects=True)
+    #    self.assertEqual(response.status_code, 200)
+
+    #def test_product(self):
+
+    #    client = app.test_client(self)
+    #    response = client.post('/addticket', data=dict(name="food", price=2, discount=0, stock=10,
+    #                           category="test_c", desc="help",  category_id=1), follow_redirects=True)
+    #    print(response)
+    #    self.assertEqual(response.status_code, 200)
 
 
     #
