@@ -83,9 +83,6 @@ class Till:
     def __init__(self, cash):
         self.cash = cash
 
-    def __removeCashFromTill(cash):
-        return 0
-
     def changeCash(self, amount):
         toReturn = Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         errorNotEnoughChange = 0
@@ -173,23 +170,23 @@ def ticketSelect(screen_id):
         return createTicket(screening, form.ticket.data, form.discount.data)
     return render_template('till/ticketSelect.html', form=form)
 
+
 def createTicket(screening, seat, discount):
     movie = Movies.query.filter_by(id=screening.movie_id).first()
     amount = movie.price * decimal.Decimal(discount)
     return redirect(url_for('showTill', amount=amount))
 
 
-
-
 def cashPaymentCheck(amount, cash):
     value = cash.valueofcash()
     dif = float(amount) - value
-    if dif > 0:
+    if dif > 0:#not enough
         return -1
-    elif dif == 0:
+    elif dif == 0:#perfect
         return 0
-    elif dif < 0:
+    elif dif < 0:#too much / needs change
         return 1
+
 
 def loadTill():
     till = open('app/till/till.csv', 'r')
