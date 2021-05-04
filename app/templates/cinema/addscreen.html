@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{{url_for('admin')}}">Admin Page</a>
@@ -14,6 +13,9 @@
             </li>
 
             {% if user_id %}
+            <li class="nav-item">
+                   <a href="{{url_for('admin_logout')}}" class="nav-link"> Logout</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('updateuser', id=user_id)}}">Edit Profile</a>
             </li>
@@ -46,7 +48,6 @@
 </div>
 
 <!--==========END NAVBAR ==============-->
-
 <div class="container">
     <div class="row">
         <div class="col-md-1"></div>
