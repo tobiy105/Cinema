@@ -53,8 +53,8 @@
                    {% if orders.status =='Paid' %}
 
                    {% else %}
-                    <form action="{{url_for('employeePayment')}}" method="POST">
                         {% set amount =  grandTotal.replace('.','') %}
+                    <form action="{{url_for('showTill', amount = amount, invoice = orders.invoice)}}" method="GET">
                         <input type="hidden" name="amount" value="{{amount}}">
                         <input type="hidden" name="invoice" value="{{orders.invoice}}">
                         <button type="submit" class="btn btn-sm btn-warning "> Cash Payment </button>

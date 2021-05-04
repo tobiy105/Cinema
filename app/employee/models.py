@@ -34,6 +34,7 @@ class JsonEcodedDict(db.TypeDecorator):
         else:
             return json.loads(value)
 
+
 # create the Customer Order database table
 class EmployeeOrder(db.Model):
     id = db.Column(db.Integer, primary_key=True)

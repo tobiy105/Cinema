@@ -6,31 +6,44 @@ from .models import Employee, EmployeeOrder
 from app.cinema.models import Ticket, Movies, Screening
 import datetime
 from datetime import date
-
-
+import sys
 import secrets
-
-import stripe
 import pdfkit
+from app.till.views import *
 
 
-buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
-stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
+@app.route('/till/<invoice>?<amount>', methods=['GET', 'POST'])
+def showTill(invoice, amount):
+    form = PayWithCashForm(request.form)
+    print('invoice ' + str(invoice) , file=sys.stderr)
+    if request.method == "POST":
+        payment = Cash(form.n50.data, form.n20.data, form.n10.data, form.n5.data, form.c200.data, form.c100.data, form.
+                       c50.data, form.c20.data, form.c10.data, form.c5.data, form.c2.data, form.c1.data)
+        till = Till(loadTill())
+        flag, change = till.cashPayment(amount, payment)
+        if flag == 0:  #success
+            saveToTill(till.cash)
+            return redirect(url_for('employeePayment', invoice = invoice), code = 307) #should go to payment confimed
+        elif flag == 1:  #error not enough money
+            return render_template('till/till.html', form=form, flag=1, amount=amount)
+        elif flag == 2:  #error not enough change
+            return render_template('till/till.html', form=form, flag=2, amount=amount)
+    return render_template('till/till.html', form=form, flag=0, amount=amount)
 
 
 # route for payment for the customer
-@app.route('/employee/payment', methods=['POST'])
-def employeePayment():
-    invoice = request.form.get('invoice')
-    amount = request.form.get('amount')
-
-    orders = EmployeeOrder.query.filter_by(employee_id=session['employee_id'], invoice=invoice).order_by(
+@app.route('/employee/payment/<invoice>', methods=['POST'])
+def employeePayment(invoice):
+    emp_id = session['employee_id']
+    orders = EmployeeOrder.query.filter_by(employee_id=emp_id, invoice=invoice).order_by(
         EmployeeOrder.id.desc()).first()
     orders.status = 'Paid'
     db.session.commit()
     flash(f'The order payment has been successful!', 'success')
     flash(f'Thank you shopping with us!', 'success')
     return redirect(url_for('employee_orders', invoice=invoice))
+
+
 #Employee page
 @app.route('/employee')
 def employee():
@@ -40,6 +53,7 @@ def employee():
 
     movies = Movies.query.all()
     return render_template('employee/index.html', movies=movies)
+
 
 # route for register with the employee account
 @app.route('/employee/register', methods=['GET', 'POST'])
@@ -100,6 +114,7 @@ def updateemployee(id):
 
     return render_template('employee/register.html', form=form, title='Update User', updateemployee=updateemployee)
 
+
 #route for displaying a tickets found from word search
 @app.route('/employee/ticket/<int:id>', methods=['GET', 'POST'])
 def employee_single_page(id):
@@ -147,6 +162,7 @@ def employee_single_page(id):
     return render_template('employee/single_page.html',movie=movie, screens=screens, time9=time9, time12=time12, time15=time15, time18=time18,
                            mon=mon, tue=tue, wed=wed, thur=thur, fri=fri, sat=sat, sun=sun, num=num, today=today)
 
+
 #route for displaying a tickets found from word search
 @app.route('/employee/seats/<int:id>', methods=['GET','POST'])
 def employee_seats_page(id):
@@ -162,9 +178,8 @@ def employee_seats_page(id):
 
             if i == ticket.seatNo and ticket.taken==True:
                 arr.remove(i)
-
-
     return render_template('employee/seats.html',screen=screen, tickets=tickets, arr=arr)
+
 
 # deleting some of basket sessions
 def employeeupdateshoppingbasket():
@@ -187,6 +202,7 @@ def employee_get_order():
         employeeupdateshoppingbasket
         try:
             order = EmployeeOrder(invoice=invoice, employee_id=employee_id, orders=session['ShoppingBasket'])
+            print('invoice ' + str(invoice) + ' empid ' + str(employee_id), file=sys.stderr)
             db.session.add(order)
             db.session.commit()
             session.pop('ShoppingBasket')
@@ -233,15 +249,15 @@ def employee_orders(invoice):
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
                                              customer=customer, orders=orders, url=url)
-            ticketPdf = pdfkit.from_string(ticketTemplate, False)
+            #ticketPdf = pdfkit.from_string(ticketTemplate, False)
             user = Employee.query.filter_by(id=employee_id).first()
             email = user.email
             emailTo = [email]
 
-            sendTicket = Message('Test', recipients=emailTo)
-            sendTicket.body = "Test message via flask_mail"
-            sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
-            mail.send(sendTicket)
+            #sendTicket = Message('Test', recipients=emailTo)
+            #sendTicket.body = "Test message via flask_mail"
+            #sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
+            #mail.send(sendTicket)
 
     else:
         flash('Login first please', 'danger')

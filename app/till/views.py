@@ -6,6 +6,8 @@ from .forms import PayWithCashForm, SelectScreeningForm, SelectTicketForm
 from app.cinema.models import Screening, Ticket, Movies
 from sqlalchemy import asc
 
+from ..employee.models import EmployeeOrder
+
 
 class Cash:
     def __init__(self, n50, n20, n10, n5, c200, c100, c50, c20, c10, c5, c2,
@@ -28,6 +30,11 @@ class Cash:
                + self.c50 * 50 + self.c20 * 20 + self.c10 * 10 + self.c5 * 5 + self.c2 * 2 \
                + self.c1 * 1
 
+    def to_string(self):
+        return str(self.n50).join(',').join(str(self.n20)).join(',').join(str(self.n10)).join(',').join(str(self.n5)).\
+            join(',').join(str(self.c200)).join(',').join(str(self.c100)).join(',').join(str(self.c50)).join(',').\
+            join(str(self.c20)).join(',').join(str(self.c10)).join(',').join(str(self.c5)).join(',').\
+            join(str(self.c2)).join(',').join(str(self.c1))
 
 class Till:
     def __init__(self, cash):
@@ -125,22 +132,7 @@ def createTicket(screening, seat, discount):
     amount = movie.price * decimal.Decimal(discount)
     return redirect(url_for('showTill', amount=amount))
 
-@app.route('/till/<amount>', methods=['GET', 'POST'])
-def showTill(amount):
-    form = PayWithCashForm(request.form)
-    if request.method == "POST":
-        payment = Cash(form.n50.data, form.n20.data, form.n10.data, form.n5.data, form.c200.data, form.c100.data, form.
-                       c50.data, form.c20.data, form.c10.data, form.c5.data, form.c2.data, form.c1.data)
-        cash = Cash(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10)
-        till = Till(cash)
-        flag, change = till.cashPayment(amount, payment)
-        if flag == 0:  #success
-            return redirect(url_for('admin')) #should go to payment confimed
-        elif flag == 1:  #error not enough money
-            return render_template('till/till.html', form=form, flag=1, amount=amount)
-        elif flag == 2:  #error not enough change
-            return render_template('till/till.html', form=form, flag=2, amount=amount)
-    return render_template('till/till.html', form=form, flag=0, amount=amount)
+
 
 
 def cashPaymentCheck(amount, cash):
@@ -152,3 +144,15 @@ def cashPaymentCheck(amount, cash):
         return 0
     elif dif < 0:
         return 1
+
+def loadTill():
+    till = open('app/till/till.csv', 'r')
+    dataS = till.readline()
+    data = dataS.split(',')
+    cash = Cash(int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4]), int(data[5]), int(data[6]), int(data[7]),
+                        int(data[8]), int(data[9]), int( data[10]), int(data[11]))
+    return cash
+
+def saveToTill(cash):
+    till = open('app/till/till.csv', 'w')
+    till.write("10,10,10,10,10,10,10,10,10,10,10,10")
