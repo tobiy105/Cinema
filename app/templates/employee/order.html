@@ -1,74 +1,109 @@
 {% extends 'layout.html' %}
 {% block content %}
-{% include 'navbar.html' %}
-<div class="container mt-4">
-    {% include '_messages.html' %}
-    <div class="row">
-        <div class="col-md-12">
-            Invoice: {{orders.invoice}}
-            <br>
-            Status: {{orders.status}}
-            <br>
-            Customer name: {{customer.name}}
-            <br>
-            Customer email: {{customer.email}}
-            <br>
-        <table class="table table-sm">
-            <thead>
-                <th>Sr</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Discount</th>
-                <th>Subtotal</th>
-            </thead>
-            <tbody>
-                {% for key, product in orders.orders.items() %}
-                {% set discount =(product.discount/100) * product.price|float %}
-                <tr>
-                    <td>{{loop.index}}</td>
-                    <td>{{product.title}}</td>
+    {% include 'navbar.html' %}
+    <div class="container mt-4">
+        {% include '_messages.html' %}
+        <div class="row">
+            <div class="col-md-12">
+                Invoice: {{orders.invoice}}
+                <br>
+                Status: {{orders.status}}
+                <br>
+                Customer name: {{customer.name}}
+                <br>
+                Customer email: {{customer.email}}
+                <br>
+                <table class="table table-sm">
+                    <thead>
+                    <th>Sr</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Discount</th>
+                    <th>Subtotal</th>
+                    </thead>
+                    <tbody>
+                    {% for key, product in orders.orders.items() %}
+                        {% set discount =(product.discount/100) * product.price|float %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{product.title}}</td>
 
-                    <form action="{{url_for('updatebasket', code=key)}}" method="post">
+                            <form action="{{url_for('updatebasket', code=key)}}" method="post">
 
-                    <td>£{{"%.2f"|format(product.price)}}</td>
-                    <td> {{product.quantity}} </td>
-                    {% if product.discount  %}
-                    <td>{{product.discount}} % &nbsp; &nbsp; is {{"%.2f"|format(discount)}}</td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    {% set subtotal = product.quantity|int * product.price|float  %}
-                    <td>£{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}</td>
+                                <td>£{{"%.2f"|format(product.price)}}</td>
+                                <td> {{product.quantity}} </td>
+                                {% if product.discount  %}
+                                    <td>{{product.discount}} % &nbsp; &nbsp; is {{"%.2f"|format(discount)}}</td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                                {% set subtotal = product.quantity|int * product.price|float  %}
+                                <td>£{{"%.2f"|format(subtotal - discount|round(1,'floor')) }}</td>
 
-                </form>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <table class="table table-sm">
-           <tr>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <table class="table table-sm">
+                    <tr>
 
-               <td>
-                   {% if orders.status =='Paid' %}
+                        <td>
+                            {% if orders.status =='Paid' %}
+                                <h4>Change</h4>
+                                {% if cash.n50 > 0 %}
+                                    {{ cash.n50 }} £50 notes
+                                {% endif %}
+                                {% if cash.n20 > 0 %}
+                                    {{ cash.n20 }} £20 notes
+                                {% endif %}
+                                {% if cash.n10 > 0 %}
+                                    {{ cash.n10 }} £10 notes
+                                {% endif %}
+                                {% if cash.n5 > 0 %}
+                                    {{ cash.n5 }} £5 notes
+                                {% endif %}
+                                {% if cash.c200 > 0 %}
+                                    {{ cash.c200 }} £2 coins
+                                {% endif %}
+                                {% if cash.c100 > 0 %}
+                                    {{ cash.c100 }} £1 coins
+                                {% endif %}
+                                {% if cash.c50 > 0 %}
+                                    {{ cash.c50 }} 50p coins
+                                {% endif %}
+                                {% if cash.c20 > 0 %}
+                                    {{ cash.c20 }} 20p coins
+                                {% endif %}
+                                {% if cash.c10 > 0 %}
+                                    {{ cash.c10 }} 10p coins
+                                {% endif %}
+                                {% if cash.c5 > 0 %}
+                                    {{ cash.c5 }} 5p coins
+                                {% endif %}
+                                {% if cash.c2 > 0 %}
+                                    {{ cash.c2 }} 2p coins
+                                {% endif %}
+                                {% if cash.c1 > 0 %}
+                                    {{ cash.c1 }} 1p coins
+                                {% endif %}
+                            {% else %}
+                                {% set amount =  grandTotal.replace('.','') %}
+                                <form action="{{url_for('showTill', amount = amount, invoice = orders.invoice)}}" method="GET">
+                                    <input type="hidden" name="amount" value="{{amount}}">
+                                    <input type="hidden" name="invoice" value="{{orders.invoice}}">
+                                    <button type="submit" class="btn btn-sm btn-warning "> Cash Payment </button>
+                                </form>
+                            {% endif %}
+                        </td>
+                        <td width="42%"></td>
+                        <td> <h5>Grand total: £{{grandTotal}}</h5> </td>
 
-                   {% else %}
-                    <form action="{{url_for('employeePayment')}}" method="POST">
-                        {% set amount =  grandTotal.replace('.','') %}
-                        <input type="hidden" name="amount" value="{{amount}}">
-                        <input type="hidden" name="invoice" value="{{orders.invoice}}">
-                        <button type="submit" class="btn btn-sm btn-warning "> Cash Payment </button>
-                    </form>
-                   {% endif %}
-            </td>
-               <td width="42%"></td>
 
-               <td> <h5>Grand total: £{{grandTotal}}</h5> </td>
-
-
-           </tr>
-        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock content %}

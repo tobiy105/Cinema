@@ -1,10 +1,13 @@
 import decimal
+import sys
 
 from flask import render_template, request, redirect, url_for
 from app import app, db
 from .forms import PayWithCashForm, SelectScreeningForm, SelectTicketForm
 from app.cinema.models import Screening, Ticket, Movies
 from sqlalchemy import asc
+
+from ..employee.models import EmployeeOrder
 
 
 class Cash:
@@ -28,6 +31,53 @@ class Cash:
                + self.c50 * 50 + self.c20 * 20 + self.c10 * 10 + self.c5 * 5 + self.c2 * 2 \
                + self.c1 * 1
 
+    def to_string(self):
+        string = str(self.n50) + ',' + str(self.n20) + ',' + str(self.n10) + ',' + str(self.n5)+',' + str(self.c200) +\
+                 ',' + str(self.c100) + ',' + str(self.c50) + ','+ str(self.c20) + ',' + str(self.c10) + ',' + \
+                 str(self.c5) + ',' + str(self.c2) + ','+ str(self.c1)
+        print(string, file=sys.stderr)
+        return string
+
+    def to_string_q(self):
+        string = str(self.n50) + '?' + str(self.n20) + '?' + str(self.n10) + '?' + str(self.n5)+'?' + str(self.c200) +\
+                 '?' + str(self.c100) + '?' + str(self.c50) + '?' + str(self.c20) + '?' + str(self.c10) + '?' + \
+                 str(self.c5) + '?' + str(self.c2) + '?' + str(self.c1)
+        print(string, file=sys.stderr)
+        return string
+
+    def remove(self, cash):
+        self.n50 -= cash.n50
+        self.n20 -= cash.n20
+        self.n10 -= cash.n10
+        self.n5 -= cash.n5
+        self.c200 -= cash.c200
+        self.c100 -= cash.c100
+        self.c50 -= cash.c50
+        self.c20 -= cash.c20
+        self.c10 -= cash.c10
+        self.c5 -= cash.c5
+        self.c2 -= cash.c2
+        self.c1 -= cash.c1
+
+    def add(self, cash):
+        self.n50 += cash.n50
+        self.n20 += cash.n20
+        self.n10 += cash.n10
+        self.n5 += cash.n5
+        self.c200 += cash.c200
+        self.c100 += cash.c100
+        self.c50 += cash.c50
+        self.c20 += cash.c20
+        self.c10 += cash.c10
+        self.c5 += cash.c5
+        self.c2 += cash.c2
+        self.c1 += cash.c1
+
+    def fromString(self, s, c):
+        data = s.split(c)
+        cash = Cash(int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4]), int(data[5]), int(data[6]),int(data[7]),
+             int(data[8]), int(data[9]), int(data[10]), int(data[11]))
+        return cash
 
 class Till:
     def __init__(self, cash):
@@ -84,12 +134,15 @@ class Till:
     def cashPayment(self, amount, payment):
         cashCheck = cashPaymentCheck(amount, payment)
         if cashCheck == 0:
+            self.cash += payment
             return 0, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)#no change
         elif cashCheck < 0:
             return 1, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)#not enough
         elif cashCheck > 0:
-            enoughChange, toReturn = self.changeCash(float(amount))
+            enoughChange, toReturn = self.changeCash(payment.valueofcash() - int(amount))
             if enoughChange == 0:
+                self.cash.add(payment)
+                self.cash.remove(toReturn)
                 return 0, toReturn
         return 2, Cash(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) #not enough change
 
@@ -125,22 +178,7 @@ def createTicket(screening, seat, discount):
     amount = movie.price * decimal.Decimal(discount)
     return redirect(url_for('showTill', amount=amount))
 
-@app.route('/till/<amount>', methods=['GET', 'POST'])
-def showTill(amount):
-    form = PayWithCashForm(request.form)
-    if request.method == "POST":
-        payment = Cash(form.n50.data, form.n20.data, form.n10.data, form.n5.data, form.c200.data, form.c100.data, form.
-                       c50.data, form.c20.data, form.c10.data, form.c5.data, form.c2.data, form.c1.data)
-        cash = Cash(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10)
-        till = Till(cash)
-        flag, change = till.cashPayment(amount, payment)
-        if flag == 0:  #success
-            return redirect(url_for('admin')) #should go to payment confimed
-        elif flag == 1:  #error not enough money
-            return render_template('till/till.html', form=form, flag=1, amount=amount)
-        elif flag == 2:  #error not enough change
-            return render_template('till/till.html', form=form, flag=2, amount=amount)
-    return render_template('till/till.html', form=form, flag=0, amount=amount)
+
 
 
 def cashPaymentCheck(amount, cash):
@@ -152,3 +190,15 @@ def cashPaymentCheck(amount, cash):
         return 0
     elif dif < 0:
         return 1
+
+def loadTill():
+    till = open('app/till/till.csv', 'r')
+    dataS = till.readline()
+    data = dataS.split(',')
+    cash = Cash(int(data[0]), int(data[1]), int(data[2]), int(data[3]), int(data[4]), int(data[5]), int(data[6]), int(data[7]),
+                        int(data[8]), int(data[9]), int( data[10]), int(data[11]))
+    return cash
+
+def saveToTill(cash):
+    till = open('app/till/till.csv', 'w')
+    till.write(cash.to_string())

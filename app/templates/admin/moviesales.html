@@ -55,6 +55,60 @@
 
   </body>
 </html>
+    <html>
+    <center>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
 
+      function crateArray(earnings) {
+          var i;
+          var x = []
+          for(i = 0; i < 4; i++){
+              x.push(earnings[i][1])
+          }
+
+          return x;
+      }
+
+      function drawChart() {
+
+        var now = new Date();
+        now.setDate(now.getDate()-7);
+        var now2 = new Date();
+        now2.setDate(now2.getDate()-14);
+        var now3 = new Date();
+        now3.setDate((now3.getDate()-21));
+        var now4 = new Date();
+        now4.setDate(now4.getDate()-28);
+
+        var data = google.visualization.arrayToDataTable([
+            ['date', 'Sales'],
+            [now, {{ week1 }}],
+            [now2, {{ week2 }}],
+            [now3, {{ week3 }}],
+            [now4, {{ week4 }}]
+            ]);
+        var options = {
+            chart: {
+                title: 'Weekly Earnings',
+                subtitle: 'A Graphical Representation of Earnings in the Past Month',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+  </body>
+    </center>
+</html>
 
 {% endblock content %}
