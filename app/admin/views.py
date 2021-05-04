@@ -124,7 +124,9 @@ def cmpmovies():
         title2 = movob2.title
         count1 = ticketsPerMovie(movie1)
         count2 = ticketsPerMovie(movie2)
-        return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2)
+
+
+        return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2,)
 
 
     return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
@@ -174,6 +176,7 @@ def earningsWeekly():
         print(currentDate)
     return weeklyEarnings
 
+
 #route for movie sales
 @app.route('/moviesales',methods=['GET','POST'])
 def moviesales():
@@ -185,6 +188,11 @@ def moviesales():
 
     overallSales = allTimeSales()
     week = earningsWeekly()
+    week1 = week[0][1]
+    week2 = week[1][1]
+    week3 = week[2][1]
+    week4 = week[3][1]
+
     form = MovieSalesData(request.form)
     if request.method == "POST":
 
@@ -195,4 +203,4 @@ def moviesales():
         sales = movieEarnings(movieId)
 
         return render_template('admin/salesresults.html',form=form, title = 'Sales Results', movieTitle=movie.title, movieSales=sales)
-    return render_template('admin/moviesales.html', form=form, title='Movie Sales Data', movies=movies ,overallSales=overallSales, week=week)
+    return render_template('admin/moviesales.html', form=form, title='Movie Sales Data', movies=movies ,overallSales=overallSales, week=week, week1=week1, week2=week2, week3=week3, week4=week4)
