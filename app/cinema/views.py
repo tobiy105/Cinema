@@ -12,7 +12,8 @@ import qrcode
 #route for home 
 @app.route('/')
 def home():
-    del session['employee_id']
+    if 'employee_id' in session:
+        del session['employee_id']
     movies = Movies.query.all()
     return render_template('cinema/index.html', movies=movies)
 
