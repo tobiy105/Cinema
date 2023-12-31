@@ -1,6 +1,5 @@
-from flask import render_template,session, request,redirect,url_for,flash,current_app,make_response
-from flask_login import login_required, current_user, logout_user, login_user
-from app import app,db,photos, search,bcrypt,login_manager, Message, mail
+from flask import render_template, session, request, redirect, url_for, flash
+from app import app,db, bcrypt, Message, mail
 from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm, PayWithCashForm
 from .models import Employee, EmployeeOrder
 from app.cinema.models import Ticket, Movies, Screening
@@ -11,7 +10,6 @@ import sys
 import secrets
 import pdfkit
 from app.till.views import *
-
 
 @app.route('/till/<invoice>?<amount>', methods=['GET', 'POST'])
 def showTill(invoice, amount):
@@ -147,7 +145,6 @@ def employee_single_page(id):
         sat = datetime.datetime.strptime(f'{year}-W{weekNo + num}-6', "%Y-W%W-%w").date()
         sun = datetime.datetime.strptime(f'{year}-W{weekNo + num}-0', "%Y-W%W-%w").date()
 
-
     time_9 = "09:00:00"
     time9 = datetime.datetime.strptime(time_9, "%H:%M:%S")
     time_12 = "12:00:00"
@@ -156,8 +153,6 @@ def employee_single_page(id):
     time15 = datetime.datetime.strptime(time_15, "%H:%M:%S")
     time_18 = "18:00:00"
     time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
-
-
 
     return render_template('employee/single_page.html',movie=movie, screens=screens, time9=time9, time12=time12, time15=time15, time18=time18,
                            mon=mon, tue=tue, wed=wed, thur=thur, fri=fri, sat=sat, sun=sun, num=num, today=today)
@@ -180,13 +175,11 @@ def employee_seats_page(id):
 
     return render_template('employee/seats.html',screen=screen, tickets=tickets, arr=arr)
 
-
 # deleting some of basket sessions
 def employeeupdateshoppingbasket():
     for key, shopping in session['ShoppingBasket'].items():
         session.modified = True
     return employeeupdateshoppingbasket
-
 
 # route for getting the order for the customer account
 @app.route('/employee/getorder')
@@ -267,7 +260,3 @@ def employee_orders(invoice, cash):
         return redirect(url_for('employeeLogin'))
     return render_template('employee/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal,
                            customer=customer, orders=orders, cash=cash)
-
-
-
-

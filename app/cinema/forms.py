@@ -1,10 +1,6 @@
-from wtforms import Form, SubmitField,IntegerField,FloatField,StringField,TextAreaField,validators ,ValidationError,DateField,DateTimeField, TimeField
-from flask_wtf.file import FileField,FileRequired,FileAllowed
-from flask_wtf import FlaskForm
+from wtforms import Form, IntegerField, FloatField, StringField, TextAreaField, validators, ValidationError, DateField, TimeField
 from .models import Movies, Screening
-from _datetime import datetime
 from datetime import datetime
-from datetime import time
 
 #creating the ticket form class
 class Movie(Form):
@@ -31,8 +27,6 @@ class Screen(Form):
     theatre = TextAreaField('Theatre', [validators.DataRequired()])
     seats = IntegerField('Seats', [validators.DataRequired()])
 
-
-
 #creating the ticket form class
 class Tickets(Form):
 
@@ -44,7 +38,6 @@ class Tickets(Form):
     def validate_seats(self, seatNo):
         if Screening.query.filter_by(seatNo=seatNo.data).first():
             raise ValidationError("This seat is already taken!")
-
 
 #creating a form for movie search
 class SearchMovieForm(Form):

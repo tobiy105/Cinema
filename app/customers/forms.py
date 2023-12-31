@@ -1,5 +1,4 @@
-from wtforms import Form, StringField, TextAreaField, PasswordField,SubmitField,validators, ValidationError
-from flask_wtf.file import FileRequired,FileAllowed, FileField
+from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError
 from flask_wtf import FlaskForm
 from .models import Register
 
@@ -24,22 +23,3 @@ class CustomerRegisterForm(FlaskForm):
 class CustomerLoginFrom(FlaskForm):
     email = StringField('Email: ', [validators.Email(), validators.DataRequired()])
     password = PasswordField('Password: ', [validators.DataRequired()])
-
-   
-
-
-
-
-   
-
- 
-
-    
-
-     
-
-   
-
-
-    
-

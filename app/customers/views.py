@@ -1,6 +1,6 @@
-from flask import render_template, session, request, redirect, url_for, flash, current_app, make_response
-from flask_login import login_required, current_user, logout_user, login_user
-from app import app, db, photos, search, bcrypt, login_manager, Message, mail
+from flask import render_template, session, request, redirect, url_for, flash
+from flask_login import logout_user, login_user
+from app import app, db, bcrypt, Message, mail
 from .forms import CustomerRegisterForm, CustomerLoginFrom
 from .models import Register, CustomerOrder
 from app.cinema.models import Ticket
@@ -10,10 +10,8 @@ import datetime
 import stripe
 import pdfkit
 
-
 buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
 stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
-
 
 # route for payment for the customer
 @app.route('/payment', methods=['POST'])
@@ -99,7 +97,6 @@ def updatecustomer(id):
 
     return render_template('customer/register.html', form=form, title='Update User', updatecustomer=updatecustomer)
 
-
 @app.route('/customer/logout')
 def customer_logout():
     logout_user()
@@ -113,8 +110,6 @@ def updateshoppingbasket():
         session.modified = True
 
     return updateshoppingbasket
-
-
 
 # route for getting the order for the customer account
 @app.route('/getorder')
@@ -138,7 +133,6 @@ def get_order():
             print(e)
             flash('Some thing went wrong while get order', 'danger')
             return redirect(url_for('getBasket'))
-
 
 # route for getting the order invoice for the customer account
 @app.route('/orders/<invoice>')
@@ -186,7 +180,4 @@ def orders(invoice):
         return redirect(url_for('customerLogin'))
     return render_template('customer/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal,
                            customer=customer, orders=orders)
-
-
-
 

@@ -1,12 +1,11 @@
-from flask import render_template,session, request,redirect,url_for,flash,current_app
-from app import app,db,photos, search
+from flask import render_template,session, request, redirect, url_for, flash
+from app import app, db
 from .models import Ticket, Movies, Screening
 from .forms import Tickets, SearchMovieForm, Movie, Screen
 import requests
 import datetime
 from datetime import date
-import secrets
-import os
+
 import qrcode
 
 #route for home 

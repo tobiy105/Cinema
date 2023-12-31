@@ -1,5 +1,4 @@
-from wtforms import Form, StringField, TextAreaField, PasswordField, SubmitField, validators, ValidationError, IntegerField
-from flask_wtf.file import FileRequired, FileAllowed, FileField
+from wtforms import Form, StringField, PasswordField, SubmitField, validators, ValidationError, IntegerField
 from flask_wtf import FlaskForm
 from .models import Employee
 

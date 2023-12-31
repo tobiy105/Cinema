@@ -1,11 +1,9 @@
 from flask import render_template, session, request, redirect, url_for, flash, make_response
 from app import app, db, bcrypt
 from app.cinema.models import Ticket, Movies, Screening
-from app.customers.models import CustomerOrder
 from .forms import RegistrationForm, LoginForm, CompareMovieForm, MovieSalesData
 from .models import User
 from datetime import datetime, timedelta
-import json
 
 #Admin page
 @app.route('/admin')
@@ -28,7 +26,6 @@ def admin_logout():
 
     del session['login_email']
     return redirect(url_for('home'))
-
 
 #route for creating admin account
 @app.route('/register', methods=['GET', 'POST'])
@@ -96,8 +93,6 @@ def oneWeekLess(dateMax,currentDate):
 
     return False
 
-
-
 def ticketsPerMovie(movieId):
     if 'login_email' not in session:
         flash('Login first please','danger')
@@ -111,8 +106,6 @@ def ticketsPerMovie(movieId):
                 if ticket.taken == True:
                     count = count + 1
     return count
-    
-
 
 #route for comparing movies
 @app.route('/cmpmovies',methods=['GET','POST'])
@@ -136,9 +129,7 @@ def cmpmovies():
         count1 = ticketsPerMovie(movie1)
         count2 = ticketsPerMovie(movie2)
 
-
         return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2,)
-
 
     return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
 
@@ -153,7 +144,6 @@ def allTimeSales():
         if ticket.taken == True:
             sales += ticket.price
     return sales
-
 
 def movieEarnings(id):
     if 'login_email' not in session:
@@ -207,7 +197,6 @@ def earningsWeekly():
 
         print(currentDate)
     return weeklyEarnings
-
 
 #route for movie sales
 @app.route('/moviesales',methods=['GET','POST'])
