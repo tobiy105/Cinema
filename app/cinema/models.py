@@ -2,7 +2,6 @@ from app import db
 from datetime import datetime
 from datetime import time
 
-
 # create the movie database table
 class Movies(db.Model):
 
@@ -16,9 +15,7 @@ class Movies(db.Model):
     ratingReason = db.Column(db.Text, nullable=False)
     price = db.Column(db.Numeric(10, 2), nullable=False)
 
-
     image = db.Column(db.String(150), nullable=False, default='image.jpg')
-
 
     def __repr__(self):
         return '<Movie %r>' % self.title
@@ -51,5 +48,3 @@ class Ticket(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     def __repr__(self):
         return '<Post %r>' % self.id
-
-db.create_all()

@@ -15,7 +15,6 @@ class Employee(db.Model, UserMixin):
     email = db.Column(db.String(50), unique= True)
     password = db.Column(db.String(200), unique= False)
 
-
     def __repr__(self):
         return '<Employee %r>' % self.name
 
@@ -34,7 +33,6 @@ class JsonEcodedDict(db.TypeDecorator):
         else:
             return json.loads(value)
 
-
 # create the Customer Order database table
 class EmployeeOrder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,4 +45,3 @@ class EmployeeOrder(db.Model):
     def __repr__(self):
         return '<EmployeeOrder %r>' % self.invoice
 
-db.create_all()

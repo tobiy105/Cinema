@@ -3,9 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 from flask_migrate import Migrate
-from flask_uploads import IMAGES, UploadSet, configure_uploads, patch_request_class
+from flask_uploads import IMAGES, UploadSet, configure_uploads#, patch_request_class
 
-from flask_msearch import Search
+# from flask_msearch import Search
 from flask_login import LoginManager
 
 from flask_qrcode import QRcode
@@ -21,12 +21,12 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 #Handles search
-search = Search()
-search.init_app(app)
+# search = Search()
+# search.init_app(app)
 #Handles all saved images
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
-patch_request_class(app)
+# patch_request_class(app)
 
 # Handles all migrations.
 migrate = Migrate(app, db)
