@@ -29,9 +29,7 @@ def screen():
 #route for movies
 @app.route('/movies')
 def movies():
-
     movies = Movies.query.all()
-
     return render_template('cinema/movies.html', movies=movies)
 
 #route for screens
@@ -78,7 +76,6 @@ def addscreen():
             session['ticket_id'] = newticket.id
             flash(f'The ticket with seat number {seatNo} was added in database', 'success')
             db.session.commit()
-
 
         return redirect(url_for('screens'))
 
@@ -135,7 +132,6 @@ def deletescreen(id):
     flash(f'Can not delete the screen', 'success')
     return redirect(url_for('screens'))
 
-
 #route for result of finding a ticket by using search word
 @app.route('/result')
 def result():
@@ -163,7 +159,6 @@ def single_page(id):
     sat = datetime.datetime.strptime(f'{year}-W{weekNo}-6', "%Y-W%W-%w").date()
     sun = datetime.datetime.strptime(f'{year}-W{weekNo}-0', "%Y-W%W-%w").date()
 
-
     num = 0
     if request.method == "POST":
         num = int(request.form.get('number'))
@@ -175,7 +170,6 @@ def single_page(id):
         sat = datetime.datetime.strptime(f'{year}-W{weekNo + num}-6', "%Y-W%W-%w").date()
         sun = datetime.datetime.strptime(f'{year}-W{weekNo + num}-0', "%Y-W%W-%w").date()
 
-
     time_9 = "09:00:00"
     time9 = datetime.datetime.strptime(time_9, "%H:%M:%S")
     time_12 = "12:00:00"
@@ -184,8 +178,6 @@ def single_page(id):
     time15 = datetime.datetime.strptime(time_15, "%H:%M:%S")
     time_18 = "18:00:00"
     time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
-
-
 
     return render_template('cinema/single_page.html',movie=movie, screens=screens, time9=time9, time12=time12, time15=time15, time18=time18,
                            mon=mon, tue=tue, wed=wed, thur=thur, fri=fri, sat=sat, sun=sun, num=num, today=today)
@@ -221,7 +213,6 @@ def seats_page(id):
 
 
     return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
-
 
 #route for adding movies
 @app.route('/addmovie', methods=['GET','POST'])
@@ -300,7 +291,6 @@ def addmovie():
         foundYear = False
         foundRatingReason = False
         foundGenres = False
-
 
         for i in range(0, len(response.text)):
             if response.text[i] == '"':
