@@ -4,8 +4,6 @@
 <!---============== END OF NAV BAR ==================-->
 
 <div class="container mt-5">
-
-
     <div class="row">
         <div class="col-md-6" id="b_image">
              <img src="{{movie.image}}" alt="{{movie.title}}" width="300" >
@@ -22,6 +20,8 @@
             <p>Genres: {{movie.genres}}</p>
             <hr>
             <p>Plot: {{movie.plot}}</p>
+            <hr>
+            <p>Theatre: Leeds Kirkstall Road</p>
 
         </div>
     </div>
@@ -44,12 +44,11 @@ html, body {
 .timetable {
 	display: grid;
 	grid-template-areas: ". week" "time content";
-	grid-template-columns: 120px;
+	grid-template-columns: 100px;
 	grid-template-rows: 50px;
 	width: 63vw;
 	height: 50vh;
 }
-
 
 .timetable .week-names {
 	grid-area: week;
@@ -105,6 +104,16 @@ html, body {
 .timetable .content > div {
 	box-shadow: inset 1px 0 0 #ECEFF1, inset 0 1px 0 0 #ECEFF1;
 }
+
+.timetable .content > div > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 1px 0 0 #ECEFF1, inset 0 1px 0 0 #ECEFF1;
+}
+
 </style>
 </head>
 <body>
@@ -137,8 +146,8 @@ html, body {
 
                             {% if mon == screen.date and screen.date >= today %}
                                 {% if screen.startTime == time9.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary ">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary ">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -152,8 +161,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if tue == screen.dat and screen.date >= today  %}
                                 {% if screen.startTime == time9.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -166,8 +175,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if wed == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time9.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -180,8 +189,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if thur == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time9.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -194,8 +203,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if fri == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time9.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -208,8 +217,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sat == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time9.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -222,8 +231,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sun == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time9.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -238,8 +247,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if mon == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time12.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -253,8 +262,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if tue == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time12.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -267,8 +276,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if wed == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time12.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -281,8 +290,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if thur == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time12.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -295,8 +304,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if fri == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time12.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -309,8 +318,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sat == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time12.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -323,8 +332,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sun == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time12.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -339,8 +348,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if mon == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time15.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -354,8 +363,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if tue == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time15.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -368,8 +377,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if wed == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time15.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -382,8 +391,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if thur == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time15.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -396,8 +405,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if fri == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time15.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -410,8 +419,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sat == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time15.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -424,8 +433,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sun == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time15.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -440,8 +449,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if mon == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time18.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -455,8 +464,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if tue == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time18.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -469,8 +478,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if wed == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time18.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -483,8 +492,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if thur == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time18.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -497,8 +506,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if fri == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time18.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -511,8 +520,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sat == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time18.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-success">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -525,8 +534,8 @@ html, body {
                         {% if screen.movie_id == movie.id %}
                             {% if sun == screen.date and screen.date >= today  %}
                                 {% if screen.startTime == time18.time() %}
-                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Ticket Selection</a>
-                                    <p>Theatre: {{screen.theatre}}</p>
+                                    <a href="{{url_for('seats_page',id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                    <!-- <p>Theatre: {{screen.theatre}}</p> -->
                                 {% endif %}
                             {% endif %}
                         {% endif %}
@@ -537,7 +546,9 @@ html, body {
       </div>
     </div>
 </div>
+
 <style>
+
 .vertical-center {
   margin: 0;
   position: absolute;
@@ -578,11 +589,7 @@ html, body {
 
 </div>
 
-
-
 </body>
 </html>
-
-
 
 {% endblock content %}
