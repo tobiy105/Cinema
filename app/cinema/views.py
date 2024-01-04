@@ -132,7 +132,7 @@ def deletescreen(id):
     flash(f'Can not delete the screen', 'success')
     return redirect(url_for('screens'))
 
-#route for result of finding a ticket by using search word
+#route for result of finding a movie by using search word
 @app.route('/result')
 def result():
     searchword = request.args.get('q')
