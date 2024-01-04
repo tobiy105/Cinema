@@ -10,6 +10,8 @@ import datetime
 import stripe
 import pdfkit
 
+from config import config
+
 buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
 stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
 
@@ -165,7 +167,7 @@ def orders(invoice):
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
                                              customer=customer, orders=orders, url=url)
-            ticketPdf = pdfkit.from_string(ticketTemplate, False)
+            ticketPdf = pdfkit.from_string(ticketTemplate, False, configuration=config)
             user = Register.query.filter_by(id=customer_id).first()
             email = user.email
             emailTo = [email]

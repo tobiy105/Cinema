@@ -10,6 +10,7 @@ import sys
 import secrets
 import pdfkit
 from app.till.views import *
+from config import config
 
 @app.route('/till/<invoice>?<amount>', methods=['GET', 'POST'])
 def showTill(invoice, amount):
@@ -245,7 +246,7 @@ def employee_orders(invoice, cash):
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
                                              customer=customer, orders=orders, url=url)
-            ticketPdf = pdfkit.from_string(ticketTemplate, False)
+            ticketPdf = pdfkit.from_string(ticketTemplate, False, configuration=config)
             user = Employee.query.filter_by(id=employee_id).first()
             email = user.email
             emailTo = [email]
