@@ -12,6 +12,7 @@ UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/images')
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'g8y2g3fr6g8g8yw8yg'
 
-#path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-path_wkhtmltopdf = "app/wkhtmltopdf/bin/wkhtmltopdf.exe" #removed a r at the start. IDK if this is correct
+path_wkhtmltopdf = "app/wkhtmltopdf/wkhtmltopdf/bin/wkhtmltopdf.exe"
+# path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+#path_wkhtmltopdf = "app/wkhtmltopdf/bin/wkhtmltopdf.exe" #removed a r at the start. IDK if this is correct
 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)

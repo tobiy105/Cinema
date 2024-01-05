@@ -1,5 +1,5 @@
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Cinema</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -15,12 +15,9 @@
 
              {% if 'customer_id' in session %}
 
-
-
              <li class="nav-item">
                <a href="{{url_for('customer_logout')}}" class="nav-link"> Logout</a>
              </li>
-
 
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('updatecustomer', id=session['customer_id'])}}">Edit Profile</a>
@@ -30,7 +27,6 @@
                  <li class="nav-item">
                    <a href="{{url_for('employee_logout')}}" class="nav-link"> Logout</a>
                  </li>
-
 
                 <li class="nav-item">
                   <a class="nav-link" href="{{url_for('updateemployee', id=session['employee_id'])}}">Edit Profile</a>

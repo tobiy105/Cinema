@@ -209,7 +209,6 @@ def employee_get_order():
 
 @app.route('/employee/logout')
 def employee_logout():
-
     del session['employee_id']
     return redirect(url_for('employee'))
 
@@ -251,8 +250,8 @@ def employee_orders(invoice, cash):
             email = user.email
             emailTo = [email]
 
-            sendTicket = Message('Test', recipients=emailTo)
-            sendTicket.body = "Test message via flask_mail"
+            sendTicket = Message('Cinema Ticket(s)', recipients=emailTo)
+            sendTicket.body = "Hi, \n Here is your ticket. \n Thank you for ordering!"
             sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
             mail.send(sendTicket)
 

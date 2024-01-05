@@ -5,12 +5,12 @@ from .forms import CustomerRegisterForm, CustomerLoginFrom
 from .models import Register, CustomerOrder
 from app.cinema.models import Ticket
 from datetime import datetime
+from config import config
 import secrets
 import datetime
 import stripe
 import pdfkit
 
-from config import config
 
 buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
 stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
@@ -37,7 +37,6 @@ def payment():
     flash(f'The order payment has been successful!', 'success')
     flash(f'Thank you shopping with us!', 'success')
     return redirect(url_for('orders', invoice=invoice))
-
 
 # route for register with the customer account
 @app.route('/customer/register', methods=['GET', 'POST'])
@@ -105,7 +104,6 @@ def customer_logout():
     del session['customer_id']
     return redirect(url_for('home'))
 
-
 # deleting some of basket sessions
 def updateshoppingbasket():
     for key, shopping in session['ShoppingBasket'].items():
@@ -162,8 +160,8 @@ def orders(invoice):
                 tick.taken = True
                 tick.date_created =datetime.datetime.utcnow()
                 db.session.commit()
-            #here is pdf is printed
 
+            #here is where pdf is printed
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
                                              customer=customer, orders=orders, url=url)
@@ -172,8 +170,8 @@ def orders(invoice):
             email = user.email
             emailTo = [email]
 
-            sendTicket = Message('Test', recipients=emailTo)
-            sendTicket.body = "Test message via flask_mail"
+            sendTicket = Message('Cinema', recipients=emailTo)
+            sendTicket.body = "Hi, \n Here is your ticket(s). \n Thank you for ordering!! \n Hope you enjoy your movie exprience."
             sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
             mail.send(sendTicket)
 

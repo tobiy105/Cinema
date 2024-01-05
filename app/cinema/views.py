@@ -2,10 +2,9 @@ from flask import render_template,session, request, redirect, url_for, flash
 from app import app, db
 from .models import Ticket, Movies, Screening
 from .forms import Tickets, SearchMovieForm, Movie, Screen
+from datetime import date
 import requests
 import datetime
-from datetime import date
-
 import qrcode
 
 #route for home 
@@ -78,7 +77,6 @@ def addscreen():
             db.session.commit()
 
         return redirect(url_for('screens'))
-
     return render_template('cinema/addscreen.html', form=form, title='Add a Product' ,movies=movies)
 
 # route for updating ticket
@@ -179,7 +177,15 @@ def single_page(id):
     time_18 = "18:00:00"
     time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
 
-    return render_template('cinema/single_page.html',movie=movie, screens=screens, time9=time9, time12=time12, time15=time15, time18=time18,
+    time_slots = {
+    "9:00 - 12:00": datetime.datetime.strptime("09:00:00", "%H:%M:%S"),
+    "12:00 - 15:00": datetime.datetime.strptime("12:00:00", "%H:%M:%S"),
+    "15:00 - 18:00": datetime.datetime.strptime("15:00:00", "%H:%M:%S"),
+    "18:00 - 21:00": datetime.datetime.strptime("18:00:00", "%H:%M:%S")
+    }
+
+
+    return render_template('cinema/single_page.html',movie=movie, screens=screens, time_slots=time_slots,
                            mon=mon, tue=tue, wed=wed, thur=thur, fri=fri, sat=sat, sun=sun, num=num, today=today)
 
 # #route for confirm ticket
@@ -207,10 +213,8 @@ def seats_page(id):
     for i in range(screen.seats):
         arr.append(i)
         for ticket in tickets:
-
             if i == ticket.seatNo and ticket.taken==True:
                 arr.remove(i)
-
 
     return render_template('cinema/seats.html',screen=screen, tickets=tickets, arr=arr)
 
@@ -220,9 +224,8 @@ def addmovie():
     if 'login_email' not in session:
         flash(f'Please login first', 'danger')
         return redirect(url_for('login'))
+    
     form = Movie(request.form)
-
-
     data = ""
     response = None
     url = "https://imdb8.p.rapidapi.com/title/auto-complete"
@@ -236,7 +239,6 @@ def addmovie():
         title = form1.title.data
         querystring = {"q": title}
         response = requests.request("GET", url, headers=headers, params=querystring)
-        # flash(f'Response: {response.text}')
 
         # to query details need to extract value from the id field, starting "tt" eg: "tt944947"
         foundID = False
@@ -253,18 +255,14 @@ def addmovie():
                         if response.text[i + 1: i + 3] == "tt":  # if the susbtring is an id
                             id = response.text[i + 1: j]  # get the movie id
                             foundID = True
-                            # flash(f'ID: {id}')
-
 
                         if response.text[i + 1: i + 9] == "imageUrl":  # if the susbtring is an id
-
                             for k in range(j + 3, len(response.text)):
                                 if response.text[k] == '"':  # end of title field value
                                     url = response.text[j + 3: k]
                                     foundUrls = True
                                     data=url
                                     form.image.data=data
-
                                     break
                         break
 
@@ -282,8 +280,6 @@ def addmovie():
 
         response = requests.request("GET", url, headers=headers, params=querystring)
 
-        # flash(f'Response: {response.text}')
-
         foundTitle = False
         foundRunningTime = False
         foundPlot = False
@@ -298,7 +294,6 @@ def addmovie():
                     if response.text[j] == '"':
                         field = response.text[i + 1: j]
 
-
                         if field == "title" and not foundTitle:  # the returned string has multiple fields called title
                             if response.text[j + 1] == ':' and response.text[j + 2] == '"':
                                 for k in range(j + 3, len(response.text)):
@@ -306,15 +301,14 @@ def addmovie():
                                         title = response.text[j + 3: k]
                                         foundTitle = True
                                         form.title.data=title
-
                                         break
+
                         elif field == "runningTimeInMinutes" and not foundRunningTime:
                             for k in range(j + 3, len(response.text)):
                                 if response.text[k] == ',':  # end of running time field
                                     runningTime = response.text[j + 2: k]
                                     foundRunningTime = True
                                     form.duration.data = runningTime
-
                                     break
 
                         elif field == "year" and not foundYear:
@@ -323,7 +317,6 @@ def addmovie():
                                     year = response.text[j + 2: k]
                                     foundYear = True
                                     form.releaseDate.data = year
-
                                     break
 
                         elif field == "plotSummary" and not foundPlot:
@@ -454,7 +447,6 @@ def addticket(id):
     seatNo = session['seatNo']
     _price = float(movie.price)
 
-
     if id == 1:
         discount = 20
         _price = round(_price * 0.80, 2)
@@ -553,19 +545,16 @@ def viewMovieDetails():
 
                 for j in range(i + 1, len(response.text)):
                     if response.text[j] == '"':
-
                         if response.text[i + 1: i + 3] == "tt":  # if the susbtring is an id
                             id = response.text[i + 1: j]  # get the movie id
                             foundID = True
 
                         if response.text[i + 1: i + 9] == "imageUrl":  # if the susbtring is an id
-
                             for k in range(j + 3, len(response.text)):
                                 if response.text[k] == '"':  # end of title field value
                                     url = response.text[j + 3: k]
                                     foundUrls = True
                                     data = url
-
                                     break
                         break
 

@@ -14,16 +14,14 @@ def admin():
 
     user = User.query.filter_by(email=session['login_email']).first()
     user_id = user.id
-
     tickets = Ticket.query.all()
+
     for ticket in tickets:
         ticket.screen.startTime
-
     return render_template('admin/index.html', title='Admin Page',  user_id=user_id, tickets=tickets)
 
 @app.route('/admin/logout')
 def admin_logout():
-
     del session['login_email']
     return redirect(url_for('home'))
 
@@ -46,7 +44,6 @@ def register():
 def login():
     form = LoginForm(request.form)
     if request.method == "POST" and form.validate():
-
         user = User.query.filter_by(email = form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             session['login_email'] = form.email.data
@@ -56,8 +53,6 @@ def login():
         else:
             flash('Wrong Password please try again', 'danger')
             return redirect(url_for('login'))
-
-
     return render_template('admin/login.html', form=form, title='Login Page')
 
 #route for updating admin account
@@ -90,13 +85,13 @@ def oneWeekLess(dateMax,currentDate):
         if newdate.day == currentDate.day and newdate.month == currentDate.month and newdate.year == currentDate.year:
             print(newdate)
             return True
-
     return False
 
 def ticketsPerMovie(movieId):
     if 'login_email' not in session:
         flash('Login first please','danger')
         return redirect(url_for('login'))
+    
     count = 0
     screenings = Screening.query.filter_by(movie_id=movieId)
     for screen in screenings:
@@ -128,9 +123,7 @@ def cmpmovies():
         title2 = movob2.title
         count1 = ticketsPerMovie(movie1)
         count2 = ticketsPerMovie(movie2)
-
         return render_template('admin/cmpresults.html',form=form, title = 'Compare Results', movie1 = title1, movie2 = title2, count1 = count1, count2 = count2,)
-
     return render_template('admin/cmpmovies.html', form=form, title='Compare Movies',movies=movies)
 
 def allTimeSales():
@@ -149,6 +142,7 @@ def movieEarnings(id):
     if 'login_email' not in session:
         flash('Login first please','danger')
         return redirect(url_for('login'))
+    
     sales = 0
     screenings = Screening.query.filter_by(movie_id = id)
     for screen in  screenings:
@@ -162,9 +156,9 @@ def earningsWeekly():
     if 'login_email' not in session:
         flash('Login first please','danger')
         return redirect(url_for('login'))
+    
     tickets = Ticket.query.all()
     print(tickets)
-
     startDate = datetime.today()
     print(startDate)
     currentDate = datetime.today()
@@ -178,6 +172,7 @@ def earningsWeekly():
             takenTickets.append(ticket)
 
     print(len(tickets))
+
     while len(takenTickets) > 0:
         toRemove = []
         weekSales = 0
@@ -194,7 +189,6 @@ def earningsWeekly():
         print(len(tickets))
         currentDate = currentDate - timedelta(days = 7)
         weeklyEarnings.append([currentDate,weekSales])
-
         print(currentDate)
     return weeklyEarnings
 
@@ -206,13 +200,13 @@ def moviesales():
         return redirect(url_for('login'))
 
     movies = Movies.query.all()
-
     overallSales = allTimeSales()
     week = earningsWeekly()
     week1 = 0
     week2 = 0
     week3 = 0
     week4 = 0
+
     if len(week) > 0 & len(week) < 2:
         week1 = week[0][1]
     elif len(week) > 1 & len(week) < 3:
@@ -224,12 +218,9 @@ def moviesales():
 
     form = MovieSalesData(request.form)
     if request.method == "POST":
-
         movieId = request.form.get('movie')
         print("before")
-
         movie = Movies.query.get_or_404(int(movieId))
         sales = movieEarnings(movieId)
-
         return render_template('admin/salesresults.html',form=form, title = 'Sales Results', movieTitle=movie.title, movieSales=sales)
     return render_template('admin/moviesales.html', form=form, title='Movie Sales Data', movies=movies ,overallSales=overallSales, week=week, week1=week1, week2=week2, week3=week3, week4=week4)
