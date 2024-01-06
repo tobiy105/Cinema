@@ -3,14 +3,14 @@ from app import app,db, bcrypt, Message, mail
 from .forms import Employee, EmployeeLoginFrom, EmployeeRegisterForm, PayWithCashForm
 from .models import Employee, EmployeeOrder
 from app.cinema.models import Ticket, Movies, Screening
-import datetime
+from app.till.views import *
+from config import config
 from datetime import date
 from datetime import datetime
+import datetime
 import sys
 import secrets
 import pdfkit
-from app.till.views import *
-from config import config
 
 @app.route('/till/<invoice>?<amount>', methods=['GET', 'POST'])
 def showTill(invoice, amount):
@@ -162,7 +162,6 @@ def employee_single_page(id):
 #route for displaying a tickets found from word search
 @app.route('/employee/seats/<int:id>', methods=['GET','POST'])
 def employee_seats_page(id):
-
     screen = Screening.query.get_or_404(id)
     tickets = Ticket.query.filter_by(screen_id=id)
     session['screen'] = id
@@ -215,7 +214,6 @@ def employee_logout():
 # route for getting the order invoice for the customer account
 @app.route('/employee/orders/<invoice>/<cash>')
 def employee_orders(invoice, cash):
-
     if 'employee_id' in session:
         grandTotal = 0
         subTotal = 0
@@ -227,7 +225,6 @@ def employee_orders(invoice, cash):
             discount = (ticket['discount'] / 100) * float(ticket['price'])
             subTotal += float(ticket['price']) * int(ticket['quantity'])
             subTotal -= discount
-
             url = "http://127.0.0.1:5000/" + str(ticket['id'])
             grandTotal = ("%.2f" % (1.00 * float(subTotal)))
 
@@ -240,8 +237,8 @@ def employee_orders(invoice, cash):
                 tick.taken = True
                 tick.date_created = datetime.datetime.utcnow()
                 db.session.commit()
-            #here is pdf is printed
 
+            #here is where pdf is printed
             ticketTemplate = render_template('customer/pdf.html', invoice=invoice, subTotal=subTotal,
                                              grandTotal=grandTotal,
                                              customer=customer, orders=orders, url=url)
@@ -254,7 +251,6 @@ def employee_orders(invoice, cash):
             sendTicket.body = "Hi, \n Here is your ticket. \n Thank you for ordering!"
             sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
             mail.send(sendTicket)
-
     else:
         flash('Login first please', 'danger')
         return redirect(url_for('employeeLogin'))

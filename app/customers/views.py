@@ -11,7 +11,6 @@ import datetime
 import stripe
 import pdfkit
 
-
 buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
 stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
 
@@ -108,7 +107,6 @@ def customer_logout():
 def updateshoppingbasket():
     for key, shopping in session['ShoppingBasket'].items():
         session.modified = True
-
     return updateshoppingbasket
 
 # route for getting the order for the customer account

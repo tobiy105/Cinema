@@ -2,16 +2,25 @@ from flask import render_template, session, request, redirect, url_for, flash, c
 from app import db, app
 from app.cinema.models import Ticket
 
-def MagerDicts(dict1, dict2):
+#merging dicts
+def merge_dicts(dict1, dict2):
     if isinstance(dict1, list) and isinstance(dict2, list):
         return dict1 + dict2
-    if isinstance(dict1, dict) and isinstance(dict2, dict):
-        return dict(list(dict1.items()) + list(dict2.items()))
+    elif isinstance(dict1, dict) and isinstance(dict2, dict):
+        merged_dict = dict1.copy()
+        for key, value in dict2.items():
+            if key in merged_dict and isinstance(merged_dict[key], dict) and isinstance(value, dict):
+                merged_dict[key] = merge_dicts(merged_dict[key], value)
+            else:
+                merged_dict[key] = value
+        return merged_dict
+    else:
+        raise ValueError("Unsupported data types for merging: {} and {}".format(type(dict1), type(dict2)))
+
 
 # route for adding tickets to the Basket
 @app.route('/addbasket', methods=['POST'])
 def AddBasket():
-
     try:
         ticket_id = request.form.get('ticket_id')
         quantity = int(request.form.get('quantity'))
@@ -27,7 +36,7 @@ def AddBasket():
                             session.modified = True
                             item['quantity'] += 1
                 else:
-                    session['ShoppingBasket'] = MagerDicts(session['ShoppingBasket'], DictItems)
+                    session['ShoppingBasket'] = merge_dicts(session['ShoppingBasket'], DictItems)
                     return redirect(request.referrer)
             else:
                 session['ShoppingBasket'] = DictItems
