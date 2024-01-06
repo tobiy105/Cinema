@@ -14,6 +14,4 @@ STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 path_wkhtmltopdf = "app/wkhtmltopdf/wkhtmltopdf/bin/wkhtmltopdf.exe"
-# path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-#path_wkhtmltopdf = "app/wkhtmltopdf/bin/wkhtmltopdf.exe" #removed a r at the start. IDK if this is correct
 config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
