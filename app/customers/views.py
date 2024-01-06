@@ -5,14 +5,15 @@ from .forms import CustomerRegisterForm, CustomerLoginFrom
 from .models import Register, CustomerOrder
 from app.cinema.models import Ticket
 from datetime import datetime
-from config import config
+from config import config, STRIPE_PUBLIC_KEY, STRIPE_SECRET_KEY
 import secrets
 import datetime
 import stripe
 import pdfkit
 
-buplishable_key = 'pk_test_51IAqthELWQ2Csz14QllKVva5f6nfQRoiB0W2SGtwmnR8gEk4GrefCjnuHX6V0uSB6fEnSkrHMYA3gpFmUgKlY5is00QtCl8Fja'
-stripe.api_key = 'sk_test_51IAqthELWQ2Csz14C6JDogJdEY7AEimddb7a9DxTPw7Hl1e0XXqjfYNyYPEck3AxKNLZVCVCtwnAKVA0WBXllizZ00ZGlC0YR1'
+
+buplishable_key = STRIPE_PUBLIC_KEY
+stripe.api_key = STRIPE_SECRET_KEY
 
 # route for payment for the customer
 @app.route('/payment', methods=['POST'])
@@ -59,15 +60,12 @@ def customerLogin():
     if form.validate_on_submit():
         user = Register.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-
             session['customer_id'] = user.id
             login_user(user)
             flash('You are login now!', 'success')
-
             return redirect(url_for('home'))
         flash('Incorrect email and password', 'danger')
         return redirect(url_for('customerLogin'))
-
     return render_template('customer/login.html', form=form)
 
 
@@ -86,7 +84,6 @@ def updatecustomer(id):
         updatecustomer.email = form.email.data
         hash_password = bcrypt.generate_password_hash(form.password.data)
         updatecustomer.password = hash_password
-
         flash(f'The  {updatecustomer.name} profile was updated', 'success')
         db.session.commit()
         return redirect(url_for('home'))
@@ -94,7 +91,6 @@ def updatecustomer(id):
     form.username.data = updatecustomer.username
     form.email.data = updatecustomer.email
     form.password.data = updatecustomer.password
-
     return render_template('customer/register.html', form=form, title='Update User', updatecustomer=updatecustomer)
 
 @app.route('/customer/logout')
@@ -135,7 +131,6 @@ def get_order():
 # route for getting the order invoice for the customer account
 @app.route('/orders/<invoice>')
 def orders(invoice):
-
     if 'customer_id' in session:
         grandTotal = 0
         subTotal = 0
@@ -147,7 +142,7 @@ def orders(invoice):
             discount = (ticket['discount'] / 100) * float(ticket['price'])
             subTotal += float(ticket['price']) * int(ticket['quantity'])
             subTotal -= discount
-
+            # url link for qrcode
             url = "http://127.0.0.1:5000/" + str(ticket['id'])
             grandTotal = ("%.2f" % (1.00 * float(subTotal)))
 
@@ -165,9 +160,9 @@ def orders(invoice):
                                              customer=customer, orders=orders, url=url)
             ticketPdf = pdfkit.from_string(ticketTemplate, False, configuration=config)
             user = Register.query.filter_by(id=customer_id).first()
+            #here is where the email is sent
             email = user.email
             emailTo = [email]
-
             sendTicket = Message('Cinema', recipients=emailTo)
             sendTicket.body = "Hi, \n Here is your ticket(s). \n Thank you for ordering!! \n Hope you enjoy your movie exprience."
             sendTicket.attach("ticket.pdf", "application/pdf", ticketPdf)
@@ -178,4 +173,3 @@ def orders(invoice):
         return redirect(url_for('customerLogin'))
     return render_template('customer/order.html', invoice=invoice, subTotal=subTotal, grandTotal=grandTotal,
                            customer=customer, orders=orders)
-
