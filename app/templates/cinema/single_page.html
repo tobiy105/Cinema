@@ -6,10 +6,10 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6" id="b_image">
-             <img src="{{movie.image}}" alt="{{movie.title}}" width="300">
+             <img src="{{movie.image}}" alt="{{movie.title}}" width="300" >
         </div>
         <div class="col-md-6">
-            <h4>{{movie.title}}</h4>
+            <h4>{{movie.title}} </h4>
             <hr>
             <p>Duration: {{movie.duration}}</p>
             <hr>
@@ -31,79 +31,78 @@
 <head>
 <style>
 html, body {
-    margin: 0;
-    color: #546E7A;
+	margin: 0;
+	color: #546E7A;
 }
 
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .timetable {
-    display: grid;
-    grid-template-areas: ". week" "time content";
-    grid-template-columns: 100px;
-    grid-template-rows: 50px;
-    width: 63vw;
-    height: 50vh;
+	display: grid;
+	grid-template-areas: ". week" "time content";
+	grid-template-columns: 100px;
+	grid-template-rows: 50px;
+	width: 63vw;
+	height: 50vh;
 }
 
 .timetable .week-names {
-    grid-area: week;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-transform: uppercase;
-    font-size: 12px;
-    text-align: center;
+	grid-area: week;
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	text-transform: uppercase;
+	font-size: 12px;
+	text-align: center;
 }
 
 .timetable .week-names > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    box-shadow: inset 1px 0 0 #ECEFF1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	box-shadow: inset 1px 0 0 #ECEFF1;
 }
-
 .timetable .week-items > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
 }
 
 .timetable .time-interval {
-    grid-area: time;
-    align-items: center;
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    font-size: 14px;
+	grid-area: time;
+	align-items: center;
+	display: grid;
+	grid-template-rows: repeat(6, 1fr);
+	font-size: 14px;
 }
 
 .timetable .time-interval > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    box-shadow: inset 0 1px 0 0 #ECEFF1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	box-shadow: inset 0 1px 0 0 #ECEFF1;
 }
 
 .timetable .content {
-    grid-area: content;
-    text-align: center;
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    grid-template-columns: repeat(7, 1fr);
+	grid-area: content;
+	display: grid;
+	text-align: center;
+	grid-template-rows: repeat(6, 1fr);
+	grid-template-columns: repeat(7, 1fr);
 }
 
 .timetable .content > div {
-    box-shadow: inset 1px 0 0 #ECEFF1, inset 0 1px 0 0 #ECEFF1;
+	box-shadow: inset 1px 0 0 #ECEFF1, inset 0 1px 0 0 #ECEFF1;
 }
 
-.timetable .content > div > div {
+.timetable .content > div .btn-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,24 +112,26 @@ html, body {
 }
 
 .vertical-center {
-    margin: 0;
-    position: absolute;
-    top: 120%;
-    left: 46%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+	margin: 0;
+	position: absolute;
+	top: 120%;
+	left: 46%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 .vertical-center1 {
-    margin: 0;
-    position: absolute;
-    top: 120%;
-    left: 54%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+	margin: 0;
+	position: absolute;
+	top: 120%;
+	left: 54%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 </style>
+
 </head>
 <body>
+
 <div class="container mt-5">
     <div class="timetable">
         <div class="week-names">
@@ -148,44 +149,41 @@ html, body {
             <div>15:00 - 18:00</div>
             <div>18:00 - 21:00</div>
         </div>
-        
         <div class="content">
-            {% for day_label, day_date in {"mon": mon, "tue": tue, "wed": wed, "thur": thur, "fri": fri, "sat": sat, "sun": sun}.items() %}
-                {% for time_label, start_time in time_slots.items() %}
+            {% for time_label, start_time in time_slots.items() %}
+                {% for day_label, day_date in {"mon": mon, "tue": tue, "wed": wed, "thur": thur, "fri": fri, "sat": sat, "sun": sun}.items() %}
                     <div>
-                        <div>
-                            {% for screen in screens %}
-                                {% if screen.movie_id == movie.id and day_date == screen.date and screen.date >= today %}
-                                    {% if screen.startTime == start_time.time() %}
-                                        <a href="{{url_for('seats_page', id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+                        {% for screen in screens %}
+                            {% if screen.movie_id == movie.id and day_date == screen.date and screen.date >= today and screen.startTime == start_time.time() %}
+                                <div class="btn-container">
+                                    <a href="{{url_for('seats_page', id=screen.id)}}" class="btn btn-sm btn-primary">Buy Ticket</a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 {% endfor %}
             {% endfor %}
-        </div>        
-                                      
+        </div>
     </div>
 </div>
-
+    
 <div class="container mt-5">
     <div class="row">
         <div class="vertical-center">
             <form action="{{url_for('single_page',id=movie.id)}}" method="post">
-                <input type="hidden" name="number" value="{{num - 1}}">
-                <button type="submit" class="btn btn-sm btn-warning">Week Before</button>
+                  <input type="hidden" name="number" value="{{num - 1}}">
+                  <button type="submit" class="btn btn-sm btn-warning">Week Before</button>
             </form>
         </div>
         <div class="vertical-center1">
             <form action="{{url_for('single_page',id=movie.id)}}" method="post">
-                <input type="hidden" name="number" value="{{num + 1}}">
-                <button type="submit" class="btn btn-sm btn-warning">Next Week</button>
+                  <input type="hidden" name="number" value="{{num + 1}}">
+                  <button type="submit" class="btn btn-sm btn-warning">Next Week</button>
             </form>
         </div>
     </div>
 </div>
+
 </body>
 </html>
 

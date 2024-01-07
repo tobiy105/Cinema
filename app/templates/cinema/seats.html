@@ -3,6 +3,15 @@
 {% include 'navbar.html' %}
 <!---============== END OF NAV BAR ==================-->
 
+<style>
+.movie-title {
+    font-size: 24px; /* Adjust the font size as needed */
+    font-weight: bold; /* Make the title bold */
+    color: #333; /* Set the text color to your preference */
+    margin-bottom: 10px; /* Add some spacing below the title */
+}
+</style>
+
 
 <div class="container-fluid">
     {% set seatPos = ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","C11","D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","D11","E1","E2","E3","E9","E10","E11"] %}
@@ -20,13 +29,15 @@
     {% set twelth = ["D9","D10","D11"] %}
     {% set thirteenth = ["E1","E2","E3"] %}
     {% set forteenth = ["E9","E10","E11"] %}
-    <br>
-    <p style="text-align:center;"> {{screen.date}} </p>
-    <br>
-    <p style="text-align:center;"> {{screen.startTime}} </p>
-    <br>
-    <p style="text-align:center;">VIP seats are indicated by yellow buttons.</p>
-    <br>
+    <div class="text-center info-container">
+        <br>
+        <p class="movie-title">{{ screen.movie.title }}</p>
+        <p>Date: {{ screen.date }}</p>
+        <p>Time: {{ screen.startTime }}</p>
+        <p>Theatre: Leeds Kirkstall Road</p>
+        <p class="vip-info">VIP seats are indicated by yellow buttons.</p>
+        <br>
+    </div>    
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-2" style="text-align: center;">
@@ -504,18 +515,6 @@
                     {% endfor %}
                 {% endfor %}
             </div>
-        </div>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-sm-5"></div>
-        <div class="col-sm-2" style="text-align: center;">
-            <p>
-                Screen
-            </p>
         </div>
     </div>
 </div>

@@ -168,15 +168,6 @@ def single_page(id):
         sat = datetime.datetime.strptime(f'{year}-W{weekNo + num}-6', "%Y-W%W-%w").date()
         sun = datetime.datetime.strptime(f'{year}-W{weekNo + num}-0', "%Y-W%W-%w").date()
 
-    time_9 = "09:00:00"
-    time9 = datetime.datetime.strptime(time_9, "%H:%M:%S")
-    time_12 = "12:00:00"
-    time12 = datetime.datetime.strptime(time_12, "%H:%M:%S")
-    time_15 = "15:00:00"
-    time15 = datetime.datetime.strptime(time_15, "%H:%M:%S")
-    time_18 = "18:00:00"
-    time18 = datetime.datetime.strptime(time_18, "%H:%M:%S")
-
     time_slots = {
     "9:00 - 12:00": datetime.datetime.strptime("09:00:00", "%H:%M:%S"),
     "12:00 - 15:00": datetime.datetime.strptime("12:00:00", "%H:%M:%S"),
