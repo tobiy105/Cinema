@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "cinema"
+version = "0.1.0"
+description = "Cinema website where you order tickets and get email with your ticket qrcode"
+authors = ["tobiy105 <75105019+tobiy105@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask = "^3.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
