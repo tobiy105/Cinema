@@ -2,6 +2,22 @@
 
 This is a web application project that allows users to search for movies, choose seats in a cinema, purchase tickets online, and receive tickets via email with a QR code. Additionally, the system supports in-person ticket purchases, where cash payments can be recorded. The project utilizes the Stripe API for online payments, the IMDb API for movie details, and SQLite for database management. Flask is used as the web framework, and various Flask extensions such as Flask-Migrate, Flask-Bcrypt, Flask-Mail, and WTForms are integrated into the application. PDFKit is used for printing tickets.
 
+Scrolling through the cinema website, selecting a movie, and choosing a time slot and date:
+
+![Cinema Website Navigation](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnZ0ZHVnMTBnaDhqa2Y3Y2FuYWpjcGZqMTU3ZmtjcmtibWRqazhsbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8sHuYFAylkukP57RbD/giphy.gif)
+
+Clicking on a seat and selecting the ticket type for a discount:
+
+![Seat Selection and Ticket Type](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXJ5Y295dG9uMXp0bXUwcGlhb3J1MGFhYnByNzRxdG5sc2x0Z3pjZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bNfMcNAoJiRkx3Akfo/giphy.gif)
+
+Paying for the ticket using Stripe API:
+
+![Payment with Stripe](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTFlYTVrN2g5YWg2YWgxYjF2aWlwc3VoNzMzcHpoOHJyMGVvN2xsciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/pY7J9c1R7EBRCPUiT7/giphy.gif)
+
+Confirmation of payment and receiving an email with the user's ticket containing a QR code:
+
+![Payment Confirmation and Email](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjM3aDRkbDF0dnZ3aXJlcnpldDJ2MnY0anNqaWZ2Z2FkanlpYTYzMiZlcD12MV9pbnRlcm5hbF_fnWZfYnlfaWQmY3Q9Zw/8rdITYmdQRBIxGdQor/giphy.gif)
+
 ## Table of Contents
 
 - [Features](#features)
